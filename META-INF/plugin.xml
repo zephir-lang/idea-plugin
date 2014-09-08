@@ -35,7 +35,9 @@
     </project-components>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="Zephir.NewClass" class="com.zephir.actions.ZephirNewClassAction">
+            <add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="before"/>
+        </action>
     </actions>
 
 </idea-plugin>
