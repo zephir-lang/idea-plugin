@@ -1,8 +1,6 @@
 package com.zephir;
 
-import com.intellij.openapi.fileTypes.FileType;
-import com.intellij.openapi.vfs.CharsetToolkit;
-import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.fileTypes.LanguageFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -11,9 +9,13 @@ import javax.swing.*;
 /**
  * @author Nikita Gusakov
  */
-public class ZephirFileType implements FileType {
+public class ZephirFileType extends LanguageFileType {
 
-    public static final ZephirFileType INSTANCE = new ZephirFileType();
+    public static final LanguageFileType INSTANCE = new ZephirFileType();
+
+    private ZephirFileType() {
+        super(ZephirLanguage.INSTANCE);
+    }
 
     @NotNull
     @Override
@@ -37,21 +39,5 @@ public class ZephirFileType implements FileType {
     @Override
     public Icon getIcon() {
         return ZephirIcons.PHALCON;
-    }
-
-    @Override
-    public boolean isBinary() {
-        return false;
-    }
-
-    @Override
-    public boolean isReadOnly() {
-        return false;
-    }
-
-    @Nullable
-    @Override
-    public String getCharset(@NotNull VirtualFile virtualFile, byte[] bytes) {
-        return CharsetToolkit.UTF8;
     }
 }
