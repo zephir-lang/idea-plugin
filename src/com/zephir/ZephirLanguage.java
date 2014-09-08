@@ -14,6 +14,12 @@ public class ZephirLanguage extends Language {
         super("Zephir");
     }
 
+    @Override
+    public boolean isCaseSensitive()
+    {
+        return true;
+    }
+
     @Nullable
     @Override
     public LanguageFileType getAssociatedFileType() {
