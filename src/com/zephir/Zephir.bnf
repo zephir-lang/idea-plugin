@@ -1,0 +1,14 @@
+{
+    parserClass="com.zephir.parser.ZephirParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="Zephir"
+    psiImplClassSuffix="Impl"
+    psiPackage="com.zephir.psi"
+    psiImplPackage="com.zephir.psi.impl"
+
+    elementTypeHolderClass="com.zephir.psi.ZephirTypes"
+    elementTypeClass="com.zephir.psi.ZephirElementType"
+    tokenTypeClass="com.zephir.psi.ZephirTokenType"
+}
