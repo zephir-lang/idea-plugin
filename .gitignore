@@ -1,1 +1,4 @@
 /out/
+/gen/
+src/com/zephir/ZephirLexer.java
+*~
