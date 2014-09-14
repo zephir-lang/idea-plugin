@@ -24,9 +24,9 @@ import java.io.Reader;
  * @author Nikita Gusakov
  */
 public class ZephirParserDefinition implements ParserDefinition {
-    public static final TokenSet COMMENTS = TokenSet.EMPTY; // TokenSet.create(ZephirTypes.COMMENT);
-    public static final TokenSet STRINGS = TokenSet.EMPTY; // TokenSet.create(ZephirTypes.STRING);
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
+    public static final TokenSet COMMENTS = TokenSet.create(ZephirTypes.COMMENT_PATTERN);
+    public static final TokenSet STRINGS = TokenSet.create(ZephirTypes.STRING_PATTERN, ZephirTypes.SCHAR_PATTERN);
     public static final IFileElementType FILE = new IFileElementType(Language.findInstance(ZephirLanguage.class));
 
     @NotNull

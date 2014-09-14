@@ -13,12 +13,13 @@
     tokenTypeClass="com.zephir.psi.ZephirTokenType"
     tokens = [
         // regex
-        comment='regexp://.*'
-        identifier='regexp://[\\_\$]?[_a-zA-Z\\][a-zA-Z0-9\_\\]*'
-        integer='regexp://([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
-        double='regexp://([\-]?[0-9]+[\.][0-9]+)'
-        string='regexp://(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
-        CBLOCK='regexp://("%{"([^}]+|[}]+[^%{])*"}%")'
+        comment_pattern='regexp://.*'
+        identifier_pattern='regexp:([\\_\$]?[_a-zA-Z\\][a-zA-Z0-9\_\\]*)'
+        integer_pattern='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
+        double_pattern='regexp:([\-]?[0-9]+[\.][0-9]+)'
+        schar_pattern="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
+        string_pattern='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
+        cblock_pattern='regexp:("%{"([^}]+|[}]+[^%{])*"}%")'
 
         // OOP keywords
         NAMESPACE="namespace"
@@ -94,56 +95,52 @@
         CATCH="catch"
 
         //other
-        LBRACE="{"
-        RBRACE="}"
-        LBRACKET="["
-        RBRACKET="]"
-        LPAREN="("
-        RPAREN=")"
-        SEMICOLON=";"
-        MINUS="-"
-        MINUS_EQ="-="
-        MINUS_MINUS="--"
-        PLUS="+"
-        PLUS_PLUS="++"
-        PLUS_EQ="+="
-        DIV="/"
-        DIV_EQ="/="
-        MUL="*"
-        MUL_EQ="*="
-        INT_DIV="~/"
-        INT_DIV_EQ="~/="
-        REM_EQ="%="
-        REM="%"
-        BIN_NOT="~"
-        NOT="!"
-
-        EQ="="
-        EQ_EQ="=="
-        NEQ="!="
-        DOT="."
-        COMMA=","
-        COLON=":"
-        GT=">"
-        GT_EQ=">="
-        GT_GT_EQ=">>="
-        LT="<"
-        LT_EQ="<="
-        LT_LT="<<"
-        LT_LT_EQ="<<="
-        QUEST="?"
-        OR="|"
-        OR_EQ="|="
-        OR_OR="||"
-        XOR="^"
-        XOR_EQ="^="
-        AND="&"
-        AND_EQ="&="
-        AND_AND="&&"
-        HASH="#"
+        PARENTHESES_OPEN="("
+        PARENTHESES_CLOSE=")"
+        BRACKET_OPEN="{"
+        BRACKET_CLOSE="}"
+        SBRACKET_OPEN="["
+        SBRACKET_CLOSE="]"
         AT="@"
+        NOT="!"
+        AND="&&"
+        OR="||"
+        BITWISE_AND="&"
+        BITWISE_OR="|"
+        BITWISE_XOR="^"
+        BITWISE_SHIFTLEFT="<<"
+        BITWISE_SHIFTRIGHT=">>"
+        ASSIGN="="
+        ADDASSIGN="+="
+        SUBASSIGN="-="
+        MULASSIGN="*="
+        DIVASSIGN="/="
+        MODASSIGN="%="
+        CONCATASSIGN=".="
+        EQUALS="=="
+        NOTEQUALS="!="
+        IDENTICAL="==="
+        NOTIDENTICAL="!=="
+        LESSEQUAL="<="
+        GREATEREQUAL=">="
+        LESS="<"
+        GREATER=">"
+        ARROW="->"
+        DOUBLECOLON="::"
+        DOT="."
+        ADD="+"
+        SUB="-"
+        MUL="*"
+        EXP="**"
+        DIV="/"
+        MOD="%"
+        INCR="++"
+        DECR="--"
+        COLON=":"
+        DOTCOMMA=";"
+        COMMA=","
+        QUESTION="?"
     ]
-    extends("*.expr")=expr
 }
 
 zephirFile ::= namespaceStatement*
