@@ -1,17 +1,20 @@
 <idea-plugin version="2">
     <id>com.zephir</id>
     <name>Zephir language</name>
-    <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">Zephir Team</vendor>
+    <version>0.2</version>
+    <vendor email="support@zephir-lang.com" url="https://github.com/zephir-lang/idea-plugin/issues">Zephir Team</vendor>
 
     <description><![CDATA[
-      Zephir language support.
+        Language support for the <a href="http://zephir-lang.com">Zephir Language</a>
+        <p>Zephir - Ze(nd Engine) Ph(p) I(nt)r(mediate) - is a high level language that eases the creation and maintainability
+        of extensions for PHP. Zephir extensions are exported to C code that can be compiled and optimized by major C compilers
+        such as gcc/clang/vc++. Functionality is exposed to the PHP language.</p>
     ]]></description>
 
     <change-notes><![CDATA[
-
-            ]]>
-    </change-notes>
+        <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
+        <li><b>0.1.0</b>: Initial plugin</li>
+    ]]></change-notes>
 
     <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
     <idea-version since-build="133"/>
