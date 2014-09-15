@@ -23,8 +23,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ZephirParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-    public static final TokenSet COMMENTS = TokenSet.create(ZephirTypes.COMMENT_PATTERN);
-    public static final TokenSet STRINGS = TokenSet.create(ZephirTypes.STRING_PATTERN, ZephirTypes.SCHAR_PATTERN);
+    public static final TokenSet COMMENTS = TokenSet.create(ZephirTypes.COMMENT, ZephirTypes.COMMENT_BLOCK);
+    public static final TokenSet STRINGS = TokenSet.create(ZephirTypes.STRING, ZephirTypes.SCHAR);
     public static final IFileElementType FILE = new IFileElementType(Language.findInstance(ZephirLanguage.class));
 
     @NotNull

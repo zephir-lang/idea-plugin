@@ -13,13 +13,14 @@
     tokenTypeClass="com.zephir.psi.ZephirTokenType"
     tokens = [
         // regex
-        comment_pattern='regexp://.*'
-        identifier_pattern='regexp:([\\_\$]?[_a-zA-Z\\][a-zA-Z0-9\_\\]*)'
-        integer_pattern='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
-        double_pattern='regexp:([\-]?[0-9]+[\.][0-9]+)'
-        schar_pattern="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
-        string_pattern='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
-        cblock_pattern='regexp:("%{"([^}]+|[}]+[^%{])*"}%")'
+        comment='regexp://.*'
+        comment_block='regexp:(/*([^*]+|[*]+[^/*])*[*]**/)'
+        identifier='regexp:([\\_\$]?[_a-zA-Z\\][a-zA-Z0-9\_\\]*)'
+        integer='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
+        double='regexp:([\-]?[0-9]+[\.][0-9]+)'
+        schar="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
+        string='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
+        cblock='regexp:(%{([^}]+|[}]+[^%{])*}%)'
 
         // OOP keywords
         NAMESPACE="namespace"
@@ -40,21 +41,21 @@
         DEPRECATED="deprecated"
 
         // types
-        VAR="var"
-        VOID="void"
-        INT="int"
-        UINT="uint"
-        LONG="long"
-        ULONG="ulong"
-        CHAR="char"
-        UCHAR="uchar"
-        DOUBLE="double" // float
-        BOOL="bool" // boolean
-        STRING="string"
-        ARRAY="array"
-        OBJECT="object"
-        CALLABLE="callable"
-        RESOURCE="resource"
+        TYPE_VAR="var"
+        TYPE_VOID="void"
+        TYPE_INT="int"
+        TYPE_UINT="uint"
+        TYPE_LONG="long"
+        TYPE_ULONG="ulong"
+        TYPE_CHAR="char"
+        TYPE_UCHAR="uchar"
+        TYPE_DOUBLE="double" // float
+        TYPE_BOOL="bool" // boolean
+        TYPE_STRING="string"
+        TYPE_ARRAY="array"
+        TYPE_OBJECT="object"
+        TYPE_CALLABLE="callable"
+        TYPE_RESOURCE="resource"
 
         // value keywords
         NULL="null"
@@ -67,6 +68,7 @@
         CONST="const"
         IF="if"
         ELSE="else"
+        ELSEIF="elseif"
         SWITCH="swith"
         CASE="case"
         DEFAULT="default"

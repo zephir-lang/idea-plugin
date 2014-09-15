@@ -62,6 +62,7 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.CONST ||
                 type == ZephirTypes.IF ||
                 type == ZephirTypes.ELSE ||
+                type == ZephirTypes.ELSEIF ||
                 type == ZephirTypes.SWITCH ||
                 type == ZephirTypes.CASE ||
                 type == ZephirTypes.DEFAULT ||
@@ -108,21 +109,21 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
             return KEYWORD_KEYS;
         }
 
-        if (type == ZephirTypes.VAR ||
-                type == ZephirTypes.VOID ||
-                type == ZephirTypes.INT ||
-                type == ZephirTypes.UINT ||
-                type == ZephirTypes.LONG ||
-                type == ZephirTypes.ULONG ||
-                type == ZephirTypes.CHAR ||
-                type == ZephirTypes.UCHAR ||
-                type == ZephirTypes.DOUBLE ||
-                type == ZephirTypes.BOOL ||
-                type == ZephirTypes.STRING ||
-                type == ZephirTypes.ARRAY ||
-                type == ZephirTypes.OBJECT ||
-                type == ZephirTypes.CALLABLE ||
-                type == ZephirTypes.RESOURCE) {
+        if (type == ZephirTypes.TYPE_VAR ||
+                type == ZephirTypes.TYPE_VOID ||
+                type == ZephirTypes.TYPE_INT ||
+                type == ZephirTypes.TYPE_UINT ||
+                type == ZephirTypes.TYPE_LONG ||
+                type == ZephirTypes.TYPE_ULONG ||
+                type == ZephirTypes.TYPE_CHAR ||
+                type == ZephirTypes.TYPE_UCHAR ||
+                type == ZephirTypes.TYPE_DOUBLE ||
+                type == ZephirTypes.TYPE_BOOL ||
+                type == ZephirTypes.TYPE_STRING ||
+                type == ZephirTypes.TYPE_ARRAY ||
+                type == ZephirTypes.TYPE_OBJECT ||
+                type == ZephirTypes.TYPE_CALLABLE ||
+                type == ZephirTypes.TYPE_RESOURCE) {
             return ATTRIBUTE_KEYS;
         }
 
@@ -130,15 +131,19 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
             return IDENTIFIER_KEYS;
         }
 
-        if (type == ZephirTypes.COMMENT_PATTERN) {
+        if (type == ZephirTypes.COMMENT) {
             return LINE_COMMENT_KEYS;
         }
 
-        if (type == ZephirTypes.STRING_PATTERN || type == ZephirTypes.SCHAR_PATTERN) {
+        if (type == ZephirTypes.COMMENT_BLOCK) {
+            return DOC_COMMENT_KEYS;
+        }
+
+        if (type == ZephirTypes.STRING || type == ZephirTypes.SCHAR) {
             return STRING_KEYS;
         }
 
-        if (type == ZephirTypes.INTEGER_PATTERN || type == ZephirTypes.DOUBLE_PATTERN) {
+        if (type == ZephirTypes.INTEGER || type == ZephirTypes.DOUBLE) {
             return NUMBER_KEYS;
         }
 
@@ -206,6 +211,9 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
             return PATH_SEPARATOR_KEYS;
         }
 
+        if (type == ZephirTypes.CBLOCK) {
+            return DOC_COMMENT_KEYS;
+        }
 
         return EMPTY_KEYS;
     }
