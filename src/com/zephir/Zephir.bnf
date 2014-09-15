@@ -179,5 +179,5 @@ interfaceMethods ::= interfaceMethod interfaceMethods*
 interfaceMethod ::= scopeModifier functionModifier identifier '(' arguments* ')' ';'
 
 
-arguments ::= argument ',' arguments*
+arguments ::= argument (',' arguments)*
 argument ::= variableType* identifier
