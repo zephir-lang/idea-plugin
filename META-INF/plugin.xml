@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.zephir</id>
     <name>Zephir language</name>
-    <version>0.2</version>
+    <version>0.2.1</version>
     <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
 
     <description><![CDATA[
@@ -12,6 +12,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
         <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
         <li><b>0.1.0</b>: Initial plugin</li>
     ]]></change-notes>
