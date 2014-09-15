@@ -1,6 +1,6 @@
-<idea-plugin version="2">
+<idea-plugin version="2" url="https://github.com/zephir-lang/idea-plugin">
     <id>com.zephir</id>
-    <name>Zephir language</name>
+    <name>Zephir</name>
     <version>0.2.1</version>
     <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
 
@@ -18,13 +18,11 @@
     ]]></change-notes>
 
     <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-    <idea-version since-build="133"/>
+    <idea-version since-build="130.1"/>
 
     <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
-    -->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>

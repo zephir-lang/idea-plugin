@@ -6,8 +6,8 @@ import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.psi.tree.IElementType;
 import com.zephir.lexer.ZephirLexerAdapter;
-import org.jetbrains.annotations.NotNull;
 import com.zephir.psi.ZephirTypes;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Nikita Gusakov
