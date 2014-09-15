@@ -27,7 +27,8 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
         <!--<lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>-->
-        <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.syntax.ZephirSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
     </extensions>
 
     <application-components>

@@ -1,4 +1,4 @@
-package com.zephir.syntax;
+package com.zephir.highlight;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;

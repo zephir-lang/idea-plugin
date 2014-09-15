@@ -1,4 +1,4 @@
-package com.zephir.syntax;
+package com.zephir.highlight;
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory;
