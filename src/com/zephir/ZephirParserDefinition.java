@@ -4,7 +4,6 @@ import com.intellij.lang.ASTNode;
 import com.intellij.lang.Language;
 import com.intellij.lang.ParserDefinition;
 import com.intellij.lang.PsiParser;
-import com.intellij.lexer.FlexAdapter;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
@@ -13,12 +12,11 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
+import com.zephir.lexer.ZephirLexerAdapter;
 import com.zephir.parser.ZephirParser;
 import com.zephir.psi.ZephirFile;
 import com.zephir.psi.ZephirTypes;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.Reader;
 
 /**
  * @author Nikita Gusakov
@@ -32,7 +30,7 @@ public class ZephirParserDefinition implements ParserDefinition {
     @NotNull
     @Override
     public Lexer createLexer(Project project) {
-        return new FlexAdapter(new ZephirLexer((Reader) null));
+        return new ZephirLexerAdapter();
     }
 
     @Override

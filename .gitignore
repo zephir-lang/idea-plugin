@@ -1,4 +1,4 @@
 /out/
 /gen/
-src/com/zephir/ZephirLexer.java
+src/com/zephir/lexer/ZephirLexer.java
 *~

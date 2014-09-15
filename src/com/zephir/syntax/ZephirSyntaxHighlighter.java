@@ -1,10 +1,11 @@
-package com.zephir;
+package com.zephir.syntax;
 
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.psi.tree.IElementType;
+import com.zephir.lexer.ZephirLexerAdapter;
 import org.jetbrains.annotations.NotNull;
 import com.zephir.psi.ZephirTypes;
 

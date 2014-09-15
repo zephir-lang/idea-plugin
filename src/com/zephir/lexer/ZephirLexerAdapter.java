@@ -1,4 +1,4 @@
-package com.zephir;
+package com.zephir.lexer;
 
 import com.intellij.lexer.FlexAdapter;
 
