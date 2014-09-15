@@ -145,6 +145,39 @@
     ]
 }
 
-zephirFile ::= namespaceStatement*
+zephirFile ::= topStatementList
 
-namespaceStatement ::= 'namespace' identifier ';' {pin=1}
+classModifier ::= 'abstract' | 'final'
+scopeModifier ::= 'public' | 'protected' | 'private'
+functionModifier ::= 'function' | 'fn'
+
+variableType ::= 'var' | numberType | stringType | boolType | 'array' | 'object' | 'callable' | 'resource'
+stringType ::= 'string' | 'char' | 'uchar'
+boolType ::= 'bool' | 'boolean'
+numberType ::= intType | doubleType | 'uint' | 'long' | 'ulong'
+intType ::= 'int' | 'integer'
+doubleType ::= 'dobule' | 'float'
+
+topStatementList ::= topStatement topStatementList*
+
+topStatement ::= namespaceDefinition useAliases* namespaceBody*
+
+private namespaceBody ::= classDefinition | interfaceDefinition
+
+namespaceDefinition ::= 'namespace' identifier ';'
+
+useAliases ::= useAliasDefinition useAliases*
+useAliasDefinition ::= 'use' identifier ';'
+
+interfaceDefinition ::= 'interface' identifier interfaceExtending* interfaceBody
+interfaceExtending ::= 'extends' extendList
+
+classDefinition ::= classModifier* 'class' identifier '{' classBody '}'
+
+interfaceBody ::= '{' interfaceMethods* '}'
+interfaceMethods ::= interfaceMethod interfaceMethods*
+interfaceMethod ::= scopeModifier functionModifier identifier '(' arguments* ')' ';'
+
+
+arguments ::= argument ',' arguments*
+argument ::= variableType* identifier
