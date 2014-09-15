@@ -44,6 +44,7 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   "interface"          { yybegin(YYINITIAL); return ZephirTypes.INTEFACE; }
   "class"              { yybegin(YYINITIAL); return ZephirTypes.CLASS; }
   "function"           { yybegin(YYINITIAL); return ZephirTypes.FUNCTION; }
+  "fn"                 { yybegin(YYINITIAL); return ZephirTypes.FUNCTION; }
   "extends"            { yybegin(YYINITIAL); return ZephirTypes.EXTENDS; }
   "implements"         { yybegin(YYINITIAL); return ZephirTypes.IMPLEMENTS; }
   "abstract"           { yybegin(YYINITIAL); return ZephirTypes.ABSTRACT; }
