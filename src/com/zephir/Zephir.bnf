@@ -144,41 +144,95 @@
         COMMA=","
         QUESTION="?"
     ]
+
+    extends(".*expr")=expr
 }
 
-zephirFile ::= topStatementList
+zephir_file ::= top_statement_list
 
-classModifier ::= 'abstract' | 'final'
-scopeModifier ::= 'public' | 'protected' | 'private'
-functionModifier ::= 'function' | 'fn'
+class_modifier ::= 'abstract' | 'final'
+visibility ::= 'public' | 'protected' | 'private'
 
-variableType ::= 'var' | numberType | stringType | boolType | 'array' | 'object' | 'callable' | 'resource'
-stringType ::= 'string' | 'char' | 'uchar'
-boolType ::= 'bool' | 'boolean'
-numberType ::= intType | doubleType | 'uint' | 'long' | 'ulong'
-intType ::= 'int' | 'integer'
-doubleType ::= 'dobule' | 'float'
+type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource' | class_type
+private string_type ::= 'string' | 'char' | 'uchar'
+private bool_type ::= 'bool' | 'boolean'
+private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
+private int_type ::= 'int' | 'integer'
+private double_type ::= 'dobule' | 'float'
+private class_type ::= '<' identifier '>'
 
-topStatementList ::= topStatement topStatementList*
+assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
+math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
+bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
+bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
+increment_operator ::= '++' | '--'
 
-topStatement ::= namespaceDefinition useAliases* namespaceBody*
+//expr ::= assign_expr | math_expr | bool_expr | bit_expr | parentheses_expr | increment_expr | simple_expr
+//assign_expr ::= expr assignment_operator expr
+//math_expr ::= expr math_operator expr
+//bool_expr ::= expr bool_operator expr
+//bit_expr ::= expr bit_operator expr
+//parentheses_expr ::= '(' expr ')'
+//increment_expr ::= identifier increment_operator
 
-private namespaceBody ::= classDefinition | interfaceDefinition
 
-namespaceDefinition ::= 'namespace' identifier ';'
 
-useAliases ::= useAliasDefinition useAliases*
-useAliasDefinition ::= 'use' identifier ';'
+top_statement_list ::= top_statement top_statement_list*
+top_statement ::= namespace_definition namespace_uses* namespace_body*
 
-interfaceDefinition ::= 'interface' identifier interfaceExtending* interfaceBody
-interfaceExtending ::= 'extends' extendList
+namespace_definition ::= 'namespace' identifier ';' {pin=1}
 
-classDefinition ::= classModifier* 'class' identifier '{' classBody '}'
+namespace_uses ::= namespace_use_definition namespace_uses* {pin=2}
+namespace_use_definition ::= 'use' identifier namespace_use_alias* ';'
+namespace_use_alias ::= 'as' identifier
 
-interfaceBody ::= '{' interfaceMethods* '}'
-interfaceMethods ::= interfaceMethod interfaceMethods*
-interfaceMethod ::= scopeModifier functionModifier identifier '(' arguments* ')' ';'
+private namespace_body ::= class_definition | interface_definition {pin=3}
 
+interface_definition ::= 'interface' identifier interface_extending* interface_body
+interface_extending ::= 'extends' implement_list
+
+private interface_body ::= '{' interface_methods* constant_list* '}'
+interface_methods ::= interface_method interface_methods*
+interface_method ::= visibility FUNCTION identifier '(' arguments* ')' return_type* ';'
+
+constant_list ::= constant_definition (constant_list)*
+constant_definition ::= 'const' identifier default_value ';'
+
+class_definition ::= class_modifier* 'class' identifier class_extending* class_implementing* class_body
+class_body ::= '{' constant_list* properties_list* class_methods* '}'
+
+private class_extending ::= 'extends' identifier
+private class_implementing ::= 'implements' implement_list
+
+properties_list ::= property properties_list*
+property ::= visibility identifier default_value* ';'
+
+class_methods ::= class_method class_methods*
+class_method ::= visibility FUNCTION identifier '(' arguments* ')' return_type* '{' code* '}'
+
+return_type ::= '->' type ('|' return_type)*
 
 arguments ::= argument (',' arguments)*
-argument ::= variableType* identifier
+argument ::= type* identifier default_value*
+
+default_value ::= '=' simple_expr
+
+implement_list ::= implement_identifier (',' implement_list)*
+implement_identifier ::= identifier
+
+code ::= statement code*
+statement ::= let_statement
+
+let_statement ::= 'let' let_expression ';'
+private let_expression ::= expr (',' let_expression)*
+
+expr ::= assign_expr
+assign_expr ::= variable_expr assignment_operator simple_expr
+simple_expr ::= variable_expr | string | schar | integer | double | array_expr
+variable_expr ::= identifier // @todo: foo->bar, foo::bar, foo[bar]
+
+array_expr ::= '[' array_body* ']'
+private array_body ::= array_item (',' array_body)*
+array_item ::= array_item_key_value | simple_expr
+private array_item_key_value ::= array_key_expr ':' simple_expr
+private array_key_expr ::= variable_expr | string
