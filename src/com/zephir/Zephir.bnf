@@ -167,15 +167,6 @@ bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
 bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
 increment_operator ::= '++' | '--'
 
-//expr ::= assign_expr | math_expr | bool_expr | bit_expr | parentheses_expr | increment_expr | simple_expr
-//assign_expr ::= expr assignment_operator expr
-//math_expr ::= expr math_operator expr
-//bool_expr ::= expr bool_operator expr
-//bit_expr ::= expr bit_operator expr
-//parentheses_expr ::= '(' expr ')'
-//increment_expr ::= identifier increment_operator
-
-
 
 top_statement_list ::= top_statement top_statement_list*
 top_statement ::= namespace_definition namespace_uses* namespace_body*
@@ -221,13 +212,22 @@ implement_list ::= implement_identifier (',' implement_list)*
 implement_identifier ::= identifier
 
 code ::= statement code*
-statement ::= let_statement
+statement ::= let_statement |
+              if_statement
 
 let_statement ::= 'let' let_expression ';'
 private let_expression ::= expr (',' let_expression)*
 
-expr ::= assign_expr
+expr ::= simple_expr |
+         assign_expr |
+         math_expr |
+         bool_expr |
+         bit_expr
+
 assign_expr ::= variable_expr assignment_operator simple_expr
+math_expr ::= variable_expr math_operator expr
+bool_expr ::= variable_expr bool_operator expr
+bit_expr ::= variable_expr bit_operator expr
 simple_expr ::= variable_expr | string | schar | integer | double | array_expr
 variable_expr ::= identifier property_access* property_array_access_parts*
 
@@ -243,3 +243,8 @@ private array_body ::= array_item (',' array_body)*
 array_item ::= array_item_key_value | simple_expr
 private array_item_key_value ::= array_key_expr ':' simple_expr
 private array_key_expr ::= variable_expr | string
+
+if_statement ::= 'if' expr '{' code* '}' elseif_statements* else_statement*
+elseif_statements ::= elseif_statement elseif_statements*
+elseif_statement ::= 'elseif' expr '{' code* '}'
+else_statement ::= 'else' '{' code* '}'
