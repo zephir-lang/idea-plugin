@@ -31,6 +31,8 @@
         <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
         <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
+
+        <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>
     </extensions>
 
     <application-components>
