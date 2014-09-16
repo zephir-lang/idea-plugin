@@ -229,7 +229,14 @@ private let_expression ::= expr (',' let_expression)*
 expr ::= assign_expr
 assign_expr ::= variable_expr assignment_operator simple_expr
 simple_expr ::= variable_expr | string | schar | integer | double | array_expr
-variable_expr ::= identifier // @todo: foo->bar, foo::bar, foo[bar]
+variable_expr ::= identifier property_access* property_array_access_parts*
+
+property_access ::= property_access_type identifier
+property_access_type ::= '->' | '::'
+
+private property_array_access_parts ::= property_array_access_part property_array_access_parts* property_array_access_empty*
+private property_array_access_part ::= '[' (variable_expr | string | integer | double) ']'
+private property_array_access_empty ::= '[' ']'
 
 array_expr ::= '[' array_body* ']'
 private array_body ::= array_item (',' array_body)*
