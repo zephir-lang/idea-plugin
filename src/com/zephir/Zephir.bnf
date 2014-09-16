@@ -116,6 +116,7 @@
         ADDASSIGN="+="
         SUBASSIGN="-="
         MULASSIGN="*="
+        EXPASSIGN="**="
         DIVASSIGN="/="
         MODASSIGN="%="
         CONCATASSIGN=".="

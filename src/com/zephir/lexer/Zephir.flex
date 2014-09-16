@@ -124,6 +124,7 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   "+="                 { yybegin(YYINITIAL); return ZephirTypes.ADDASSIGN; }
   "-="                 { yybegin(YYINITIAL); return ZephirTypes.SUBASSIGN; }
   "*="                 { yybegin(YYINITIAL); return ZephirTypes.MULASSIGN; }
+  "**="                { yybegin(YYINITIAL); return ZephirTypes.EXPASSIGN; }
   "/="                 { yybegin(YYINITIAL); return ZephirTypes.DIVASSIGN; }
   "%="                 { yybegin(YYINITIAL); return ZephirTypes.MODASSIGN; }
   ".="                 { yybegin(YYINITIAL); return ZephirTypes.CONCATASSIGN; }

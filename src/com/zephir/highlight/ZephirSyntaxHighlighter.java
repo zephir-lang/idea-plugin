@@ -172,6 +172,7 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.ADDASSIGN ||
                 type == ZephirTypes.SUBASSIGN ||
                 type == ZephirTypes.MULASSIGN ||
+                type == ZephirTypes.EXPASSIGN ||
                 type == ZephirTypes.DIVASSIGN ||
                 type == ZephirTypes.MODASSIGN ||
                 type == ZephirTypes.CONCATASSIGN ||
