@@ -15,7 +15,7 @@
         // regex
         comment='regexp://.*'
         comment_block='regexp:(/*([^*]+|[*]+[^/*])*[*]**/)'
-        identifier='regexp:([\\_\$]?[_a-zA-Z\\][a-zA-Z0-9\_\\]*)'
+        identifier='regexp:[_a-zA-Z][a-zA-Z0-9_]*'
         integer='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
         double='regexp:([\-]?[0-9]+[\.][0-9]+)'
         schar="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
@@ -187,8 +187,8 @@ default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
 
 id ::= identifier
-complex_id ::= id ('\' id)*
-complex_id_list ::= complex_id (',' complex_id)*
+complex_id ::= id ('\' id)* {pin(".*")=1}
+complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
 type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource' | class_type
 private string_type ::= 'string' | 'char' | 'uchar'

@@ -21,7 +21,7 @@ WHITE_SPACE=({LINE_WS}|{EOL})+
 
 COMMENT="//".*
 COMMENT_BLOCK=("/*"([^*]+|[*]+[^/*])*[*]*"*/")
-IDENTIFIER=([_a-zA-Z\\][a-zA-Z0-9\_\\]*)
+IDENTIFIER=[_a-zA-Z][a-zA-Z0-9_]*
 INTEGER=([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)
 DOUBLE=([\-]?[0-9]+[\.][0-9]+)
 CBLOCK = ("%{"([^}]+|[}]+[^%{])*"}%")
