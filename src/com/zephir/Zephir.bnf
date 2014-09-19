@@ -215,10 +215,10 @@ code ::= declaration_statement |
          require_statement
 
 
-declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin=1}
+declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin(".*")=1}
 private declaration_statement_element ::= id default_value?
 
-let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin=1}
+let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin(".*")=1}
 change_variable_expr ::= assignment_expr | increment_expr
 assignment_expr ::= variable array_append_expr? assignment_operator typecast? expr { rightAssociative=true }
 private array_append_expr ::= '[' ']'
@@ -253,7 +253,7 @@ catch_block ::= 'catch' class_type? id code_block {pin=3}
 
 return_statement ::= 'return' expr ';' {pin=1}
 
-echo_statement ::= 'echo' expr (',' expr)* ';' {pin=1}
+echo_statement ::= 'echo' expr (',' expr)* ';' {pin(".*")=1}
 
 throw_statement ::= 'throw' expr ';' {pin=1}
 require_statement ::= 'require' expr ';' {pin=1}
@@ -300,5 +300,3 @@ scalar_value ::= 'null' | 'true' | 'false'
 variable ::= id (property_access | array_access)*
 private property_access ::= ('::' | '->') (variable | '{' string '}')
 private array_access ::= '[' expr ']'
-
-
