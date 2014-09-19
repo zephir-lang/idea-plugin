@@ -148,10 +148,47 @@
     extends(".*expr")=expr
 }
 
-zephir_file ::= top_statement_list
+zephir_file ::= top_statement*
 
+private top_statement ::= namespace_statement import_statement* (class_definition | interface_definition)
+
+namespace_statement ::= 'namespace' complex_id ';' {pin=2}
+
+import_statement ::= 'use' complex_id ('as' id)? ';' {pin=2}
+
+class_definition ::= class_modifier? 'class' id super_class? implements_list? class_body {pin=3}
 class_modifier ::= 'abstract' | 'final'
+super_class ::= 'extends' complex_id {pin=1}
+implements_list ::= 'implements' complex_id_list {pin=1}
+class_body ::= '{' class_member* '}' {pin=1}
+private class_member ::= constant_definition |
+                         property_definition |
+                         method_definition
+
+interface_definition ::= 'interface' id super_interfaces? interface_body {pin=2}
+super_interfaces ::= 'extends' complex_id_list {pin=1}
+interface_body ::= '{' interface_member* '}' {pin=1}
+private interface_member ::= constant_definition |
+                             interface_method_definition
+
+interface_method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')' return_type? ';' {pin=4}
+
+constant_definition ::= 'const' id default_value? ';' {pin=2}
+
+property_definition ::= 'static'? visibility id default_value? ';' {pin=3}
+
+method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')' return_type? code_block {pin=4}
+method_modifiers ::= 'static' | 'inline' | 'deprecated'
+code_block ::= '{' code* '}' {pin=1}
+
+return_type ::= '->' type ('|' type)*
+
+default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
+
+id ::= identifier
+complex_id ::= id ('\' id)*
+complex_id_list ::= complex_id (',' complex_id)*
 
 type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource' | class_type
 private string_type ::= 'string' | 'char' | 'uchar'
@@ -159,7 +196,15 @@ private bool_type ::= 'bool' | 'boolean'
 private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
 private int_type ::= 'int' | 'integer'
 private double_type ::= 'dobule' | 'float'
-private class_type ::= '<' identifier '>'
+private class_type ::= '<' complex_id '>'
+
+
+expr ::= scalar |
+         variable
+
+
+scalar ::= string | schar | double | integer
+variable ::= id // @todo: add a->b, a->{"b"} a[b]
 
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
 math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
@@ -168,83 +213,49 @@ bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
 increment_operator ::= '++' | '--'
 
 
-top_statement_list ::= top_statement top_statement_list*
-top_statement ::= namespace_definition namespace_uses* namespace_body*
+code ::= declaration_statement |
+         let_statement |
+         control_statement |
+         loop_statement |
+         switch_statement |
+         if_statement |
+         try_statement |
+         return_statement |
+         echo_statement |
+         throw_statement |
+         require_statement
 
-namespace_definition ::= 'namespace' identifier ';' {pin=1}
 
-namespace_uses ::= namespace_use_definition namespace_uses* {pin=2}
-namespace_use_definition ::= 'use' identifier namespace_use_alias* ';'
-namespace_use_alias ::= 'as' identifier
+declaration_statement ::= type id (',' id)* ';' {pin=1}
 
-private namespace_body ::= class_definition | interface_definition {pin=3}
+let_statement ::= 'let' assignment_expr (',' assignment_expr)* ';' {pin=1}
+assignment_expr ::= variable assignment_operator expr
 
-interface_definition ::= 'interface' identifier interface_extending* interface_body
-interface_extending ::= 'extends' implement_list
+control_statement ::= ('continue' | 'break') ';'
 
-private interface_body ::= '{' interface_methods* constant_list* '}'
-interface_methods ::= interface_method interface_methods*
-interface_method ::= visibility FUNCTION identifier '(' arguments* ')' return_type* ';'
+loop_statement ::= infinity_loop_statement |
+                   while_loop_statement |
+                   foreach_loop_statement
 
-constant_list ::= constant_definition (constant_list)*
-constant_definition ::= 'const' identifier default_value ';'
+infinity_loop_statement ::= 'loop' code_block {pin=1}
 
-class_definition ::= class_modifier* 'class' identifier class_extending* class_implementing* class_body
-class_body ::= '{' constant_list* properties_list* class_methods* '}'
+while_loop_statement ::= 'while' expr code_block {pin=2}
 
-private class_extending ::= 'extends' identifier
-private class_implementing ::= 'implements' implement_list
+foreach_loop_statement ::= 'for' id (',' id)? 'in' expr code_block {pin=2}
 
-properties_list ::= property properties_list*
-property ::= visibility identifier default_value* ';'
+switch_statement ::= 'switch' expr '{' switch_body '}' {pin=1}
+switch_body ::= ('case' expr | 'default') ':' code* {pin=1}
 
-class_methods ::= class_method class_methods*
-class_method ::= visibility FUNCTION identifier '(' arguments* ')' return_type* '{' code* '}'
+if_statement ::= 'if' expr code_block elseif_statements* else_statement? {pin=1}
+elseif_statements ::= 'elseif' expr code_block {pin=1}
+else_statement ::= 'else' code_block {pin=1}
 
-return_type ::= '->' type ('|' return_type)*
+try_statement ::= 'try' code_block catch_block*  {pin=1}
+catch_block ::= 'catch' class_type? id code_block {pin=3}
 
-arguments ::= argument (',' arguments)*
-argument ::= type* identifier default_value*
+return_statement ::= 'return' expr ';' {pin=1}
 
-default_value ::= '=' simple_expr
+echo_statement ::= 'echo' expr (',' expr)* ';' {pin=1}
 
-implement_list ::= implement_identifier (',' implement_list)*
-implement_identifier ::= identifier
-
-code ::= statement code*
-statement ::= let_statement |
-              if_statement
-
-let_statement ::= 'let' let_expression ';'
-private let_expression ::= expr (',' let_expression)*
-
-expr ::= simple_expr |
-         assign_expr |
-         math_expr |
-         bool_expr |
-         bit_expr
-
-assign_expr ::= variable_expr assignment_operator simple_expr
-math_expr ::= variable_expr math_operator expr
-bool_expr ::= variable_expr bool_operator expr
-bit_expr ::= variable_expr bit_operator expr
-simple_expr ::= variable_expr | string | schar | integer | double | array_expr
-variable_expr ::= identifier property_access* property_array_access_parts*
-
-property_access ::= property_access_type identifier
-property_access_type ::= '->' | '::'
-
-private property_array_access_parts ::= property_array_access_part property_array_access_parts* property_array_access_empty*
-private property_array_access_part ::= '[' (variable_expr | string | integer | double) ']'
-private property_array_access_empty ::= '[' ']'
-
-array_expr ::= '[' array_body* ']'
-private array_body ::= array_item (',' array_body)*
-array_item ::= array_item_key_value | simple_expr
-private array_item_key_value ::= array_key_expr ':' simple_expr
-private array_key_expr ::= variable_expr | string
-
-if_statement ::= 'if' expr '{' code* '}' elseif_statements* else_statement*
-elseif_statements ::= elseif_statement elseif_statements*
-elseif_statement ::= 'elseif' expr '{' code* '}'
-else_statement ::= 'else' '{' code* '}'
+throw_statement ::= 'throw' expr ';' {pin=1}
+require_statement ::= 'require' expr ';' {pin=1}
