@@ -181,7 +181,10 @@ method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')
 method_modifiers ::= 'static' | 'inline' | 'deprecated'
 code_block ::= '{' code* '}' {pin=1}
 
-return_type ::= '->' type ('|' type)*
+return_type ::= '->' type ('|' type)* {pin(".*")=1}
+
+arguments ::= argument (',' argument)* {pin(".*")=1}
+argument ::= type? id default_value?
 
 default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
@@ -212,16 +215,19 @@ code ::= declaration_statement |
          require_statement
 
 
-declaration_statement ::= type id (',' id)* ';' {pin=1}
+declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin=1}
+private declaration_statement_element ::= id default_value?
 
 let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin=1}
 change_variable_expr ::= assignment_expr | increment_expr
-assignment_expr ::= variable assignment_operator typecast? expr { rightAssociative=true }
+assignment_expr ::= variable array_append_expr? assignment_operator typecast? expr { rightAssociative=true }
+private array_append_expr ::= '[' ']'
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
 typecast ::= '(' scalar_type ')'
 
 increment_expr ::= variable increment_operator {rightAssociative=true}
 increment_operator ::= '++' | '--'
+
 
 control_statement ::= ('continue' | 'break') ';'
 
@@ -238,7 +244,7 @@ foreach_loop_statement ::= 'for' id (',' id)? 'in' expr code_block {pin=2}
 switch_statement ::= 'switch' expr '{' switch_body '}' {pin=1}
 switch_body ::= ('case' expr | 'default') ':' code* {pin=1}
 
-if_statement ::= 'if' expr code_block elseif_statements* else_statement? {pin=1}
+if_statement ::= 'if' ('likely' | 'unlikely')? expr code_block elseif_statements* else_statement? {pin=1}
 elseif_statements ::= 'elseif' expr code_block {pin=1}
 else_statement ::= 'else' code_block {pin=1}
 
@@ -260,26 +266,39 @@ expr ::= unary_expr |
          primary_group_expr |
          special_group_expr
 
-private bool_group_expr ::= bool_expr | ternary_expr
-private primary_group_expr ::= literal_expr | paren_expr
+private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr
+private primary_group_expr ::= literal_expr | paren_expr | call_expr
 private special_group_expr ::= new_expr | typeof_expr
 
 bit_expr ::= expr bit_operator expr
+bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
+
 math_expr ::= expr math_operator expr
+math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
+
 unary_expr ::= ('+' | '-' | '!') expr
 bool_expr ::= expr bool_operator expr
+bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
+
 ternary_expr ::= expr '?' expr ':' expr
 literal_expr ::= variable | scalar
-paren_expr ::= '(' expr ')'
+paren_expr ::= '(' expr ')' {pin=1}
+empty_expr ::= 'empty' expr
+isset_expr ::= 'isset' expr
+fetch_expr ::= 'fetch' id ',' expr {pin=2}
+call_expr ::= expr '(' call_arguments? ')'
 
-new_expr ::= 'new' complex_id '(' arguments? ')'
+new_expr ::= 'new' complex_id '(' call_arguments? ')'
 typeof_expr ::= 'typeof' expr
+
+
+call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
+private call_argument ::= expr
 
 scalar ::= string | schar | double | integer | scalar_value
 scalar_value ::= 'null' | 'true' | 'false'
-variable ::= id // @todo: add a->b, a->{"b"} a[b]
+variable ::= id (property_access | array_access)*
+private property_access ::= ('::' | '->') (variable | '{' string '}')
+private array_access ::= '[' expr ']'
 
-math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
-bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
-bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
 
