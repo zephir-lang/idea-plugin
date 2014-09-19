@@ -13,9 +13,4 @@ public class ZephirTokenType extends IElementType {
     public ZephirTokenType(@NotNull @NonNls String debugName) {
         super(debugName, ZephirLanguage.INSTANCE);
     }
-
-    @Override
-    public String toString() {
-        return "ZephirTokenType." + super.toString();
-    }
 }
