@@ -58,13 +58,16 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   "var"                { yybegin(YYINITIAL); return ZephirTypes.TYPE_VAR; }
   "void"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_VOID; }
   "int"                { yybegin(YYINITIAL); return ZephirTypes.TYPE_INT; }
+  "integer"            { yybegin(YYINITIAL); return ZephirTypes.TYPE_INT; }
   "uint"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_UINT; }
   "long"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_LONG; }
   "ulong"              { yybegin(YYINITIAL); return ZephirTypes.TYPE_ULONG; }
   "char"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_CHAR; }
   "uchar"              { yybegin(YYINITIAL); return ZephirTypes.TYPE_UCHAR; }
   "double"             { yybegin(YYINITIAL); return ZephirTypes.TYPE_DOUBLE; }
+  "float"              { yybegin(YYINITIAL); return ZephirTypes.TYPE_DOUBLE; }
   "bool"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_BOOL; }
+  "boolean"            { yybegin(YYINITIAL); return ZephirTypes.TYPE_BOOL; }
   "string"             { yybegin(YYINITIAL); return ZephirTypes.TYPE_STRING; }
   "array"              { yybegin(YYINITIAL); return ZephirTypes.TYPE_ARRAY; }
   "object"             { yybegin(YYINITIAL); return ZephirTypes.TYPE_OBJECT; }
