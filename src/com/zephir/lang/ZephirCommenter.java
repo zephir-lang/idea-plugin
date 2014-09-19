@@ -22,7 +22,7 @@ public class ZephirCommenter implements Commenter {
     @Nullable
     @Override
     public String getBlockCommentSuffix() {
-        return "/*";
+        return "*/";
     }
 
     @Nullable
@@ -34,6 +34,6 @@ public class ZephirCommenter implements Commenter {
     @Nullable
     @Override
     public String getCommentedBlockCommentSuffix() {
-        return "/*";
+        return "*/";
     }
 }
