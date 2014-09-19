@@ -190,29 +190,14 @@ id ::= identifier
 complex_id ::= id ('\' id)* {pin(".*")=1}
 complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
-type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource' | class_type
+type ::= scalar_type | class_type
+scalar_type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource'
 private string_type ::= 'string' | 'char' | 'uchar'
 private bool_type ::= 'bool' | 'boolean'
 private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
 private int_type ::= 'int' | 'integer'
 private double_type ::= 'dobule' | 'float'
 private class_type ::= '<' complex_id '>'
-
-
-expr ::= scalar |
-         variable
-
-
-scalar ::= string | schar | double | integer
-variable ::= id // @todo: add a->b, a->{"b"} a[b]
-
-new_expr ::= 'new' complex_id '(' arguments? ')'
-assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
-math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
-bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
-bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
-increment_operator ::= '++' | '--'
-
 
 code ::= declaration_statement |
          let_statement |
@@ -229,8 +214,14 @@ code ::= declaration_statement |
 
 declaration_statement ::= type id (',' id)* ';' {pin=1}
 
-let_statement ::= 'let' assignment_expr (',' assignment_expr)* ';' {pin=1}
-assignment_expr ::= variable assignment_operator expr
+let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin=1}
+change_variable_expr ::= assignment_expr | increment_expr
+assignment_expr ::= variable assignment_operator typecast? expr { rightAssociative=true }
+assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
+typecast ::= '(' scalar_type ')'
+
+increment_expr ::= variable increment_operator {rightAssociative=true}
+increment_operator ::= '++' | '--'
 
 control_statement ::= ('continue' | 'break') ';'
 
@@ -260,3 +251,35 @@ echo_statement ::= 'echo' expr (',' expr)* ';' {pin=1}
 
 throw_statement ::= 'throw' expr ';' {pin=1}
 require_statement ::= 'require' expr ';' {pin=1}
+
+
+expr ::= unary_expr |
+         bit_expr |
+         bool_group_expr |
+         math_expr |
+         primary_group_expr |
+         special_group_expr
+
+private bool_group_expr ::= bool_expr | ternary_expr
+private primary_group_expr ::= literal_expr | paren_expr
+private special_group_expr ::= new_expr | typeof_expr
+
+bit_expr ::= expr bit_operator expr
+math_expr ::= expr math_operator expr
+unary_expr ::= ('+' | '-' | '!') expr
+bool_expr ::= expr bool_operator expr
+ternary_expr ::= expr '?' expr ':' expr
+literal_expr ::= variable | scalar
+paren_expr ::= '(' expr ')'
+
+new_expr ::= 'new' complex_id '(' arguments? ')'
+typeof_expr ::= 'typeof' expr
+
+scalar ::= string | schar | double | integer | scalar_value
+scalar_value ::= 'null' | 'true' | 'false'
+variable ::= id // @todo: add a->b, a->{"b"} a[b]
+
+math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
+bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
+bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
+
