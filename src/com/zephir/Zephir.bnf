@@ -206,6 +206,7 @@ expr ::= scalar |
 scalar ::= string | schar | double | integer
 variable ::= id // @todo: add a->b, a->{"b"} a[b]
 
+new_expr ::= 'new' complex_id '(' arguments? ')'
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
 math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
 bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
