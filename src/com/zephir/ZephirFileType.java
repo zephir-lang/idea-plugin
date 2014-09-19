@@ -26,7 +26,7 @@ public class ZephirFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDescription() {
-        return "The Zephir language";
+        return "Zephir";
     }
 
     @NotNull
