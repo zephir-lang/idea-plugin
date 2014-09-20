@@ -43,7 +43,7 @@
         // types
         TYPE_VAR="var"
         TYPE_VOID="void"
-        TYPE_INT="int"
+        TYPE_INT="int" // integer
         TYPE_UINT="uint"
         TYPE_LONG="long"
         TYPE_ULONG="ulong"
@@ -278,19 +278,19 @@ math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
 
 unary_expr ::= ('+' | '-' | '!') expr
 bool_expr ::= expr bool_operator expr
-bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '==='
+bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | '!=='
 
-ternary_expr ::= expr '?' expr ':' expr
+ternary_expr ::= expr '?' expr ':' expr {pin=1}
 literal_expr ::= variable | scalar
 paren_expr ::= '(' expr ')' {pin=1}
-empty_expr ::= 'empty' expr
-isset_expr ::= 'isset' expr
+empty_expr ::= 'empty' expr {pin=1}
+isset_expr ::= 'isset' expr {pin=1}
 fetch_expr ::= 'fetch' id ',' expr {pin=2}
-call_expr ::= expr '(' call_arguments? ')'
-instanceof_expr ::= variable 'instanceof' expr
+instanceof_expr ::= variable 'instanceof' expr {pin=2}
+call_expr ::= expr '(' call_arguments? ')' {pin=2}
 
-new_expr ::= 'new' complex_id '(' call_arguments? ')'
-typeof_expr ::= 'typeof' expr
+new_expr ::= 'new' complex_id '(' call_arguments? ')' {pin=2}
+typeof_expr ::= 'typeof' expr {pin=1}
 
 
 call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
@@ -299,5 +299,5 @@ private call_argument ::= expr
 scalar ::= string | schar | double | integer | scalar_value
 scalar_value ::= 'null' | 'true' | 'false'
 variable ::= id (property_access | array_access)*
-private property_access ::= ('::' | '->') (variable | '{' string '}')
-private array_access ::= '[' expr ']'
+private property_access ::= ('::' | '->') (variable | '{' string '}') {pin=2}
+private array_access ::= '[' expr ']' {pin=1}
