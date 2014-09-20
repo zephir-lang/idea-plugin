@@ -266,7 +266,7 @@ expr ::= unary_expr |
          primary_group_expr |
          special_group_expr
 
-private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr
+private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
 private primary_group_expr ::= literal_expr | paren_expr | call_expr
 private special_group_expr ::= new_expr | typeof_expr
 
@@ -287,6 +287,7 @@ empty_expr ::= 'empty' expr
 isset_expr ::= 'isset' expr
 fetch_expr ::= 'fetch' id ',' expr {pin=2}
 call_expr ::= expr '(' call_arguments? ')'
+instanceof_expr ::= variable 'instanceof' expr
 
 new_expr ::= 'new' complex_id '(' call_arguments? ')'
 typeof_expr ::= 'typeof' expr
