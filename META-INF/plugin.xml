@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/zephir-lang/idea-plugin">
     <id>com.zephir</id>
     <name>Zephir</name>
-    <version>0.2.2</version>
+    <version>0.2.3</version>
     <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
 
     <description><![CDATA[
@@ -12,6 +12,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <li><b>0.2.3</b>: Fixed build</li>
         <li><b>0.2.2</b>: Improve highlighter, added color settings page</li>
         <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
         <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
@@ -27,12 +28,12 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
-        <lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>
+        <!--<lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>-->
         <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
         <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
-        <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>
+        <!--<completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>-->
     </extensions>
 
     <application-components>
