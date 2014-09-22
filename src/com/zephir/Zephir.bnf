@@ -157,13 +157,14 @@ namespace_statement ::= 'namespace' complex_id ';' {pin=2}
 import_statement ::= 'use' complex_id ('as' id)? ';' {pin=2}
 
 class_definition ::= class_modifier? 'class' id super_class? implements_list? class_body {pin=3}
-class_modifier ::= 'abstract' | 'final'
+private class_modifier ::= 'abstract' | 'final'
 super_class ::= 'extends' complex_id {pin=1}
 implements_list ::= 'implements' complex_id_list {pin=1}
 class_body ::= '{' class_member* '}' {pin=1}
 private class_member ::= constant_definition |
                          property_definition |
-                         method_definition
+                         method_definition |
+                         abstract_method_definition
 
 interface_definition ::= 'interface' id super_interfaces? interface_body {pin=2}
 super_interfaces ::= 'extends' complex_id_list {pin=1}
@@ -172,6 +173,7 @@ private interface_member ::= constant_definition |
                              interface_method_definition
 
 interface_method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')' return_type? ';' {pin=4}
+abstract_method_definition ::= 'abstract' interface_method_definition
 
 constant_definition ::= 'const' id default_value? ';' {pin=2}
 
@@ -184,13 +186,13 @@ code_block ::= '{' code* '}' {pin=1}
 return_type ::= '->' type ('|' type)* {pin(".*")=1}
 
 arguments ::= argument (',' argument)* {pin(".*")=1}
-argument ::= type? id default_value?
+argument ::= type? '!'? id default_value? {pin=3}
 
 default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
 
 id ::= identifier
-complex_id ::= id ('\' id)* {pin(".*")=1}
+complex_id ::= '\'? id ('\' id)* {pin(".*")=2}
 complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
 type ::= scalar_type | class_type
@@ -204,6 +206,7 @@ private class_type ::= '<' complex_id '>'
 
 code ::= declaration_statement |
          let_statement |
+         call_statement |
          control_statement |
          loop_statement |
          switch_statement |
@@ -228,6 +231,7 @@ typecast ::= '(' scalar_type ')'
 increment_expr ::= variable increment_operator {rightAssociative=true}
 increment_operator ::= '++' | '--'
 
+call_statement ::= call_expr ';'
 
 control_statement ::= ('continue' | 'break') ';'
 
@@ -289,15 +293,22 @@ fetch_expr ::= 'fetch' id ',' expr {pin=2}
 instanceof_expr ::= variable 'instanceof' expr {pin=2}
 call_expr ::= expr '(' call_arguments? ')' {pin=2}
 
-new_expr ::= 'new' complex_id '(' call_arguments? ')' {pin=2}
+new_expr ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
 typeof_expr ::= 'typeof' expr {pin=1}
 
 
 call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
 private call_argument ::= expr
 
-scalar ::= string | schar | double | integer | scalar_value
+scalar ::= string | schar | double | integer | scalar_value | array_value
 scalar_value ::= 'null' | 'true' | 'false'
-variable ::= id (property_access | array_access)*
-private property_access ::= ('::' | '->') (variable | '{' string '}') {pin=2}
+
+array_value ::= '[' array_body? ']' {pin=1}
+private array_body ::= array_item (',' array_item)* {pin(".*")=1}
+array_item ::= expr | array_key_value
+array_key_value ::= expr ':' expr
+
+variable ::= complex_id (property_access | array_access)*
+
+private property_access ::= ('::' | '->') (variable | '{' (string | id) '}') {pin=2}
 private array_access ::= '[' expr ']' {pin=1}
