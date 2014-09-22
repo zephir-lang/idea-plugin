@@ -30,6 +30,7 @@
         <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
         <!--<lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>-->
         <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
+        <lang.braceMatcher language="Zephir" implementationClass="com.zephir.lang.ZephirBraceMatcher"/>
         <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
