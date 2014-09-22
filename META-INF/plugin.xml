@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/zephir-lang/idea-plugin">
     <id>com.zephir</id>
     <name>Zephir</name>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
 
     <description><![CDATA[
@@ -12,6 +12,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <li><b>0.2.4</b>: Added brace matching</li>
         <li><b>0.2.3</b>: Fixed build</li>
         <li><b>0.2.2</b>: Improve highlighter, added color settings page</li>
         <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
