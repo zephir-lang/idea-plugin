@@ -15,8 +15,7 @@ public class ZephirLanguage extends Language {
     }
 
     @Override
-    public boolean isCaseSensitive()
-    {
+    public boolean isCaseSensitive() {
         return true;
     }
 
