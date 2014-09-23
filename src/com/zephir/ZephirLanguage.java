@@ -8,10 +8,11 @@ import org.jetbrains.annotations.Nullable;
  * @author Nikita Gusakov
  */
 public class ZephirLanguage extends Language {
+    public static final String LANGUAGE_NAME = "Zephir";
     public static final Language INSTANCE = new ZephirLanguage();
 
     private ZephirLanguage() {
-        super("Zephir");
+        super(LANGUAGE_NAME);
     }
 
     @Override

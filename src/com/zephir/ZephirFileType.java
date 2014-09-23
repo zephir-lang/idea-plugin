@@ -10,7 +10,7 @@ import javax.swing.*;
  * @author Nikita Gusakov
  */
 public class ZephirFileType extends LanguageFileType {
-
+    public static final String DEFAULT_EXTENSION = "zep";
     public static final LanguageFileType INSTANCE = new ZephirFileType();
 
     private ZephirFileType() {
@@ -32,7 +32,7 @@ public class ZephirFileType extends LanguageFileType {
     @NotNull
     @Override
     public String getDefaultExtension() {
-        return "zep";
+        return DEFAULT_EXTENSION;
     }
 
     @Nullable
