@@ -20,7 +20,7 @@
         double='regexp:([\-]?[0-9]+[\.][0-9]+)'
         schar="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
         string='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
-        cblock='regexp:(%{([^}]+|[}]+[^%{])*}%)'
+        cblock='regexp:%{([^}]+|[}]+[^%{])*}%'
 
         // OOP keywords
         NAMESPACE="namespace"
@@ -150,7 +150,9 @@
 
 zephir_file ::= top_statement*
 
-private top_statement ::= namespace_statement import_statement* (class_definition | interface_definition)
+c_block ::= cblock
+
+private top_statement ::= namespace_statement import_statement* c_block* (class_definition | interface_definition)
 
 namespace_statement ::= 'namespace' complex_id ';' {pin=2}
 
@@ -215,7 +217,8 @@ code ::= declaration_statement |
          return_statement |
          echo_statement |
          throw_statement |
-         require_statement
+         require_statement |
+         c_block
 
 
 declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin(".*")=1}
