@@ -37,6 +37,7 @@
         <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
         <!--<completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>-->
+        <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
     </extensions>
 
     <application-components>
