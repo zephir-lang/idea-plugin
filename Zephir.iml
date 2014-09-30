@@ -9,7 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/com/zephir/icons" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
     </content>
-    <orderEntry type="jdk" jdkName="IDEA PS-138.2001.2328" jdkType="IDEA JDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
