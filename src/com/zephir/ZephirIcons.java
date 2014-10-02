@@ -7,6 +7,6 @@ import javax.swing.*;
 /**
  * @author Nikita Gusakov
  */
-public class ZephirIcons {
-    public static final Icon PHALCON = IconLoader.getIcon("icons/phalcon.png");
+public interface ZephirIcons {
+    public static final Icon PHALCON = IconLoader.getIcon("/icons/phalcon.png");
 }
