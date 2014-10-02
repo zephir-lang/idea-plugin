@@ -38,6 +38,8 @@
 
         <!--<completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>-->
         <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
+        <internalFileTemplate name="Zephir Class"/>
+        <internalFileTemplate name="Zephir Interface"/>
     </extensions>
 
     <application-components>
@@ -49,9 +51,9 @@
     </project-components>
 
     <actions>
-        <!--<action id="Zephir.NewClass" class="com.zephir.actions.ZephirNewClassAction">-->
-            <!--<add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="before"/>-->
-        <!--</action>-->
+        <action id="Zephir.NewClass" class="com.zephir.actions.ZephirNewClassAction">
+            <add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="before"/>
+        </action>
     </actions>
 
 </idea-plugin>
