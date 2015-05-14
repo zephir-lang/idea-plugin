@@ -19,7 +19,7 @@ public class ZephirColorSettingsPage implements ColorSettingsPage {
     @Nullable
     @Override
     public Icon getIcon() {
-        return ZephirIcons.PHALCON;
+        return ZephirIcons.ZEPHIR;
     }
 
     @NotNull

@@ -38,6 +38,6 @@ public class ZephirFileType extends LanguageFileType {
     @Nullable
     @Override
     public Icon getIcon() {
-        return ZephirIcons.PHALCON;
+        return ZephirIcons.ZEPHIR;
     }
 }
