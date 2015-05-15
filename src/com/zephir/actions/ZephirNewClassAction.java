@@ -16,7 +16,7 @@ import com.zephir.ZephirIcons;
 public class ZephirNewClassAction extends CreateFileFromTemplateAction {
 
     public ZephirNewClassAction() {
-        super("Zephir Class", "Create new Zephir file", ZephirIcons.PHALCON);
+        super("Zephir Class", "Create new Zephir file", ZephirIcons.ZEPHIR);
     }
 
     @Override
