@@ -1,5 +1,6 @@
 {
     parserClass="com.zephir.parser.ZephirParser"
+  parserUtilClass="com.zephir.parser.ZephirParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -11,6 +12,7 @@
     elementTypeHolderClass="com.zephir.psi.ZephirTypes"
     elementTypeClass="com.zephir.psi.ZephirElementType"
     tokenTypeClass="com.zephir.psi.ZephirTokenType"
+    psiImplUtilClass="com.zephir.psi.impl.ZephirPsiImplUtil"
     tokens = [
         // regex
         comment='regexp://.*'

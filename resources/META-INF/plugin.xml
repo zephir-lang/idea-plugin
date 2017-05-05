@@ -1,0 +1,62 @@
+<idea-plugin url="https://github.com/zephir-lang/idea-plugin">
+  <id>com.zephir</id>
+  <name>Zephir</name>
+  <version>0.2.5</version>
+  <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
+
+  <description><![CDATA[
+        Language support for the <a href="http://zephir-lang.com">Zephir Language</a>
+        <p>Zephir - Ze(nd Engine) Ph(p) I(nt)r(mediate) - is a high level language that eases the creation and maintainability
+        of extensions for PHP. Zephir extensions are exported to C code that can be compiled and optimized by major C compilers
+        such as gcc/clang/vc++. Functionality is exposed to the PHP language.</p>
+    ]]></description>
+
+  <change-notes><![CDATA[
+        <li><b>0.2.5</b>: Fixed "switch" keyword detection</li>
+        <li><b>0.2.4</b>: Added brace matching</li>
+        <li><b>0.2.3</b>: Fixed build</li>
+        <li><b>0.2.2</b>: Improve highlighter, added color settings page</li>
+        <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
+        <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
+        <li><b>0.1.0</b>: Initial plugin</li>
+    ]]></change-notes>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="130.1"/>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <depends>com.intellij.modules.lang</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+
+    <!--<lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>-->
+
+    <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
+    <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
+    <lang.braceMatcher language="Zephir" implementationClass="com.zephir.lang.ZephirBraceMatcher"/>
+    <!--<lang.formatter language="Zephir" implementationClass="com.zephir.formatting.ZephirFormattingModelBuilder"/>-->
+    <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
+    <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
+
+    <!--<completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>-->
+    <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
+    <internalFileTemplate name="Zephir Class"/>
+    <internalFileTemplate name="Zephir Interface"/>
+  </extensions>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <action id="Zephir.NewClass" class="com.zephir.actions.ZephirNewClassAction">
+      <add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="before"/>
+    </action>
+  </actions>
+
+</idea-plugin>

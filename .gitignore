@@ -1,5 +1,7 @@
 /out/
 /gen/
-src/com/zephir/lexer/ZephirLexer.java
 *~
 *.jar
+/Zephir.iml
+/Zephir.zip
+/.idea
