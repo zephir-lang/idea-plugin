@@ -82,7 +82,7 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   "if"                 { yybegin(YYINITIAL); return ZephirTypes.IF; }
   "else"               { yybegin(YYINITIAL); return ZephirTypes.ELSE; }
   "elseif"             { yybegin(YYINITIAL); return ZephirTypes.ELSEIF; }
-  "switch"              { yybegin(YYINITIAL); return ZephirTypes.SWITCH; }
+  "switch"             { yybegin(YYINITIAL); return ZephirTypes.SWITCH; }
   "case"               { yybegin(YYINITIAL); return ZephirTypes.CASE; }
   "default"            { yybegin(YYINITIAL); return ZephirTypes.DEFAULT; }
   "do"                 { yybegin(YYINITIAL); return ZephirTypes.DO; }
