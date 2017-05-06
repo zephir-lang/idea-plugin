@@ -1,6 +1,6 @@
 {
     parserClass="com.zephir.parser.ZephirParser"
-  parserUtilClass="com.zephir.parser.ZephirParserUtil"
+    parserUtilClass="com.zephir.parser.ZephirParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
