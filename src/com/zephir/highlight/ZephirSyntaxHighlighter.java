@@ -105,7 +105,12 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.PRIVATE ||
                 type == ZephirTypes.STATIC ||
                 type == ZephirTypes.INLINE ||
-                type == ZephirTypes.DEPRECATED) {
+                type == ZephirTypes.DEPRECATED ||
+
+                // const value - primitives of language
+                type == ZephirTypes.TRUE ||
+                type == ZephirTypes.FALSE ||
+                type == ZephirTypes.NULL) {
             return KEYWORD_KEYS;
         }
 

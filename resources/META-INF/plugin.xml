@@ -30,16 +30,15 @@
 
   <extensions defaultExtensionNs="com.intellij">
 
-    <!--<lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>-->
+    <lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>
 
     <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
     <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
     <lang.braceMatcher language="Zephir" implementationClass="com.zephir.lang.ZephirBraceMatcher"/>
-    <!--<lang.formatter language="Zephir" implementationClass="com.zephir.formatting.ZephirFormattingModelBuilder"/>-->
+
     <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
     <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
-    <!--<completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirClassCompletion"/>-->
     <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
     <internalFileTemplate name="Zephir Class"/>
     <internalFileTemplate name="Zephir Interface"/>

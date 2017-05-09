@@ -71,7 +71,7 @@
         IF="if"
         ELSE="else"
         ELSEIF="elseif"
-        SWITCH="swith"
+        SWITCH="switch"
         CASE="case"
         DEFAULT="default"
         DO="do"
