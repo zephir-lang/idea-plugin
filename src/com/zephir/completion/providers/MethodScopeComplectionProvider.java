@@ -24,15 +24,15 @@ public class MethodScopeComplectionProvider extends CompletionProvider<Completio
     private static int MAX_SYNTAX_TREE_DEEP = 256;
 
     private String[] keywords = new String[]{
-            "let", "echo", "const", "if", "else", "elseif", "switch", "case", "default",
-            "do", "while", "for", "loop", "reverse", "break", "continue", "in", "new", "return",
-            "require", "clone", "empty", "typeof", "instanceof", "likely", "unlikely", "fetch",
-            "isset", "unset", "throw", "try", "catch"
+        "let", "echo", "const", "if", "else", "elseif", "switch", "case", "default",
+        "do", "while", "for", "loop", "reverse", "break", "continue", "in", "new", "return",
+        "require", "clone", "empty", "typeof", "instanceof", "likely", "unlikely", "fetch",
+        "isset", "unset", "throw", "try", "catch"
     };
 
     private String[] typeHints = new String[]{
-            "var", "array", "object", "callable", "resource", "int", "integer", "uint", "long", "ulong",
-            "double", "float", "string", "char", "uchar"
+        "var", "array", "object", "callable", "resource", "int", "integer", "uint", "long", "ulong",
+        "double", "float", "string", "char", "uchar"
     };
 
 
@@ -57,9 +57,9 @@ public class MethodScopeComplectionProvider extends CompletionProvider<Completio
         }
 
         for (ZephirArgument arg : methodArgs) {
-
             LookupElementBuilder completionElement = LookupElementBuilder
-                .create(arg.getId().getText(), arg.getId().getText())
+                //empty space to pull up arguments of method
+                .create(arg.getId().getText(), " " + arg.getId().getText())
                 .withTypeText(arg.getType().getText(), true)
                 .withBoldness(true)
                 .withLookupString(arg.getId().getText())
@@ -67,7 +67,6 @@ public class MethodScopeComplectionProvider extends CompletionProvider<Completio
                     arg.getDefaultValue() != null ? " " + arg.getDefaultValue().getText() : "",
                     true
                 );
-            ;
 
             result.addElement(completionElement);
         }
