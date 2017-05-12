@@ -15,23 +15,34 @@ import com.zephir.completion.providers.MethodScopeCompletionProvider;
 public class ZephirKeywordCompletionContributor extends CompletionContributor {
 
     public ZephirKeywordCompletionContributor() {
+        try {
+            extend(CompletionType.BASIC,
+                PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
+                new FileScopeKeywordsProvider()
+            );
+        } catch (Exception e) {
+            // @todo show message to developer and request him about report bug
+        }
 
-        extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
-            new FileScopeKeywordsProvider()
-        );
+        try{
+            extend(
+                CompletionType.BASIC,
+                PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
+                new MethodScopeCompletionProvider()
+            );
+        } catch (Exception e) {
+            // @todo show message to developer and request him about report bug
+        }
 
-        extend(
-            CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
-            new MethodScopeCompletionProvider()
-        );
-
-        extend(
-            CompletionType.BASIC,
-            PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
-            new ClassScopeKeywordsProvider()
-        );
+        try {
+            extend(
+                CompletionType.BASIC,
+                PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
+                new ClassScopeKeywordsProvider()
+            );
+        } catch (Exception e) {
+            // @todo show message to developer and request him about report bug
+        }
     }
 
 
