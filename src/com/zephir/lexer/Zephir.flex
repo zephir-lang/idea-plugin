@@ -54,6 +54,7 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   "private"            { yybegin(YYINITIAL); return ZephirTypes.PRIVATE; }
   "static"             { yybegin(YYINITIAL); return ZephirTypes.STATIC; }
   "inline"             { yybegin(YYINITIAL); return ZephirTypes.INLINE; }
+  "internal"           { yybegin(YYINITIAL); return ZephirTypes.INTERNAL; }
   "deprecated"         { yybegin(YYINITIAL); return ZephirTypes.DEPRECATED; }
   "var"                { yybegin(YYINITIAL); return ZephirTypes.TYPE_VAR; }
   "void"               { yybegin(YYINITIAL); return ZephirTypes.TYPE_VOID; }

@@ -25,6 +25,7 @@
         cblock='regexp:%{([^}]+|[}]+[^%{])*}%'
 
         // OOP keywords
+        INTERNAL="internal"
         NAMESPACE="namespace"
         USE="use"
         AS="as"
@@ -71,7 +72,7 @@
         IF="if"
         ELSE="else"
         ELSEIF="elseif"
-        SWITCH="swith"
+        SWITCH="switch"
         CASE="case"
         DEFAULT="default"
         DO="do"
@@ -176,15 +177,20 @@ interface_body ::= '{' interface_member* '}' {pin=1}
 private interface_member ::= constant_definition |
                              interface_method_definition
 
-interface_method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')' return_type? ';' {pin=4}
+interface_method_definition ::= method_header '(' arguments* ')' return_type? ';' {pin=2}
 abstract_method_definition ::= 'abstract' interface_method_definition
 
 constant_definition ::= 'const' id default_value? ';' {pin=2}
 
-property_definition ::= 'static'? visibility id default_value? ';' {pin=3}
+property_definition ::= 'static'? visibility id default_value? member_meta_access? ';' {pin=3}
 
-method_definition ::= method_modifiers* visibility FUNCTION id '(' arguments* ')' return_type? code_block {pin=4}
-method_modifiers ::= 'static' | 'inline' | 'deprecated'
+private member_meta_access ::= '{' member_meta_modifier (',' member_meta_modifier)* '}' {pin=1}
+private member_meta_modifier ::= 'get' | 'set' | '__toString'
+
+method_definition ::= method_header '(' arguments* ')' return_type? code_block {pin=2}
+method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
+
+private method_header ::= (visibility method_modifiers* | method_modifiers* visibility  ) FUNCTION id
 code_block ::= '{' code* '}' {pin=1}
 
 return_type ::= '->' type ('|' type)* {pin(".*")=1}
@@ -199,14 +205,15 @@ id ::= identifier
 complex_id ::= '\'? id ('\' id)* {pin(".*")=2}
 complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
-type ::= scalar_type | class_type
+type ::= void_type | scalar_type | class_type
 scalar_type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource'
 private string_type ::= 'string' | 'char' | 'uchar'
 private bool_type ::= 'bool' | 'boolean'
 private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
 private int_type ::= 'int' | 'integer'
 private double_type ::= 'dobule' | 'float'
-private class_type ::= '<' complex_id '>'
+private class_type ::= '<' complex_id array_append_expr? '>'
+private void_type ::= 'void'
 
 code ::= declaration_statement |
          let_statement |
@@ -220,6 +227,7 @@ code ::= declaration_statement |
          echo_statement |
          throw_statement |
          require_statement |
+         unset_statement |
          c_block
 
 
@@ -249,6 +257,7 @@ infinity_loop_statement ::= 'loop' code_block {pin=1}
 while_loop_statement ::= 'while' expr code_block {pin=2}
 
 foreach_loop_statement ::= 'for' id (',' id)? 'in' expr code_block {pin=2}
+unset_statement ::= 'unset' variable ';'
 
 switch_statement ::= 'switch' expr '{' switch_body '}' {pin=1}
 switch_body ::= ('case' expr | 'default') ':' code* {pin=1}
@@ -260,7 +269,7 @@ else_statement ::= 'else' code_block {pin=1}
 try_statement ::= 'try' code_block catch_block*  {pin=1}
 catch_block ::= 'catch' class_type? id code_block {pin=3}
 
-return_statement ::= 'return' expr ';' {pin=1}
+return_statement ::= 'return' expr? ';'
 
 echo_statement ::= 'echo' expr (',' expr)* ';' {pin(".*")=1}
 
@@ -276,7 +285,7 @@ expr ::= unary_expr |
          special_group_expr
 
 private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
-private primary_group_expr ::= literal_expr | paren_expr | call_expr
+private primary_group_expr ::= literal_expr | paren_expr | callback_expr | call_expr
 private special_group_expr ::= new_expr | typeof_expr
 
 bit_expr ::= expr bit_operator expr
@@ -297,6 +306,7 @@ isset_expr ::= 'isset' expr {pin=1}
 fetch_expr ::= 'fetch' id ',' expr {pin=2}
 instanceof_expr ::= variable 'instanceof' expr {pin=2}
 call_expr ::= expr '(' call_arguments? ')' {pin=2}
+callback_expr ::= 'function' '(' arguments* ')' code_block {pin=1}
 
 new_expr ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
 typeof_expr ::= 'typeof' expr {pin=1}
@@ -305,15 +315,16 @@ typeof_expr ::= 'typeof' expr {pin=1}
 call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
 private call_argument ::= expr
 
-scalar ::= string | schar | double | integer | scalar_value | array_value
+private scalar_short ::= string | schar | double | integer | scalar_value
+scalar ::= scalar_short | array_value
 scalar_value ::= 'null' | 'true' | 'false'
 
 array_value ::= '[' array_body? ']' {pin=1}
 private array_body ::= array_item (',' array_item)* {pin(".*")=1}
-array_item ::= expr | array_key_value
-array_key_value ::= expr ':' expr
+array_item ::= array_key_value | expr
+array_key_value ::= (scalar_short | expr) ':' expr
 
-variable ::= complex_id (property_access | array_access)*
+variable ::= complex_id (property_access | array_append_expr |  array_access)*
 
 private property_access ::= ('::' | '->') (variable | '{' (string | id) '}') {pin=2}
 private array_access ::= '[' expr ']' {pin=1}

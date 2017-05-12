@@ -93,6 +93,7 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.USE ||
                 type == ZephirTypes.AS ||
                 // OOP
+                type == ZephirTypes.INTERNAL ||
                 type == ZephirTypes.INTEFACE ||
                 type == ZephirTypes.CLASS ||
                 type == ZephirTypes.FUNCTION ||
@@ -105,7 +106,12 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.PRIVATE ||
                 type == ZephirTypes.STATIC ||
                 type == ZephirTypes.INLINE ||
-                type == ZephirTypes.DEPRECATED) {
+                type == ZephirTypes.DEPRECATED ||
+
+                // const value - primitives of language
+                type == ZephirTypes.TRUE ||
+                type == ZephirTypes.FALSE ||
+                type == ZephirTypes.NULL) {
             return KEYWORD_KEYS;
         }
 
