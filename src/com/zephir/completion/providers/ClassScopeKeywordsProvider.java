@@ -6,12 +6,12 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
-import com.zephir.psi.ZephirFile;
+import com.zephir.psi.ZephirClassBody;
 import org.jetbrains.annotations.NotNull;
 
-public class FileScopeKeywordsProvider extends CompletionProvider<CompletionParameters> {
+public class ClassScopeKeywordsProvider extends CompletionProvider<CompletionParameters> {
     private String[] keywords = new String[] {
-        "internal", "inline", "namespace", "use", "as", "interface", "class", "extends", "implements", "final", "abstract"
+        "function", "protected", "public", "private", "static", "inline", "final", "abstract"
     };
 
     @Override
@@ -25,7 +25,7 @@ public class FileScopeKeywordsProvider extends CompletionProvider<CompletionPara
         }
 
         PsiElement parent = psiElement.getParent();
-        if(!(parent instanceof ZephirFile)) {
+        if(!(parent instanceof ZephirClassBody)) {
             return;
         }
 

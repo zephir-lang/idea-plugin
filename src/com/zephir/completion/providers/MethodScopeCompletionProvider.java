@@ -16,21 +16,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by alexandr on 09.05.17.
- */
-public class MethodScopeComplectionProvider extends CompletionProvider<CompletionParameters> {
+public class MethodScopeCompletionProvider extends CompletionProvider<CompletionParameters> {
 
     private static int MAX_SYNTAX_TREE_DEEP = 256;
 
-    private String[] keywords = new String[]{
+    private String[] keywords = new String[] {
         "let", "echo", "const", "if", "else", "elseif", "switch", "case", "default",
         "do", "while", "for", "loop", "reverse", "break", "continue", "in", "new", "return",
         "require", "clone", "empty", "typeof", "instanceof", "likely", "unlikely", "fetch",
         "isset", "unset", "throw", "try", "catch"
     };
 
-    private String[] typeHints = new String[]{
+    private String[] typeHints = new String[] {
         "var", "array", "object", "callable", "resource", "int", "integer", "uint", "long", "ulong",
         "double", "float", "string", "char", "uchar"
     };

@@ -3,8 +3,9 @@ package com.zephir.completion;
 import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.PlatformPatterns;
 import com.zephir.ZephirLanguage;
+import com.zephir.completion.providers.ClassScopeKeywordsProvider;
 import com.zephir.completion.providers.FileScopeKeywordsProvider;
-import com.zephir.completion.providers.MethodScopeComplectionProvider;
+import com.zephir.completion.providers.MethodScopeCompletionProvider;
 
 /**
  * @contributors
@@ -12,6 +13,7 @@ import com.zephir.completion.providers.MethodScopeComplectionProvider;
  *  Alex Baranezky
  */
 public class ZephirKeywordCompletionContributor extends CompletionContributor {
+
     public ZephirKeywordCompletionContributor() {
 
         extend(CompletionType.BASIC,
@@ -22,7 +24,13 @@ public class ZephirKeywordCompletionContributor extends CompletionContributor {
         extend(
             CompletionType.BASIC,
             PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
-            new MethodScopeComplectionProvider()
+            new MethodScopeCompletionProvider()
+        );
+
+        extend(
+            CompletionType.BASIC,
+            PlatformPatterns.psiElement().withLanguage(ZephirLanguage.INSTANCE),
+            new ClassScopeKeywordsProvider()
         );
     }
 

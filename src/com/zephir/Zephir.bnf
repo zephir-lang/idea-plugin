@@ -25,6 +25,7 @@
         cblock='regexp:%{([^}]+|[}]+[^%{])*}%'
 
         // OOP keywords
+        INTERNAL="internal"
         NAMESPACE="namespace"
         USE="use"
         AS="as"
@@ -181,7 +182,10 @@ abstract_method_definition ::= 'abstract' interface_method_definition
 
 constant_definition ::= 'const' id default_value? ';' {pin=2}
 
-property_definition ::= 'static'? visibility id default_value? ';' {pin=3}
+property_definition ::= 'static'? visibility id default_value? member_meta_access? ';' {pin=3}
+
+private member_meta_access ::= '{' member_meta_modifier (',' member_meta_modifier)* '}' {pin=1}
+private member_meta_modifier ::= 'get' | 'set' | '__toString'
 
 method_definition ::= method_header '(' arguments* ')' return_type? code_block {pin=2}
 method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
@@ -265,7 +269,7 @@ else_statement ::= 'else' code_block {pin=1}
 try_statement ::= 'try' code_block catch_block*  {pin=1}
 catch_block ::= 'catch' class_type? id code_block {pin=3}
 
-return_statement ::= 'return' expr ';' {pin=1}
+return_statement ::= 'return' expr? ';'
 
 echo_statement ::= 'echo' expr (',' expr)* ';' {pin(".*")=1}
 
@@ -281,7 +285,7 @@ expr ::= unary_expr |
          special_group_expr
 
 private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
-private primary_group_expr ::= literal_expr | paren_expr | call_expr
+private primary_group_expr ::= literal_expr | paren_expr | callback_expr | call_expr
 private special_group_expr ::= new_expr | typeof_expr
 
 bit_expr ::= expr bit_operator expr
@@ -302,6 +306,7 @@ isset_expr ::= 'isset' expr {pin=1}
 fetch_expr ::= 'fetch' id ',' expr {pin=2}
 instanceof_expr ::= variable 'instanceof' expr {pin=2}
 call_expr ::= expr '(' call_arguments? ')' {pin=2}
+callback_expr ::= 'function' '(' arguments* ')' code_block {pin=1}
 
 new_expr ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
 typeof_expr ::= 'typeof' expr {pin=1}

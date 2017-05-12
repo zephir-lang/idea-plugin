@@ -93,6 +93,7 @@ public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
                 type == ZephirTypes.USE ||
                 type == ZephirTypes.AS ||
                 // OOP
+                type == ZephirTypes.INTERNAL ||
                 type == ZephirTypes.INTEFACE ||
                 type == ZephirTypes.CLASS ||
                 type == ZephirTypes.FUNCTION ||
