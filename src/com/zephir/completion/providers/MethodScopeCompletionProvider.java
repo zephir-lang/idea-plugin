@@ -57,7 +57,7 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
             LookupElementBuilder completionElement = LookupElementBuilder
                 //empty space to pull up arguments of method
                 .create(arg.getId().getText(), " " + arg.getId().getText())
-                .withTypeText(arg.getType().getText(), true)
+                .withTypeText(arg.getType() != null ? arg.getType().getText() : "", true)
                 .withBoldness(true)
                 .withLookupString(arg.getId().getText())
                 .withTailText(
@@ -80,14 +80,14 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
     private ZephirMethodDefinition getMethodByCurrentPos(PsiElement psiElement) {
         PsiElement parent = psiElement.getParent();
 
-        if((parent instanceof ZephirFile)) {
+        if (parent == null || parent instanceof ZephirFile) {
             return null;
         }
 
         int findLimitCounter = 0;
-        do{
+        do {
             parent = parent.getParent();
-            if((parent instanceof ZephirFile)) {
+            if (parent == null || parent instanceof ZephirFile) {
                 return null;
             } else if (parent instanceof ZephirMethodDefinition) {
                 return (ZephirMethodDefinition)parent;
@@ -97,5 +97,4 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
 
         return null;
     }
-
 }
