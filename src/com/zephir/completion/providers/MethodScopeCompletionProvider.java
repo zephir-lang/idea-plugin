@@ -4,8 +4,12 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
+import com.intellij.codeInsight.completion.PrioritizedLookupElement;
+
+
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
+import com.zephir.completion.Priority;
 import com.zephir.psi.ZephirArgument;
 import com.zephir.psi.ZephirArguments;
 import com.zephir.psi.ZephirFile;
@@ -17,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MethodScopeCompletionProvider extends CompletionProvider<CompletionParameters> {
+
 
     private static int MAX_SYNTAX_TREE_DEEP = 256;
 
@@ -56,7 +61,7 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
         for (ZephirArgument arg : methodArgs) {
             LookupElementBuilder completionElement = LookupElementBuilder
                 //empty space to pull up arguments of method
-                .create(arg.getId().getText(), " " + arg.getId().getText())
+                .create(arg.getId().getText(), arg.getId().getText())
                 .withTypeText(arg.getType() != null ? arg.getType().getText() : "", true)
                 .withBoldness(true)
                 .withLookupString(arg.getId().getText())
@@ -65,7 +70,7 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
                     true
                 );
 
-            result.addElement(completionElement);
+            result.addElement(PrioritizedLookupElement.withPriority(completionElement, Priority.METHOD_SCOPE_PRIORITY));
         }
 
         for (String keyword : this.keywords) {

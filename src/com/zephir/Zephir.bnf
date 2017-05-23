@@ -157,6 +157,9 @@ c_block ::= cblock
 
 private top_statement ::= namespace_statement import_statement* c_block* (class_definition | interface_definition)
 
+php_reserved ::= '$resource' | '$namespace' | '$internal'
+
+
 namespace_statement ::= 'namespace' complex_id ';' {pin=2}
 
 import_statement ::= 'use' complex_id ('as' id)? ';' {pin=2}
@@ -182,7 +185,7 @@ abstract_method_definition ::= 'abstract' interface_method_definition
 
 constant_definition ::= 'const' id default_value? ';' {pin=2}
 
-property_definition ::= 'static'? visibility id default_value? member_meta_access? ';' {pin=3}
+property_definition ::= 'static'? visibility 'static'?  id default_value? member_meta_access? ';' {pin=4}
 
 private member_meta_access ::= '{' member_meta_modifier (',' member_meta_modifier)* '}' {pin=1}
 private member_meta_modifier ::= 'get' | 'set' | '__toString'
@@ -193,26 +196,27 @@ method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
 private method_header ::= (visibility method_modifiers* | method_modifiers* visibility  ) FUNCTION id
 code_block ::= '{' code* '}' {pin=1}
 
-return_type ::= '->' type ('|' type)* {pin(".*")=1}
+return_type ::= '->' (type | 'null') ('|' (type | 'null'))* {pin(".*")=1}
 
 arguments ::= argument (',' argument)* {pin(".*")=1}
-argument ::= type? '!'? id default_value? {pin=3}
+argument ::= type? '!'? (php_reserved | id) default_value? {pin=3}
 
 default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
 
 id ::= identifier
-complex_id ::= '\'? id ('\' id)* {pin(".*")=2}
+complex_id ::= '$'? '\'? id ('\' id)* {pin(".*")=3}
 complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
-type ::= void_type | scalar_type | class_type
+type ::= void_type | scalar_type | class_type | resource_type
 scalar_type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource'
 private string_type ::= 'string' | 'char' | 'uchar'
 private bool_type ::= 'bool' | 'boolean'
 private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
 private int_type ::= 'int' | 'integer'
-private double_type ::= 'dobule' | 'float'
+private double_type ::= 'double' | 'float'
 private class_type ::= '<' complex_id array_append_expr? '>'
+private resource_type ::= '<' '$'complex_id array_append_expr? '>'
 private void_type ::= 'void'
 
 code ::= declaration_statement |
@@ -232,11 +236,13 @@ code ::= declaration_statement |
 
 
 declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin(".*")=1}
-private declaration_statement_element ::= id default_value?
+private declaration_statement_element ::= (id | php_reserved) default_value?
 
 let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin(".*")=1}
+
 change_variable_expr ::= assignment_expr | increment_expr
-assignment_expr ::= variable array_append_expr? assignment_operator typecast? expr { rightAssociative=true }
+assignment_expr ::= (typecast | type)? (variable | php_reserved) array_append_expr? assignment_operator (typecast | type)?  (php_reserved | expr) { rightAssociative=true }
+
 private array_append_expr ::= '[' ']'
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
 typecast ::= '(' scalar_type ')'
@@ -257,25 +263,27 @@ infinity_loop_statement ::= 'loop' code_block {pin=1}
 while_loop_statement ::= 'while' expr code_block {pin=2}
 
 foreach_loop_statement ::= 'for' id (',' id)? 'in' expr code_block {pin=2}
-unset_statement ::= 'unset' variable ';'
+unset_statement ::= 'unset' (variable | '(' variable ')') ';'
 
-switch_statement ::= 'switch' expr '{' switch_body '}' {pin=1}
-switch_body ::= ('case' expr | 'default') ':' code* {pin=1}
+switch_statement ::= 'switch' expr '{' case_expr*  '}' {pin=1}
+static_call_expr ::= ((('{' id '}') | 'static') '::') call_expr {pin=1}
+
+case_expr ::= ('case' expr | 'default') ':' code* {pin=1}
 
 if_statement ::= 'if' ('likely' | 'unlikely')? expr code_block elseif_statements* else_statement? {pin=1}
 elseif_statements ::= 'elseif' expr code_block {pin=1}
 else_statement ::= 'else' code_block {pin=1}
 
 try_statement ::= 'try' code_block catch_block*  {pin=1}
-catch_block ::= 'catch' class_type? id code_block {pin=3}
+catch_block ::= 'catch' class_type? complex_id (',' complex_id)* code_block {pin=3}
 
-return_statement ::= 'return' expr? ';'
+return_statement ::= 'return' (require_statement | (typecast? expr? ';'))
 
 echo_statement ::= 'echo' expr (',' expr)* ';' {pin(".*")=1}
 
 throw_statement ::= 'throw' expr ';' {pin=1}
-require_statement ::= 'require' expr ';' {pin=1}
-
+require_statement ::= require_expr ';' {pin=1}
+private require_expr ::= 'require' expr
 
 expr ::= unary_expr |
          bit_expr |
@@ -285,7 +293,7 @@ expr ::= unary_expr |
          special_group_expr
 
 private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
-private primary_group_expr ::= literal_expr | paren_expr | callback_expr | call_expr
+private primary_group_expr ::= static_call_expr | literal_expr | paren_expr | precast_expr | callback_expr | call_expr | clone_expr
 private special_group_expr ::= new_expr | typeof_expr
 
 bit_expr ::= expr bit_operator expr
@@ -301,19 +309,27 @@ bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | 
 ternary_expr ::= expr '?' expr ':' expr {pin=1}
 literal_expr ::= variable | scalar
 paren_expr ::= '(' expr ')' {pin=1}
+precast_expr ::= '{' expr '}' {pin=1}
+
+
 empty_expr ::= 'empty' expr {pin=1}
 isset_expr ::= 'isset' expr {pin=1}
 fetch_expr ::= 'fetch' id ',' expr {pin=2}
 instanceof_expr ::= variable 'instanceof' expr {pin=2}
-call_expr ::= expr '(' call_arguments? ')' {pin=2}
-callback_expr ::= 'function' '(' arguments* ')' code_block {pin=1}
 
-new_expr ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
+call_expr ::=  expr '(' call_arguments? ')' ('->' id '(' call_arguments? ')')* array_access? {pin=3}
+magic_call_expr ::= '$'('clone' | 'fetch') '(' arguments* ')'
+callback_expr ::= 'function' '(' arguments* ')' code_block {pin=1}
+clone_expr ::= 'clone' variable
+
+new_expr ::= new_expr_classic | new_expr_dynamic
+private new_expr_classic ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
+private new_expr_dynamic ::= 'new' '{' expr '}' ('(' call_arguments? ')')? {pin=2}
 typeof_expr ::= 'typeof' expr {pin=1}
 
 
 call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
-private call_argument ::= expr
+private call_argument ::= typecast? expr
 
 private scalar_short ::= string | schar | double | integer | scalar_value
 scalar ::= scalar_short | array_value
@@ -326,5 +342,5 @@ array_key_value ::= (scalar_short | expr) ':' expr
 
 variable ::= complex_id (property_access | array_append_expr |  array_access)*
 
-private property_access ::= ('::' | '->') (variable | '{' (string | id) '}') {pin=2}
-private array_access ::= '[' expr ']' {pin=1}
+private property_access ::= ('::' | '->') (variable | '{' (string | id) '}' | magic_call_expr) {pin=2}
+private array_access ::= '[' (expr | php_reserved) ']' {pin=1}
