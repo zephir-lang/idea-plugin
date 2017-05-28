@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2014-2017 Phalcon Team
+ *
+ * Licensed under the MIT License (MIT);
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ * https://github.com/phalcon/zephir-idea-plugin/blob/master/LICENSE
+ */
+
 package com.zephir.highlight;
 
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -12,9 +22,6 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.util.Map;
 
-/**
- * @author Nikita Gusakov
- */
 public class ZephirColorSettingsPage implements ColorSettingsPage {
     @Nullable
     @Override

@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2014-2017 Phalcon Team
+ *
+ * Licensed under the MIT License (MIT);
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ * https://github.com/phalcon/zephir-idea-plugin/blob/master/LICENSE
+ */
+
 package com.zephir.highlight;
 
 import com.intellij.lexer.Lexer;
@@ -9,9 +19,6 @@ import com.zephir.lexer.ZephirLexerAdapter;
 import com.zephir.psi.ZephirTypes;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Nikita Gusakov
- */
 public class ZephirSyntaxHighlighter implements SyntaxHighlighter {
     public static final TextAttributesKey KEYWORD = TextAttributesKey.createTextAttributesKey("KEYWORD", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey IDENTIFIER = TextAttributesKey.createTextAttributesKey("IDENTIFIER", DefaultLanguageHighlighterColors.IDENTIFIER);

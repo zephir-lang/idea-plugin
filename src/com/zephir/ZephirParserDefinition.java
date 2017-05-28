@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2014-2017 Phalcon Team
+ *
+ * Licensed under the MIT License (MIT);
+ * You may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at:
+ *
+ * https://github.com/phalcon/zephir-idea-plugin/blob/master/LICENSE
+ */
+
 package com.zephir;
 
 import com.intellij.lang.ASTNode;
@@ -18,9 +28,6 @@ import com.zephir.psi.ZephirFile;
 import com.zephir.psi.ZephirTypes;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * @author Nikita Gusakov
- */
 public class ZephirParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     public static final TokenSet COMMENTS = TokenSet.create(ZephirTypes.COMMENT, ZephirTypes.COMMENT_BLOCK);
