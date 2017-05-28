@@ -1,8 +1,8 @@
-<idea-plugin url="https://github.com/zephir-lang/idea-plugin">
+<idea-plugin url="https://github.com/phalcon/zephir-idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.1</version>
-  <vendor email="support@zephir-lang.com" url="http://zephir-lang.com">Zephir Team</vendor>
+  <version>0.3.2-beta1</version>
+  <vendor email="support@phalconphp.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
         Language support for the <a href="http://zephir-lang.com">Zephir Language</a>
@@ -12,6 +12,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <li><b>0.3.2-beta1</b>: Introduced class members in completion list</li>
         <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
         <li><b>0.3.0</b>: Fixed many bugs with syntax recognition, added few words to highlight, improved completion</li>
         <li><b>0.2.5</b>: Fixed "switch" keyword detection</li>
@@ -59,5 +60,4 @@
       <add-to-group group-id="NewGroup" relative-to-action="NewFromTemplate" anchor="before"/>
     </action>
   </actions>
-
 </idea-plugin>
