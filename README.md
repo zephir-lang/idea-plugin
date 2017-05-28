@@ -27,6 +27,6 @@ To automatically detect "Zephir plugin" in the debugged IDE, uncomment  next lin
 
 ## License
 
-Copyright (c) 2014-2017 Zephir Team.
+Copyright (c) 2014-2017 Phalcon Team.
 
-Licensed under the [MIT](LICENSE)
+Licensed under the [MIT](LICENSE) License.
