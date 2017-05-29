@@ -12,7 +12,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-        <li><b>0.3.2-alpha</b>: Introduced class members in completion list, improved syntax support</li>
+        <li><b>0.3.2-beta2</b>: Introduced class members in completion list, improved syntax support</li>
         <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
         <li><b>0.3.0</b>: Fixed many bugs with syntax recognition, added few words to highlight, improved completion</li>
         <li><b>0.2.5</b>: Fixed "switch" keyword detection</li>
