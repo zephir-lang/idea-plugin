@@ -22,6 +22,7 @@
         double='regexp:([\-]?[0-9]+[\.][0-9]+)'
         schar="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
         string='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
+        //        string='regexp:"([\\][\"]|[\\].|[\001-\377])*"'
         cblock='regexp:%{([^}]+|[}]+[^%{])*}%'
 
         // OOP keywords
@@ -190,8 +191,9 @@ property_definition ::= 'static'? visibility 'static'?  id default_value? member
 private member_meta_access ::= '{' member_meta_modifier (',' member_meta_modifier)* '}' {pin=1}
 private member_meta_modifier ::= 'get' | 'set' | '__toString'
 
-method_definition ::= method_header '(' arguments* ')' return_type? code_block {pin=2}
+method_definition ::= method_header '(' arguments* ')' return_type? method_body {pin=2}
 method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
+method_body ::= code_block
 
 private method_header ::= (visibility method_modifiers* | method_modifiers* visibility  ) FUNCTION id
 code_block ::= '{' code* '}' {pin=1}
@@ -204,7 +206,8 @@ argument ::= type? '!'? (php_reserved | id) default_value? {pin=3}
 default_value ::= '=' expr {pin=1}
 visibility ::= 'public' | 'protected' | 'private'
 
-id ::= identifier
+id ::= '$'?identifier
+
 complex_id ::= '$'? '\'? id ('\' id)* {pin(".*")=3}
 complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
 
@@ -245,7 +248,7 @@ assignment_expr ::= (typecast | type)? (variable | php_reserved) array_append_ex
 
 private array_append_expr ::= '[' ']'
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
-typecast ::= '(' scalar_type ')'
+typecast ::= '(' scalar_type ')' | '<' complex_id '>'
 
 increment_expr ::= variable increment_operator {rightAssociative=true}
 increment_operator ::= '++' | '--'
@@ -262,7 +265,7 @@ infinity_loop_statement ::= 'loop' code_block {pin=1}
 
 while_loop_statement ::= 'while' expr code_block {pin=2}
 
-foreach_loop_statement ::= 'for' id (',' id)? 'in' expr code_block {pin=2}
+foreach_loop_statement ::= 'for' id (',' id)? 'in' 'reverse'? (php_reserved | expr) code_block {pin=2}
 unset_statement ::= 'unset' (variable | '(' variable ')') ';'
 
 switch_statement ::= 'switch' expr '{' case_expr*  '}' {pin=1}
@@ -307,7 +310,7 @@ bool_expr ::= expr bool_operator expr
 bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | '!=='
 
 ternary_expr ::= expr '?' expr ':' expr {pin=1}
-literal_expr ::= variable | scalar
+literal_expr ::= typecast? (variable | scalar)
 paren_expr ::= '(' expr ')' {pin=1}
 precast_expr ::= '{' expr '}' {pin=1}
 
@@ -329,9 +332,9 @@ typeof_expr ::= 'typeof' expr {pin=1}
 
 
 call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
-private call_argument ::= typecast? expr
+private call_argument ::= 'require'? typecast? (php_reserved | expr)
 
-private scalar_short ::= string | schar | double | integer | scalar_value
+private scalar_short ::= string  | schar | double | integer | scalar_value
 scalar ::= scalar_short | array_value
 scalar_value ::= 'null' | 'true' | 'false'
 

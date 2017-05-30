@@ -59,12 +59,17 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
             return;
         }
 
-        processMethodArguments(methodDefinition, result);
-
         ZephirClassBody classBody = (ZephirClassBody)getPsiByCurrentPos(psiElement, "class");
         if (classBody == null) {
             return;
         }
+
+        ZephirMethodBody methodBody = (ZephirMethodBody)getPsiByCurrentPos(psiElement, "method_body");
+        if (methodBody == null) {
+            return;
+        }
+
+        processMethodArguments(methodDefinition, result);
         processClassMembers(classBody, result);
         processClassConstants(classBody, result);
         processClassMethods(classBody, result);
@@ -181,6 +186,8 @@ public class MethodScopeCompletionProvider extends CompletionProvider<Completion
             } else if (objectType.equals("method") && parent instanceof ZephirMethodDefinition) {
                 return parent;
             } else if (objectType.equals("class") && parent instanceof ZephirClassBody) {
+                return parent;
+            } else if (objectType.equals("method_body") && parent instanceof ZephirMethodBody) {
                 return parent;
             }
             ++findLimitCounter;
