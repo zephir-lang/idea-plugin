@@ -1,9 +1,9 @@
 /**
  * Copyright (c) 2014-2017 Phalcon Team
  *
- * Licensed under the MIT License (MIT);
- * You may not use this file except in compliance with the License.
- * You may obtain a copy of the License at:
+ * This source file is subject the MIT license, that is bundled with
+ * this package in the file LICENSE, and is available through the
+ * world-wide-web at the following url:
  *
  * https://github.com/phalcon/zephir-idea-plugin/blob/master/LICENSE
  */
