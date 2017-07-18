@@ -22,7 +22,6 @@
         double='regexp:([\-]?[0-9]+[\.][0-9]+)'
         schar="regexp:(['] ([\\][']|[\\].|[\001-\377]\[\\'])* ['])"
         string='regexp:(["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])'
-        //        string='regexp:"([\\][\"]|[\\].|[\001-\377])*"'
         cblock='regexp:%{([^}]+|[}]+[^%{])*}%'
 
         // OOP keywords
@@ -244,7 +243,7 @@ private declaration_statement_element ::= (id | php_reserved) default_value?
 let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin(".*")=1}
 
 change_variable_expr ::= assignment_expr | increment_expr
-assignment_expr ::= (typecast | type)? (variable | php_reserved) array_append_expr? assignment_operator (typecast | type)?  (php_reserved | expr) { rightAssociative=true }
+assignment_expr ::= (typecast | type)? (variable | exploded_varable | php_reserved) array_append_expr? assignment_operator (typecast | type)?  (php_reserved | expr) { rightAssociative=true }
 
 private array_append_expr ::= '[' ']'
 assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
@@ -344,6 +343,7 @@ array_item ::= array_key_value | expr
 array_key_value ::= (scalar_short | expr) ':' expr
 
 variable ::= complex_id (property_access | array_append_expr |  array_access)*
+exploded_varable ::= '{' variable '}'
 
 private property_access ::= ('::' | '->') (variable | '{' (string | id) '}' | magic_call_expr) {pin=2}
 private array_access ::= '[' (expr | php_reserved) ']' {pin=1}
