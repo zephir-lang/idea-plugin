@@ -194,7 +194,7 @@ method_definition ::= method_header '(' arguments* ')' return_type? method_body 
 method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
 method_body ::= code_block
 
-private method_header ::= (visibility method_modifiers* | method_modifiers* visibility  ) FUNCTION id
+private method_header ::= (visibility | method_modifiers)* FUNCTION id
 code_block ::= '{' code* '}' {pin=1}
 
 return_type ::= '->' (type | 'null') ('|' (type | 'null'))* {pin(".*")=1}
