@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/phalcon/zephir-idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.2-beta3</version>
+  <version>0.3.2</version>
   <vendor email="support@phalconphp.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
@@ -12,9 +12,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-        <li><b>0.3.2-beta3</b> Fixed regex recognition bug. Added syntax support for constructions like {var} </li>
-        <li><b>0.3.2-beta2</b>: Improved syntax support. Fixed completion bug when invoking AC in method definition block</li>
-        <li><b>0.3.2-beta1</b>: Introduced class members in completion list</li>
+        <li><b>0.3.2</b>: Completion list now shows members of class. Improved syntax support</li>
         <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
         <li><b>0.3.0</b>: Fixed many bugs with syntax recognition, added few words to highlight, improved completion</li>
         <li><b>0.2.5</b>: Fixed "switch" keyword detection</li>

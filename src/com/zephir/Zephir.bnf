@@ -194,7 +194,7 @@ method_definition ::= method_header '(' arguments* ')' return_type? method_body 
 method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
 method_body ::= code_block
 
-private method_header ::= (visibility method_modifiers* | method_modifiers* visibility  ) FUNCTION id
+private method_header ::= (visibility | method_modifiers)* FUNCTION id
 code_block ::= '{' code* '}' {pin=1}
 
 return_type ::= '->' (type | 'null') ('|' (type | 'null'))* {pin(".*")=1}
@@ -224,6 +224,7 @@ private void_type ::= 'void'
 code ::= declaration_statement |
          let_statement |
          call_statement |
+         chain_of_call_statement |
          control_statement |
          loop_statement |
          switch_statement |
@@ -295,8 +296,11 @@ expr ::= unary_expr |
          special_group_expr
 
 private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
-private primary_group_expr ::= static_call_expr | literal_expr | paren_expr | precast_expr | callback_expr | call_expr | clone_expr
+private primary_group_expr ::= chain_of_call_expr | static_call_expr | literal_expr | paren_expr | precast_expr | callback_expr | call_expr | clone_expr
 private special_group_expr ::= new_expr | typeof_expr
+
+chain_of_call_statement ::= chain_of_call_expr ;
+chain_of_call_expr ::= (paren_expr '->') expr
 
 bit_expr ::= expr bit_operator expr
 bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
