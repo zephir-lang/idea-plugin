@@ -24,6 +24,6 @@ Plugin page: http://plugins.jetbrains.com/plugin/7558
 
 ## License
 
-Copyright (c) 2014-2017 Phalcon Team.
+Copyright (c) 2014-2019 Zephir Team.
 
 Licensed under the [MIT](LICENSE) License.

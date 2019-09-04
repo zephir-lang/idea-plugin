@@ -1,4 +1,4 @@
-<idea-plugin url="https://github.com/phalcon/zephir-idea-plugin">
+<idea-plugin url="https://github.com/zephir-lang/idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
   <version>0.3.2</version>
