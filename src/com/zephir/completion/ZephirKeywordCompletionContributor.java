@@ -10,7 +10,8 @@
 
 package com.zephir.completion;
 
-import com.intellij.codeInsight.completion.*;
+import com.intellij.codeInsight.completion.CompletionContributor;
+import com.intellij.codeInsight.completion.CompletionType;
 import com.intellij.patterns.PlatformPatterns;
 import com.zephir.ZephirLanguage;
 import com.zephir.completion.providers.ClassScopeKeywordsProvider;
