@@ -4,14 +4,20 @@ Plugin page: http://plugins.jetbrains.com/plugin/7558
 
 ## Getting started develop plugin
 
-1. Install next plugins for Intellij
-  * https://plugins.jetbrains.com/plugin/6606-grammar-kit
-2. Go to `Zephir.bnf` file and run "Generate parser code" through context menu 
-3. Go to `src/com/zephir/lexer/Zephir.flex` and run "Run JFlex generator" through context menu
-   And specify `idea-plugin/lib/` directory to get `lib/jflex-*.jar` file
-4. Specify `gen` folder as *source code folder* Menu -> File -> Project Structure...
-   In *Modules* tab specify `gen` folder as "Source"
-5. Run the plugin by Menu -> Run -> Run
+### Prerequisites
+
+http://www.jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/prerequisites.html
+
+### Build
+
+1. Install [Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit) plugin for IntelliJ
+2. Go to `src/com/zephir/Zephir.bnf` file and run "Generate parser code" through context menu
+3. Go to `src/com/zephir/lexer/Zephir.flex` and run "Run JFlex generator" through context menu.
+   You will need to specify a directory to download `lib/jflex-*.jar` file (outside the project)
+4. Specify `gen` folder as "Generated Sources Root":
+   **File** -> **Project Structure...** -> **Modules** -> **Sources**
+5. Build project: **Build** -> **Build Project**
+6. Prepare module: **Build** -> **Prepare Plugin Module 'intellij.zephir' For Deployment**
 
 ## Links
 
