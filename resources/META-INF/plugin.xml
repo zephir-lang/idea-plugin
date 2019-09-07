@@ -20,6 +20,8 @@
     <h2>Features</h2>
     <ul>
       <li>Files syntax highlight</li>
+      <li>Base autocompletion support</li>
+      <li>Base syntax check support</li>
     </ul>
     ]]></description>
 
@@ -40,11 +42,8 @@
     </html>
   ]]></change-notes>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
   <idea-version since-build="130.1"/>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
@@ -53,11 +52,13 @@
     <lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>
     <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
     <lang.braceMatcher language="Zephir" implementationClass="com.zephir.lang.ZephirBraceMatcher"/>
-    <lang.syntaxHighlighterFactory language="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
+    <lang.syntaxHighlighterFactory language="Zephir"
+                                   implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
 
     <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
-    <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
+    <completion.contributor language="Zephir"
+                            implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
 
     <internalFileTemplate name="Zephir Class"/>
     <internalFileTemplate name="Zephir Interface"/>
