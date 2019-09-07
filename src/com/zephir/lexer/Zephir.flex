@@ -26,13 +26,13 @@ INTEGER=([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)
 DOUBLE=([\-]?[0-9]+[\.][0-9]+)
 CBLOCK = ("%{"([^}]+|[}]+[^%{])*"}%")
 
-// Steal this from Rust plugin
 HEX_DIGIT = [a-fA-F0-9]
 DOUBLE_QUOTE = \x22
 SINGLE_QUOTE = \x27
-COMMON_ESCAPE = ( [nrt0\n\r\\] | "x" {HEX_DIGIT} {2} | "u" {HEX_DIGIT} {4} | "U" {HEX_DIGIT} {8} )
-SCHAR = {SINGLE_QUOTE} (( [^'\\] | "\\" ( {SINGLE_QUOTE} | {COMMON_ESCAPE}) ) | [^\x20-\x7E]{1,2}) {SINGLE_QUOTE}
-STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {COMMON_ESCAPE} | [dwWstrn.]) )* {DOUBLE_QUOTE} // dwWstrn - modifiers for slashed params, e.g \d
+GENERIC_CHAR_TYPES = [acefntxdAGbBpPrRdDhHsSvVwWzZ]
+COMMON_ESCAPE = ( [.0\n\r\\] | "x" {HEX_DIGIT} {2} | "u" {HEX_DIGIT} {4} | "U" {HEX_DIGIT} {8} )
+SCHAR = {SINGLE_QUOTE} (( [^'\\] | "\\" ( {SINGLE_QUOTE} | {COMMON_ESCAPE} | {GENERIC_CHAR_TYPES}) ) | [^\x20-\x7E]{1,2}) {SINGLE_QUOTE}
+STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {COMMON_ESCAPE} | {GENERIC_CHAR_TYPES}) )* {DOUBLE_QUOTE}
 
 %%
 <YYINITIAL> {
