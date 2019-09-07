@@ -1,17 +1,31 @@
 <idea-plugin url="https://github.com/zephir-lang/idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.2</version>
-  <vendor email="support@phalconphp.com" url="https://zephir-lang.com">Zephir Team</vendor>
+  <version>0.3.3</version>
+  <vendor email="team@zephir-lang.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
-        Language support for the <a href="http://zephir-lang.com">Zephir Language</a>
-        <p>Zephir - Ze(nd Engine) Ph(p) I(nt)r(mediate) - is a high level language that eases the creation and maintainability
-        of extensions for PHP. Zephir extensions are exported to C code that can be compiled and optimized by major C compilers
-        such as gcc/clang/vc++. Functionality is exposed to the PHP language.</p>
+    <p>Provides <a href="https://zephir-lang.com/en">Zephir language</a> support for IntelliJ IDEs.</p><br/>
+
+    <a href="https://github.com/zephir-lang/idea-plugin">GitHub</a> |
+    <a href="https://github.com/zephir-lang/idea-plugin/issues">Issues</a> |
+    <a href="https://phalcon.link/fund">Donate</a><br/><br/>
+
+    <p>Zephir is a high level language that eases the creation and maintainability
+       of extensions for PHP. Zephir extensions are exported to C code that can be compiled
+       and optimized by major C compilers such as gcc/clang/vc++. Functionality is exposed
+       to the PHP language.
+    </p>
+
+    <h2>Features</h2>
+    <ul>
+      <li>Files syntax highlight</li>
+    </ul>
     ]]></description>
 
   <change-notes><![CDATA[
+    <html lang="en">
+      <ul>
         <li><b>0.3.2</b>: Completion list now shows members of class. Improved syntax support</li>
         <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
         <li><b>0.3.0</b>: Fixed many bugs with syntax recognition, added few words to highlight, improved completion</li>
@@ -22,7 +36,9 @@
         <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
         <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
         <li><b>0.1.0</b>: Initial plugin</li>
-    ]]></change-notes>
+      </ul>
+    </html>
+  ]]></change-notes>
 
   <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
   <idea-version since-build="130.1"/>
@@ -32,17 +48,17 @@
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
+    <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
 
     <lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>
-
-    <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
     <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
     <lang.braceMatcher language="Zephir" implementationClass="com.zephir.lang.ZephirBraceMatcher"/>
+    <lang.syntaxHighlighterFactory language="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
 
-    <lang.syntaxHighlighterFactory key="Zephir" implementationClass="com.zephir.highlight.ZephirSyntaxHighlighterFactory"/>
     <colorSettingsPage implementation="com.zephir.highlight.ZephirColorSettingsPage"/>
 
     <completion.contributor language="Zephir" implementationClass="com.zephir.completion.ZephirKeywordCompletionContributor"/>
+
     <internalFileTemplate name="Zephir Class"/>
     <internalFileTemplate name="Zephir Interface"/>
   </extensions>
