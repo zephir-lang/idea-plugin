@@ -19,7 +19,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class FileScopeKeywordsProvider extends CompletionProvider<CompletionParameters> {
     private String[] keywords = new String[] {
-        "internal", "inline", "namespace", "use", "as", "interface", "class", "extends", "implements", "final", "abstract"
+        "internal",
+        "inline",
+        "namespace",
+        "use",
+        "as",
+        "interface",
+        "class",
+        "extends",
+        "implements",
+        "final",
+        "abstract"
     };
 
     @Override
@@ -28,12 +38,12 @@ public class FileScopeKeywordsProvider extends CompletionProvider<CompletionPara
                                   @NotNull CompletionResultSet result) {
 
         PsiElement psiElement = parameters.getOriginalPosition();
-        if(psiElement == null) {
+        if (psiElement == null) {
             return;
         }
 
         PsiElement parent = psiElement.getParent();
-        if(!(parent instanceof ZephirFile)) {
+        if (!(parent instanceof ZephirFile)) {
             return;
         }
 
