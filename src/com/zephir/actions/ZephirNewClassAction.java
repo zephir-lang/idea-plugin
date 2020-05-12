@@ -38,7 +38,7 @@ public class ZephirNewClassAction extends CreateFileFromTemplateAction {
 
     @Override
     protected PsiFile createFile(String name, String templateName, PsiDirectory dir) {
-        final FileTemplate template = FileTemplateManager.getInstance().getInternalTemplate(templateName);
+        final FileTemplate template = FileTemplateManager.getInstance(dir.getProject()).getInternalTemplate(templateName);
         return createFileFromTemplate(name, template, dir);
     }
 }

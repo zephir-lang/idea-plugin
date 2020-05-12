@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/zephir-lang/idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.3</version>
+  <version>0.3.4</version>
   <vendor email="team@zephir-lang.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
@@ -28,6 +28,7 @@
   <change-notes><![CDATA[
     <html lang="en">
       <ul>
+        <li><b>0.3.4</b>: Replaced usage of deprecated API by new one</li>
         <li><b>0.3.3</b>: Fixed recognizing strings with regular expressions</li>
         <li><b>0.3.2</b>: Completion list now shows members of class. Improved syntax support</li>
         <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
@@ -48,7 +49,11 @@
   <depends>com.intellij.modules.lang</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="com.zephir.ZephirFileTypeFactory"/>
+    <fileType name="Zephir"
+              language="Zephir"
+              implementationClass="com.zephir.ZephirFileType"
+              fieldName="INSTANCE"
+              extensions="zep"/>
 
     <lang.parserDefinition language="Zephir" implementationClass="com.zephir.ZephirParserDefinition"/>
     <lang.commenter language="Zephir" implementationClass="com.zephir.lang.ZephirCommenter"/>
