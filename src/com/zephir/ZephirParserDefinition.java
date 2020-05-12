@@ -76,9 +76,4 @@ public class ZephirParserDefinition implements ParserDefinition {
     public PsiFile createFile(FileViewProvider provider) {
         return new ZephirFile(provider);
     }
-
-    @Override
-    public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode astNode, ASTNode astNode2) {
-        return SpaceRequirements.MAY;
-    }
 }
