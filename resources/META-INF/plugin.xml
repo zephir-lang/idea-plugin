@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/zephir-lang/idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.4</version>
+  <version>0.3.5</version>
   <vendor email="team@zephir-lang.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
@@ -28,6 +28,7 @@
   <change-notes><![CDATA[
     <html lang="en">
       <ul>
+        <li><b>0.3.5</b>: Drop support of IDE's versions below 182</li>
         <li><b>0.3.4</b>: Replaced usage of deprecated API by new one</li>
         <li><b>0.3.3</b>: Fixed recognizing strings with regular expressions</li>
         <li><b>0.3.2</b>: Completion list now shows members of class. Improved syntax support</li>
@@ -44,7 +45,7 @@
     </html>
   ]]></change-notes>
 
-  <idea-version since-build="130.1"/>
+  <idea-version since-build="182"/>
 
   <depends>com.intellij.modules.lang</depends>
 

@@ -7,5 +7,8 @@
 
 /out/
 /gen/
+
 *~
 *.jar
+
+idea-flex.skeleton
