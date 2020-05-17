@@ -1,7 +1,7 @@
 <idea-plugin url="https://github.com/zephir-lang/idea-plugin">
   <id>com.zephir</id>
   <name>Zephir</name>
-  <version>0.3.5</version>
+  <version>0.3.6</version>
   <vendor email="team@zephir-lang.com" url="https://zephir-lang.com">Zephir Team</vendor>
 
   <description><![CDATA[
@@ -20,18 +20,18 @@
 
     <h2>Highlighted Features</h2>
     <ul>
-      <li>Syntax highlighting for Zephir</li>
-      <li>Base autocompletion support</li>
-      <li>Base syntax check support</li>
+      <li>Syntax highlighting</li>
+      <li>Basic syntax definition</li>
+      <li>Basic autocompletion support</li>
+      <li>Basic syntax check support</li>
     </ul>
     ]]></description>
 
   <change-notes><![CDATA[
-    <b>Changes in version 0.4.0:</b>
+    <b>Changes in version 0.3.6:</b>
     <ul>
-      <li>
-        Corrected <code>change-notes</code> section to store changes only for the latest version of the plugin
-      </li>
+      <li>Updated file icons</li>
+      <li>Corrected <code>change-notes</code> section to store changes only for the latest version of the plugin</li>
     </ul>
     <p>
       To see full list of changes to this plugin refer to

@@ -1,12 +1,19 @@
 # Zephir plugin for the IntelliJ Platform
 
-Provides [Zephir language][zephir-lang] support for IntelliJ IDEs.
+A IntelliJ plugin for editing [Zephir][zephir-lang] code. Provides syntax
+definition, autocompletion and syntax check support.
+
+Zephir is a high level programming language that eases the creation and
+maintainability of extensions for PHP. Zephir extensions are exported to C code
+that can be compiled and optimized by major C compilers such as gcc/clang/vc++.
+Functionality is exposed to the PHP language.
 
 ## Highlighted Features
 
-- Syntax highlighting for Zephir
-- Base autocompletion support
-- Base syntax check support
+- Syntax highlighting
+- Basic syntax definition
+- Basic autocompletion support
+- Basic syntax check support
 
 ## Install
 
@@ -23,8 +30,8 @@ missing functionality that you would want to see. Check out
 
 ## Links
 
-- [Zephir Language](https://docs.zephir-lang.com)
-- [Plugin page](http://plugins.jetbrains.com/plugin/7558)
+- [Zephir Language][zephir-lang]
+- [Plugin page][plugin-page]
 
 ## License
 
@@ -33,3 +40,4 @@ Copyright (c) 2014-2020 Zephir Team.
 Licensed under the [MIT](./LICENSE) License.
 
 [zephir-lang]: https://zephir-lang.com/en
+[plugin-page]: http://plugins.jetbrains.com/plugin/7558

@@ -5,7 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
+## [0.3.6] - 2020-05-18
 ### Changed
+- Updated file icons
 - Corrected `change-notes` section to store changes only for the latest version of the plugin
 
 ## [0.3.5] - 2020-05-13
@@ -73,7 +75,8 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.3.5...HEAD
+[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.3.6...HEAD
+[0.3.6]: https://github.com/zephir-lang/idea-plugin/compare/0.3.5...0.3.6
 [0.3.5]: https://github.com/zephir-lang/idea-plugin/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/zephir-lang/idea-plugin/compare/0.3.3...0.3.4
 [0.3.3]: https://github.com/zephir-lang/idea-plugin/compare/0.3.2...0.3.3
