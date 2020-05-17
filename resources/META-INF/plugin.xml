@@ -26,23 +26,16 @@
     ]]></description>
 
   <change-notes><![CDATA[
-    <html lang="en">
-      <ul>
-        <li><b>0.3.5</b>: Drop support of IDE's versions below 182</li>
-        <li><b>0.3.4</b>: Replaced usage of deprecated API by new one</li>
-        <li><b>0.3.3</b>: Fixed recognizing strings with regular expressions</li>
-        <li><b>0.3.2</b>: Completion list now shows members of class. Improved syntax support</li>
-        <li><b>0.3.1</b>: Fixed much bugs with syntax recognition, fixed extra space in completion for method params</li>
-        <li><b>0.3.0</b>: Fixed many bugs with syntax recognition, added few words to highlight, improved completion</li>
-        <li><b>0.2.5</b>: Fixed "switch" keyword detection</li>
-        <li><b>0.2.4</b>: Added brace matching</li>
-        <li><b>0.2.3</b>: Fixed build</li>
-        <li><b>0.2.2</b>: Improve highlighter, added color settings page</li>
-        <li><b>0.2.1</b>: Disabled "New Zephir class" dialog</li>
-        <li><b>0.2.0</b>: Added lexer and simple syntax highlighter</li>
-        <li><b>0.1.0</b>: Initial plugin</li>
-      </ul>
-    </html>
+    <b>Changes in version 0.4.0:</b>
+    <ul>
+      <li>
+        Corrected <code>change-notes</code> section to store changes only for the latest version of the plugin
+      </li>
+    </ul>
+    <p>
+      To see full list of changes to this plugin refer to
+      <a href="https://github.com/zephir-lang/idea-plugin/blob/master/CHANGELOG.md">GitHub repo</a>.
+    </p>
   ]]></change-notes>
 
   <idea-version since-build="182"/>

@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
+### Changed
+- Corrected `change-notes` section to store changes only for the latest version of the plugin
 
 ## [0.3.5] - 2020-05-13
 ### Removed
@@ -36,13 +38,13 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ### Changed
 - Improved completion
- 
+
 ### Fixed
 - Fixed many bugs with syntax recognition
 
 ## [0.2.5] - 2017-05-06
 ### Fixed
-- Fixed `switch` keyword detection 
+- Fixed `switch` keyword detection
 
 ## [0.2.4] - 2014-09-22
 ### Added
