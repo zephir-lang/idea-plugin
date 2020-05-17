@@ -1,20 +1,25 @@
-# Zephir IntelliJ IDEA plugin
+# Zephir plugin for the IntelliJ Platform
 
-## Getting started develop plugin
+Provides [Zephir language][zephir-lang] support for IntelliJ IDEs.
 
-### Prerequisites
+## Highlighted Features
 
-http://www.jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/prerequisites.html
+- Syntax highlighting for Zephir
+- Base autocompletion support
+- Base syntax check support
 
-### Build
+## Install
 
-1. Go to `src/com/zephir/Zephir.bnf` file and run **Generate parser code** through context menu
-2. Go to `src/com/zephir/lexer/Zephir.flex` and run **Run JFlex generator** through context menu.
-   You will need to specify a directory to download `lib/jflex-*.jar` file (outside the project)
-3. Specify `gen` folder as _Generated Sources Root_:
-   **File** -> **Project Structure...** -> **Modules** -> **Sources**
-4. Build project: **Build** -> **Build Project**
-5. Prepare module: **Build** -> **Prepare Plugin Module 'intellij.zephir' For Deployment**
+You can install the plugin from within the JetBrains IDE by going to
+**Settings > Plugins > Marketplace** and then searching for "Zephir". After
+installing the plugin, restart the IDE and then open your existing Zephir
+project or create a new project.
+
+## Contributing
+
+You're encouraged to contribute to the plugin if you've found any issues or
+missing functionality that you would want to see. Check out
+[CONTRIBUTING.md](./CONTRIBUTING.md) to learn how to set up the project.
 
 ## Links
 
@@ -23,6 +28,8 @@ http://www.jetbrains.org/intellij/sdk/docs/tutorials/custom_language_support/pre
 
 ## License
 
-Copyright (c) 2014-2019 Zephir Team.
+Copyright (c) 2014-2020 Zephir Team.
 
-Licensed under the [MIT](LICENSE) License.
+Licensed under the [MIT](./LICENSE) License.
+
+[zephir-lang]: https://zephir-lang.com/en

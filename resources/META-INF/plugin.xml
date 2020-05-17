@@ -11,15 +11,16 @@
     <a href="https://github.com/zephir-lang/idea-plugin/issues">Issues</a> |
     <a href="https://phalcon.link/fund">Donate</a><br/><br/>
 
-    <p>Zephir is a high level language that eases the creation and maintainability
+    <p>
+       Zephir is a high level language that eases the creation and maintainability
        of extensions for PHP. Zephir extensions are exported to C code that can be compiled
        and optimized by major C compilers such as gcc/clang/vc++. Functionality is exposed
        to the PHP language.
     </p>
 
-    <h2>Features</h2>
+    <h2>Highlighted Features</h2>
     <ul>
-      <li>Files syntax highlight</li>
+      <li>Syntax highlighting for Zephir</li>
       <li>Base autocompletion support</li>
       <li>Base syntax check support</li>
     </ul>
