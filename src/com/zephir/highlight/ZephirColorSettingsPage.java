@@ -81,7 +81,7 @@ public class ZephirColorSettingsPage implements ColorSettingsPage {
                 new AttributesDescriptor("String", ZephirSyntaxHighlighter.STRING),
                 new AttributesDescriptor("Number", ZephirSyntaxHighlighter.NUMBER),
                 new AttributesDescriptor("Operator", ZephirSyntaxHighlighter.OPERATOR),
-                new AttributesDescriptor("Variable type", ZephirSyntaxHighlighter.ATTRIBUTE),
+                new AttributesDescriptor("Variable Type", ZephirSyntaxHighlighter.ATTRIBUTE),
         };
     }
 

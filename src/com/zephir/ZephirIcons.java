@@ -13,5 +13,5 @@ import com.intellij.openapi.util.IconLoader;
 import javax.swing.*;
 
 public interface ZephirIcons {
-    public static final Icon ZEPHIR = IconLoader.getIcon("/icons/zephir.png");
+    Icon ZEPHIR = IconLoader.getIcon("/icons/zephir.png");
 }
