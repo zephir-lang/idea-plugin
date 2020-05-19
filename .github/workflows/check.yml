@@ -16,6 +16,19 @@ on:
   pull_request:
 
 jobs:
+  shell-check:
+    name: Shell Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Check License
+        run: shellcheck -s bash .ci/*.sh
+
   check-license:
     name: Check License
     runs-on: ubuntu-latest
@@ -23,9 +36,6 @@ jobs:
     steps:
       - name: Setup APT Repositories
         run: |
-          # We don't need this at all, and our
-          # builds often fails because Microsoft
-          # servers are unstable or even offline.
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list
 
@@ -37,11 +47,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 5
+          fetch-depth: 1
 
       - name: Check License
         run: .ci/check-license.sh
-
-      - name: Success Reporting
-        if: success()
-        run: git log --format=fuller -5
