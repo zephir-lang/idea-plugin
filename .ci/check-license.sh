@@ -13,7 +13,7 @@
 set -eu
 
 COPYRIGHT_NOTICE=$(cat <<-EOF
-// Copyright \(c\) 2014-2020 Zephir Team
+// Copyright \\(c\\) 2014-2020 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the
@@ -27,7 +27,7 @@ COPYRIGHT_NOTICE=$(echo "$COPYRIGHT_NOTICE" | tr '\r\n' ' ')
 NO_LICENSE=$(find . -type f -iname '*.kt' -print0 | xargs -0 pcregrep -L -M "${COPYRIGHT_NOTICE// /\\s}" || true)
 
 if [ -n "$NO_LICENSE" ]; then
-    echo "Files without license notice (or with a wrong license notice) are:"
+    echo "Files without license notice (or with a wrong notice format) are:"
     echo "$NO_LICENSE"
     exit 1
 else
