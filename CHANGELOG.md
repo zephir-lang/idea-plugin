@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
+### Added
+- Amended Color Scheme configuration 
+
+### Changed
+- Moved build to Gradle
+- Rewrote plugin from Java to Kotlin
+
 ## [0.3.6] - 2020-05-18
 ### Changed
 - Updated file icons
@@ -12,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [0.3.5] - 2020-05-13
 ### Removed
-- Drop support of IDE's versions below 182
+- Drop support of IDE's versions below `182`
 
 ## [0.3.4] - 2020-05-12
 ### Fixed

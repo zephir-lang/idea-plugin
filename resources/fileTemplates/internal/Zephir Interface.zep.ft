@@ -1,6 +1,0 @@
-namespace ${NAMESPACE};
-
-interface ${NAME}
-{
-
-}
