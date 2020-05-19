@@ -14,7 +14,7 @@ import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.zephir.ide.highlight.ZephirSyntaxHighlighter
 import com.zephir.ide.icons.ZephirIcons
 
-class ZephirColorSettingsPage: ColorSettingsPage {
+class ZephirColorSettingsPage : ColorSettingsPage {
     private val attributes = ZephirColor.values().map {
         it.attributesDescriptor
     }.toTypedArray()
