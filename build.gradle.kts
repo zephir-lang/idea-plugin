@@ -85,7 +85,9 @@ fun readChangeNotes(pathname: String, version: String): String? {
 
         if (line.startsWith("- ") && found) {
             note?.add(
-                line.trimStart('-', ' ').replace("`", "")
+                line.trimStart('-', ' ').replace("`(.*?)`".toRegex()) {
+                    "<code>${it.groupValues[1]}</code>"
+                }
             )
         }
     }
