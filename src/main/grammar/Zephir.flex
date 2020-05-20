@@ -8,12 +8,12 @@ import static com.zephir.lang.core.psi.ZephirTypes.*;
 %%
 
 %{
-  public ZephirLexer() {
-    this(null);
+  public _ZephirLexer() {
+    this((java.io.Reader)null);
   }
 %}
 
-%class ZephirLexer
+%class _ZephirLexer
 %public
 %implements FlexLexer
 %unicode

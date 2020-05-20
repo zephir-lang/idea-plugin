@@ -117,7 +117,7 @@ tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
 val generateLexer = task<GenerateLexer>("generateLexer") {
     source = "src/main/grammar/Zephir.flex"
     targetDir = "gen/com/zephir/lang/core/lexer/"
-    targetClass = "ZephirLexer"
+    targetClass = "_ZephirLexer"
     skeleton = "src/main/grammar/Lexer.skeleton"
     purgeOldFiles = true
 }

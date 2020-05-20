@@ -13,10 +13,12 @@
     elementTypeClass="com.zephir.lang.core.psi.ZephirElementType"
     tokenTypeClass="com.zephir.lang.core.psi.ZephirTokenType"
     psiImplUtilClass="com.zephir.lang.core.psi.impl.ZephirPsiImplUtil"
+
     tokens = [
         // regex
         comment='regexp://.*'
         comment_block='regexp:(/\*([^*]+|[*]+[^/*])*[*]*\*/)'
+
         identifier='regexp:[_a-zA-Z][a-zA-Z0-9_]*'
         integer='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
         double='regexp:([\-]?[0-9]+[.][0-9]+)'
