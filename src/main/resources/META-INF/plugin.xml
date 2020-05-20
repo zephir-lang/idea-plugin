@@ -44,6 +44,9 @@
         <lang.syntaxHighlighterFactory language="Zephir"
                                        implementationClass="com.zephir.ide.highlight.ZephirSyntaxHighlighterFactory"/>
 
+        <!-- Commenter -->
+        <lang.commenter language="Zephir" implementationClass="com.zephir.ide.commenter.ZephirCommenter"/>
+
         <!-- Completion -->
         <completion.contributor language="Zephir"
                                 implementationClass="com.zephir.lang.core.completion.ZephirCompletionContributor"/>
