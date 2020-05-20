@@ -29,6 +29,8 @@ You might want to install the following plugins:
 
 - [Grammar-Kit][g-kit] to get highlighting for the files with BNFish grammar
 - [PsiViewer][psi-view] to view the AST of Zephir files right in the IDE
+- [Kotlin][kotlin-plugin] to enable Kotlin support for your IDE
+- Plugin DevKit (built-in, just make sure you've enabled it)
 
 ## Getting started
 
@@ -54,8 +56,10 @@ Common Gradle tasks are:
 - `./gradlew build` -- Fully build plugin and create an archive at
   `build/distributions` which can be installed into IntelliJ IDEA via
   `Install plugin from disk...` action found in `Settings > Plugins`
-- `./gradlew runIde` - Runs Intellij IDEA with installed plugin
-- `./gradlew test` - Runs the unit tests
+- `./gradlew runIde` - Runs Intellij IDEA with installed plugin. Break points
+  works like a charm.
+- `./gradlew test` - Runs the unit tests. To run gradle with single class and
+  method use something like this: `gradle test --tests com.zephir.ns.Class`
 
 ### Development in IntelliJ IDEA
 
@@ -86,6 +90,7 @@ If you add a new file, please make sure that it contains a license preamble, as
 all other files do.
 
 [kotlin]: https://kotlinlang.org
+[kotlin-plugin]: https://plugins.jetbrains.com/plugin/6954-kotlin
 [discord]: https://discord.gg/PNFsSsr
 [issues]: https://github.com/zephir-lang/zephir-mode/issues
 [gradle-intellij]: https://github.com/JetBrains/gradle-intellij-plugin
