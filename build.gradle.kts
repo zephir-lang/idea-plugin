@@ -115,6 +115,8 @@ tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
 }
 
 val generateLexer = task<GenerateLexer>("generateLexer") {
+    group = "build setup"
+    description = "Generate the Lexer"
     source = "src/main/grammar/Zephir.flex"
     targetDir = "gen/com/zephir/lang/core/lexer/"
     targetClass = "_ZephirLexer"
@@ -123,6 +125,8 @@ val generateLexer = task<GenerateLexer>("generateLexer") {
 }
 
 val generateParser = task<GenerateParser>("generateParser") {
+    group = "build setup"
+    description = "Generate the Parser and PsiElement classes"
     source = "src/main/grammar/Zephir.bnf"
     targetRoot = file("gen")
     pathToParser = "/com/zephir/lang/core/parser/ZephirParser.java"
