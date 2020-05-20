@@ -30,18 +30,26 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <!-- File-type Factory -->
         <fileType name="Zephir" language="Zephir" implementationClass="com.zephir.lang.core.ZephirFileType"
                   fieldName="INSTANCE" extensions="zep"/>
+        <internalFileTemplate name="Zephir Class"/>
+        <internalFileTemplate name="Zephir Interface"/>
 
-        <lang.parserDefinition language="Zephir" implementationClass="com.zephir.lang.core.parser.ZephirParserDefinition"/>
+        <!-- Parser -->
+        <lang.parserDefinition language="Zephir"
+                               implementationClass="com.zephir.lang.core.parser.ZephirParserDefinition"/>
+
+        <!-- Syntax Highlighter -->
         <lang.syntaxHighlighterFactory language="Zephir"
                                        implementationClass="com.zephir.ide.highlight.ZephirSyntaxHighlighterFactory"/>
 
-        <colorSettingsPage implementation="com.zephir.ide.color.ZephirColorSettingsPage"/>
+        <!-- Completion -->
+        <completion.contributor language="Zephir"
+                                implementationClass="com.zephir.lang.core.completion.ZephirCompletionContributor"/>
 
-        <!-- For mor see: com.zephir.ide.actions.ZephirCreateFileAction -->
-        <internalFileTemplate name="Zephir Class"/>
-        <internalFileTemplate name="Zephir Interface"/>
+        <!-- Color Settings -->
+        <colorSettingsPage implementation="com.zephir.ide.color.ZephirColorSettingsPage"/>
     </extensions>
 
     <actions>
