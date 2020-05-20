@@ -5,12 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
+## [0.4.0] - 2020-05-18
 ### Added
 - Amended Color Scheme configuration 
 
 ### Changed
 - Moved build to Gradle
 - Rewrote plugin from Java to Kotlin
+
+### Fixed
+- Correct `New > Zephir File dialog` to put default namespace
 
 ## [0.3.6] - 2020-05-18
 ### Changed
