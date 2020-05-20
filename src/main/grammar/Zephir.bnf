@@ -12,6 +12,8 @@
     elementTypeHolderClass="com.zephir.lang.core.psi.ZephirTypes"
     elementTypeClass="com.zephir.lang.core.psi.ZephirElementType"
     tokenTypeClass="com.zephir.lang.core.psi.ZephirTokenType"
+    // TODO(serghei): Do we need this?
+    // Also see: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/3
     psiImplUtilClass="com.zephir.lang.core.psi.impl.ZephirPsiImplUtil"
 
     tokens = [
