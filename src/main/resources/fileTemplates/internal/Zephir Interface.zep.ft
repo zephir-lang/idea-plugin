@@ -1,0 +1,7 @@
+namespace ${NAMESPACE};
+
+interface ${NAME}
+{
+
+}
+

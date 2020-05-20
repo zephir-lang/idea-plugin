@@ -32,13 +32,22 @@
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Zephir" language="Zephir" implementationClass="com.zephir.lang.core.ZephirFileType"
                   fieldName="INSTANCE" extensions="zep"/>
+
         <lang.parserDefinition language="Zephir" implementationClass="com.zephir.lang.core.parser.ZephirParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Zephir"
                                        implementationClass="com.zephir.ide.highlight.ZephirSyntaxHighlighterFactory"/>
+
         <colorSettingsPage implementation="com.zephir.ide.color.ZephirColorSettingsPage"/>
+
+        <!-- For mor see: com.zephir.ide.actions.ZephirCreateFileAction -->
+        <internalFileTemplate name="Zephir Class"/>
+        <internalFileTemplate name="Zephir Interface"/>
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="Zephir.NewFile" class="com.zephir.ide.actions.ZephirCreateFileAction"
+                text="Zephir File" description="Create new Zephir file">
+            <add-to-group group-id="NewGroup" relative-to-action="NewFile" anchor="before"/>
+        </action>
     </actions>
 </idea-plugin>
