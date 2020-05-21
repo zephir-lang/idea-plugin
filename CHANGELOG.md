@@ -6,14 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
 ### Added
-- Amended Color Scheme configuration 
+- Amended Color Scheme configuration
+- Introduced recognition of angle brackets as paired ones
 
 ### Changed
 - Migrated build to Gradle
 - Rewrote plugin from Java to Kotlin
 
 ### Fixed
-- Correct `New > Zephir File dialog` to put default namespace
+- Corrected `New > Zephir File` dialog to use project directory as a namespace
 
 ## [0.3.6] - 2020-05-18
 ### Changed

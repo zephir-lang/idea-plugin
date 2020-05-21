@@ -47,6 +47,9 @@
         <!-- Commenter -->
         <lang.commenter language="Zephir" implementationClass="com.zephir.ide.commenter.ZephirCommenter"/>
 
+        <!-- Matchers -->
+        <lang.braceMatcher language="Zephir" implementationClass="com.zephir.ide.typing.ZephirBraceMatcher"/>
+
         <!-- Completion -->
         <completion.contributor language="Zephir"
                                 implementationClass="com.zephir.lang.core.completion.ZephirCompletionContributor"/>
