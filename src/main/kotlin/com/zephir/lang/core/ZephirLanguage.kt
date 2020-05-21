@@ -23,7 +23,7 @@ object ZephirFileType : LanguageFileType(ZephirLanguage) {
     private const val EXTENSION = "zep"
 
     override fun getIcon() = ZephirIcons.FILE
-    override fun getName() = "Zephir"
+    override fun getName() = language.id
     override fun getDefaultExtension() = EXTENSION
     override fun getDescription() = "Zephir language file"
 }
