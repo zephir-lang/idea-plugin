@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ### Changed
 - Migrated build to Gradle
 - Rewrote plugin from Java to Kotlin
+- Redesigned logic, determining when a closed brace/bracket should be inserted after an opened one
 
 ### Fixed
 - Corrected `New > Zephir File` dialog to use project directory as a namespace
