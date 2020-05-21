@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 - Redesigned logic, determining when a closed brace/bracket should be inserted after an opened one
 
 ### Fixed
-- Corrected `New > Zephir File` dialog to use project directory as a namespace
+- Corrected `New > Zephir File` dialog to use project's directory as a namespace
 
 ## [0.3.6] - 2020-05-18
 ### Changed
