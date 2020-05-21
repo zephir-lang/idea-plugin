@@ -1,0 +1,53 @@
+# Copyright (c) 2014-2020 Zephir Team
+#
+# This source file is subject the MIT license, that is bundled with
+# this package in the file LICENSE, and is available through the
+# world-wide-web at the following url:
+#
+# https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
+
+name: check
+
+on:
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+
+jobs:
+  shell-check:
+    name: Shell Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Check License
+        run: shellcheck -s bash .ci/*.sh
+
+  check-license:
+    name: Check License
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup APT Repositories
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y pcregrep
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Check License
+        run: .ci/check-license.sh

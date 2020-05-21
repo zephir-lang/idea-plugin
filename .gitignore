@@ -5,10 +5,10 @@
 #
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
-/out/
-/gen/
+.gradle/
+.idea/
 
-*~
-*.jar
+!gradle/wrapper/gradle-wrapper.jar
 
-idea-flex.skeleton
+build/
+gen/

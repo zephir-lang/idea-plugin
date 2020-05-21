@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased]
+### Added
+- Amended Color Scheme configuration
+- Introduced recognition of angle brackets as paired ones
+
+### Changed
+- Migrated build to Gradle
+- Rewrote plugin from Java to Kotlin
+- Redesigned logic, determining when a closed brace/bracket should be inserted after an opened one
+
+### Fixed
+- Corrected `New > Zephir File` dialog to use project's directory as a namespace
+
 ## [0.3.6] - 2020-05-18
 ### Changed
 - Updated file icons
@@ -12,7 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [0.3.5] - 2020-05-13
 ### Removed
-- Drop support of IDE's versions below 182
+- Drop support of IDE's versions below `182`
 
 ## [0.3.4] - 2020-05-12
 ### Fixed
