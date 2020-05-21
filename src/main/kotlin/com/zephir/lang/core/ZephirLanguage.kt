@@ -12,7 +12,12 @@ import com.intellij.lang.Language
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.zephir.ide.icons.ZephirIcons
 
-object ZephirLanguage : Language("Zephir", "text/zephir", "text/x-zephir", "application/x-zephir")
+object ZephirLanguage : Language("Zephir", "text/zephir", "text/x-zephir", "application/x-zephir") {
+    /** Zephir is case sensitive language */
+    override fun isCaseSensitive(): Boolean {
+        return true
+    }
+}
 
 object ZephirFileType : LanguageFileType(ZephirLanguage) {
     private const val EXTENSION = "zep"
