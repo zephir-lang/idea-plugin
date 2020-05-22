@@ -22,10 +22,6 @@ import com.zephir.lang.core.lexer.ZephirLexerAdapter
 import com.zephir.lang.core.psi.ZephirTypes
 
 class ZephirParserDefinition : ParserDefinition {
-    companion object {
-        val FILE = ZephirStubFileElementType()
-    }
-
     override fun getFileNodeType() = FILE
     override fun getWhitespaceTokens() = TokenSet.create(TokenType.WHITE_SPACE)
     override fun getCommentTokens() = ZEPHIR_COMMENTS
@@ -37,5 +33,8 @@ class ZephirParserDefinition : ParserDefinition {
     override fun createLexer(project: Project?) = ZephirLexerAdapter()
 
     override fun createElement(node: ASTNode?): PsiElement = ZephirTypes.Factory.createElement(node)
-}
 
+    companion object {
+        val FILE = ZephirStubFileElementType()
+    }
+}

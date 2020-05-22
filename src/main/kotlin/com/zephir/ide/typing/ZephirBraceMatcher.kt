@@ -19,6 +19,11 @@ import com.zephir.lang.core.psi.ZEPHIR_COMMENTS
 
 // TODO(serghei): re-visit this later to implement com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 class ZephirBraceMatcher : PairedBraceMatcher {
+    override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int): Int = openingBraceOffset
+    override fun getPairs(): Array<BracePair> = PAIRS
+    override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) =
+        contextType in InsertPairBraceBefore
+
     companion object {
         private val PAIRS: Array<BracePair> = arrayOf(
             BracePair(BRACKET_OPEN, BRACKET_CLOSE, true /* structural */),
@@ -40,9 +45,4 @@ class ZephirBraceMatcher : PairedBraceMatcher {
             )
         )
     }
-
-    override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int): Int = openingBraceOffset
-    override fun getPairs(): Array<BracePair> = PAIRS
-    override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) =
-        contextType in InsertPairBraceBefore
 }
