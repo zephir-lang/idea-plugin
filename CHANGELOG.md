@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ### Added
 - Amended Color Scheme configuration
 - Introduced recognition of angle brackets as paired ones
+- Added ability to create an empty Zephir File
 
 ### Changed
 - Migrated build to Gradle
