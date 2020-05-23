@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased][Unreleased]
+## [0.4.0][0.4.0] - 2020-05-24
 ### Added
 - Amended Color Scheme configuration
 - Introduced recognition of angle brackets as paired ones
@@ -91,7 +92,8 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.3.6...HEAD
+[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.4.0...HEAD
+[0.4.0]: https://github.com/zephir-lang/idea-plugin/compare/0.3.6...0.4.0
 [0.3.6]: https://github.com/zephir-lang/idea-plugin/compare/0.3.5...0.3.6
 [0.3.5]: https://github.com/zephir-lang/idea-plugin/compare/0.3.4...0.3.5
 [0.3.4]: https://github.com/zephir-lang/idea-plugin/compare/0.3.3...0.3.4
