@@ -17,6 +17,8 @@ import com.intellij.ide.fileTemplates.ui.CreateFromTemplateDialog
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
+import com.intellij.util.IncorrectOperationException
 import com.zephir.lang.core.ZephirFileType
 import java.util.*
 
@@ -37,16 +39,27 @@ class ZephirCreateFileAction : CreateFileFromTemplateAction(CAPTION, DESCRIPTION
             .addKind("Interface", ZephirFileType.icon, ZEPHIR_KIND_INTERFACE)
     }
 
-    override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory) = try {
-        val className = FileUtilRt.getNameWithoutExtension(name)
+    override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory): PsiFile? {
         val project = dir.project
+        val className = FileUtilRt.getNameWithoutExtension(name)
         val properties = createProperties(project, className)
-        CreateFromTemplateDialog(project, dir, template, AttributesDefaults(className).withFixedName(true), properties)
-            .create()
-            .containingFile
-    } catch (e: Exception) {
-        LOG.error("Error while creating new file", e)
-        null
+
+        val element = try {
+            CreateFromTemplateDialog(
+                project,
+                dir,
+                template,
+                AttributesDefaults(className).withFixedName(true),
+                properties
+            ).create()
+        } catch (e: IncorrectOperationException) {
+            throw e
+        } catch (e: Exception) {
+            LOG.error("Error while creating new file", e)
+            null
+        }
+
+        return element?.containingFile
     }
 
     private companion object {
