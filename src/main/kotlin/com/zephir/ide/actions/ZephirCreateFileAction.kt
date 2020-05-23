@@ -8,6 +8,7 @@
 
 package com.zephir.ide.actions
 
+import com.intellij.icons.AllIcons
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.fileTemplates.FileTemplate
@@ -17,46 +18,58 @@ import com.intellij.ide.fileTemplates.ui.CreateFromTemplateDialog
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiDirectory
+import com.intellij.psi.PsiFile
+import com.intellij.util.IncorrectOperationException
 import com.zephir.lang.core.ZephirFileType
 import java.util.*
 
 // TODO(serghei): Put all natural language strings into the resource bundle src/main/resources/.../zephir.properties
 // TODO(serghei): Add a note about resource bundle to CONTRIBUTING.md
-class ZephirCreateFileAction : CreateFileFromTemplateAction(CAPTION, DESCRIPTION, ZephirFileType.icon) {
-    override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String = CAPTION
-
+class ZephirCreateFileAction : CreateFileFromTemplateAction(
+    "Zephir File/Class",
+    "Creates new Zephir file or class",
+    ZephirFileType.icon
+) {
     override fun buildDialog(
-        project: Project?,
-        directory: PsiDirectory?,
+        project: Project,
+        directory: PsiDirectory,
         builder: CreateFileFromTemplateDialog.Builder
     ) {
-        // TODO(serghei): Use different icons for class and interface
         // TODO(serghei): setValidator(ZephirNameValidator)
-        builder.setTitle(CAPTION)
-            .addKind("Class", ZephirFileType.icon, ZEPHIR_KIND_CLASS)
-            .addKind("Interface", ZephirFileType.icon, ZEPHIR_KIND_INTERFACE)
+        builder.setTitle("New Zephir File/Class")
+            .addKind("File", ZephirFileType.icon, "Zephir File")
+            .addKind("Class", AllIcons.Nodes.Class, "Zephir Class")
+            .addKind("Interface", AllIcons.Nodes.Interface, "Zephir Interface")
     }
 
-    override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory) = try {
-        val className = FileUtilRt.getNameWithoutExtension(name)
+    override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String =
+        "Zephir File/Class"
+
+    override fun createFileFromTemplate(name: String, template: FileTemplate, dir: PsiDirectory): PsiFile? {
         val project = dir.project
+        val className = FileUtilRt.getNameWithoutExtension(name)
         val properties = createProperties(project, className)
-        CreateFromTemplateDialog(project, dir, template, AttributesDefaults(className).withFixedName(true), properties)
-            .create()
-            .containingFile
-    } catch (e: Exception) {
-        LOG.error("Error while creating new file", e)
-        null
+
+        val element = try {
+            CreateFromTemplateDialog(
+                project,
+                dir,
+                template,
+                AttributesDefaults(className).withFixedName(true),
+                properties
+            ).create()
+        } catch (e: IncorrectOperationException) {
+            LOG.error("Error while creating new file", e)
+            throw e
+        } catch (e: Exception) {
+            LOG.error("Error while creating new file", e)
+            null
+        }
+
+        return element?.containingFile
     }
 
     private companion object {
-        private const val CAPTION = "Zephir File"
-        private const val DESCRIPTION = "Create new Zephir file"
-
-        // These constants must match name of internal template stored in JAR resources
-        private const val ZEPHIR_KIND_CLASS = "Zephir Class"
-        private const val ZEPHIR_KIND_INTERFACE = "Zephir Interface"
-
         fun createProperties(project: Project, className: String): Properties {
             val properties = FileTemplateManager.getInstance(project).defaultProperties
 
