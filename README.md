@@ -1,5 +1,7 @@
 # Zephir plugin for the IntelliJ Platform
 
+[![Build Status][actions-badge]][actions link]
+
 A IntelliJ plugin for editing [Zephir][zephir-lang] code. Provides syntax
 definition, autocompletion and syntax check support.
 
@@ -39,5 +41,7 @@ Copyright (c) 2014-2020 Zephir Team.
 
 Licensed under the [MIT](./LICENSE) License.
 
+[actions link]: https://github.com/zephir-lang/idea-plugin/actions
+[actions-badge]: https://github.com/zephir-lang/idea-plugin/workflows/build/badge.svg
 [zephir-lang]: https://zephir-lang.com/en
 [plugin-page]: http://plugins.jetbrains.com/plugin/7558
