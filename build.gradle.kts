@@ -11,7 +11,7 @@ import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -30,13 +30,6 @@ idea {
     module {
         generatedSourceDirs.add(file("gen"))
     }
-}
-
-apply {
-    plugin("idea")
-    plugin("kotlin")
-    plugin("org.jetbrains.grammarkit")
-    plugin("org.jetbrains.intellij")
 }
 
 group = "com.zephir"
