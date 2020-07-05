@@ -6,13 +6,5 @@
 #
 # https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
-kotlin.code.style=official
-
-pluginName=Zephir
-version=0.4.1
-repository=https://github.com/zephir-lang/idea-plugin
-
-ideVersion=2020.1.1
-
-# Allocate more memory to compile the Java files
-org.gradle.jvmargs=-Xms128m -Xmx1024m
+# These are explicitly windows files and should use crlf
+*.bat           text eol=crlf

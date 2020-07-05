@@ -1,3 +1,11 @@
+# Copyright (c) 2014-2020 Zephir Team
+#
+# This source file is subject the MIT license, that is bundled with
+# this package in the file LICENSE, and is available through the
+# world-wide-web at the following url:
+#
+# https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
+
 # Please do not use this ignore file to define platform specific files.
 #
 # For these purposes create a global .gitignore file, which is a list of rules
@@ -5,10 +13,14 @@
 #
 # https://help.github.com/articles/ignoring-files/#create-a-global-gitignore
 
+# Ignore Gradle project-specific cache directory
 .gradle/
-.idea/
 
-!gradle/wrapper/gradle-wrapper.jar
-
+# Ignore Gradle build output directory
 build/
+
+# Ignore generated code
 gen/
+
+# This file is required to use standalone gradle
+!gradle/wrapper/gradle-wrapper.jar

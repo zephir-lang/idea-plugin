@@ -41,6 +41,7 @@ apply {
 
 group = "com.zephir"
 version = project.properties["version"].toString()
+description = "Zephir plugin for the IntelliJ Platform"
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
