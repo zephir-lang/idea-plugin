@@ -28,7 +28,7 @@ class ZephirColorSettingsPage : ColorSettingsPage {
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> {
         // TODO(serghei): Implement me
-        return mutableMapOf<String, TextAttributesKey>()
+        return mutableMapOf()
     }
 }
 
@@ -65,7 +65,8 @@ class Foo extends Bar implements Baz, Buz
     {
         var abc;
         int a = 0;
-        string c = "test";
+        string s = "test";
+        char c = 'A';
 
         %{
             a = MAX_FACTOR;

@@ -10,6 +10,10 @@ import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 
+group = "com.zephir"
+version = project.properties["version"].toString()
+description = "Zephir plugin for the IntelliJ Platform"
+
 repositories {
     jcenter()
 }
@@ -31,10 +35,6 @@ idea {
         generatedSourceDirs.add(file("gen"))
     }
 }
-
-group = "com.zephir"
-version = project.properties["version"].toString()
-description = "Zephir plugin for the IntelliJ Platform"
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
