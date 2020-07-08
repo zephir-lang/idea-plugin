@@ -63,6 +63,20 @@ jobs:
       - name: Validate Plugin
         run: ./gradlew verifyPlugin --info
 
+      - name: Save Test Results
+        if: ${{ always() }}
+        run: |
+          mkdir -p ./tests-result
+          find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ./tests-result/ \;
+
+      - name: Upload Tests Result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: intellij-zephir-tests-result
+          path: tests-result
+
       - name: Success Reporting
+        if: ${{ always() }}
         run: git log --format=fuller -5
 
