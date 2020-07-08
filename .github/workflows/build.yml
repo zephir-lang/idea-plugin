@@ -81,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: intellij-zephir-tests-reports
-          path: reports/tests
+          path: build/reports/tests
 
       - name: Success Reporting
         if: ${{ always() }}
