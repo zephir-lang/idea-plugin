@@ -22,24 +22,42 @@ import static com.zephir.lang.core.psi.ZephirTypes.*;
 %eof{  return;
 %eof}
 
-EOL="\r"|"\n"|"\r\n"
-LINE_WS=[\ \t\f]
-WHITE_SPACE=({LINE_WS}|{EOL})+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Whitespaces
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-COMMENT="//".*
-COMMENT_BLOCK=("/*"([^*]+|[*]+[^/*])*[*]*"*/")
-IDENTIFIER=[_a-zA-Z][a-zA-Z0-9_]*
-INTEGER=([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)
-DOUBLE=([\-]?[0-9]+[\.][0-9]+)
-CBLOCK = ("%{"([^}]+|[}]+[^%{])*"}%")
+EOL              = \n | \r | \r\n
+LINE_WS          = [\ \t\f]
+WHITE_SPACE_CHAR = {EOL} | {LINE_WS}
+WHITE_SPACE      = {WHITE_SPACE_CHAR}+
 
-HEX_DIGIT = [a-fA-F0-9]
-DOUBLE_QUOTE = \x22
-SINGLE_QUOTE = \x27
-GENERIC_CHAR_TYPES = [acefntxdAGbBpPrRdDhHsSvVwWzZ]
-COMMON_ESCAPE = ( [.0\n\r\\] | "x" {HEX_DIGIT} {2} | "u" {HEX_DIGIT} {4} | "U" {HEX_DIGIT} {8} )
-SCHAR = {SINGLE_QUOTE} (( [^'\\] | "\\" ( {SINGLE_QUOTE} | {COMMON_ESCAPE} | {GENERIC_CHAR_TYPES}) ) | [^\x20-\x7E]{1,2}) {SINGLE_QUOTE}
-STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {COMMON_ESCAPE} | {GENERIC_CHAR_TYPES}) )* {DOUBLE_QUOTE}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Comments
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+COMMENT       = "//".*
+COMMENT_BLOCK = ("/*"([^*]+|[*]+[^/*])*[*]*"*/")
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Literals
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+INTEGER        = ([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)
+DOUBLE         = ([\-]?[0-9]+[\.][0-9]+)
+HEX_DIGIT      = [a-fA-F0-9]
+
+COMMON_ESCAPE  = ( [.0\n\r\\] | "x" {HEX_DIGIT} {2} | "u" {HEX_DIGIT} {4} | "U" {HEX_DIGIT} {8} )
+CHAR_TYPES     = [acefntxdAGbBpPrRdDhHsSvVwWzZ]
+
+SINGLE_QUOTE   = \x27
+DOUBLE_QUOTE   = \x22
+
+STRING_LITERAL = {DOUBLE_QUOTE} ( [^\"\\] | \\[^] )* {DOUBLE_QUOTE}
+CHAR_LITERAL   = ( {SINGLE_QUOTE} ( [^'\\] | "\\" ( {SINGLE_QUOTE} | {COMMON_ESCAPE} | {CHAR_TYPES}) ) {SINGLE_QUOTE} )
+               | ( {SINGLE_QUOTE} [^\x20-\x7E]{1,2} {SINGLE_QUOTE})
+
+IDENTIFIER     = [_a-zA-Z][a-zA-Z0-9_]*
+CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
 
 %%
 <YYINITIAL> {
@@ -168,9 +186,12 @@ STRING = {DOUBLE_QUOTE} ( [^\"\\] | "\\" ( {DOUBLE_QUOTE} | {SINGLE_QUOTE} | {CO
   {IDENTIFIER}         { yybegin(YYINITIAL); return IDENTIFIER; }
   {INTEGER}            { yybegin(YYINITIAL); return INTEGER; }
   {DOUBLE}             { yybegin(YYINITIAL); return DOUBLE; }
-  {SCHAR}              { yybegin(YYINITIAL); return SCHAR; }
-  {STRING}             { yybegin(YYINITIAL); return STRING; }
+  {CHAR_LITERAL}       { yybegin(YYINITIAL); return SCHAR; }
+  {STRING_LITERAL}     { yybegin(YYINITIAL); return STRING; }
   {CBLOCK}             { yybegin(YYINITIAL); return CBLOCK; }
-
-  [^]                  { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Catch All
+///////////////////////////////////////////////////////////////////////////////////////////////////
+[^] { return TokenType.BAD_CHARACTER; }
