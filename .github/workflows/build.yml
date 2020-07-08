@@ -49,7 +49,7 @@ jobs:
         run: ./gradlew dependencies
 
       - name: Bundle the Project as a Distribution
-        run: ./gradlew buildPlugin --info
+        run: ./gradlew buildPlugin
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
@@ -58,10 +58,10 @@ jobs:
           path: build/distributions
 
       - name: Runs the Unit Tests
-        run: ./gradlew test --info
+        run: ./gradlew test
 
       - name: Validate Plugin
-        run: ./gradlew verifyPlugin --info
+        run: ./gradlew verifyPlugin
 
       - name: Save Test Results
         if: ${{ always() }}
@@ -75,6 +75,13 @@ jobs:
         with:
           name: intellij-zephir-tests-result
           path: tests-result
+
+      - name: Upload Tests Report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: intellij-zephir-tests-reports
+          path: reports/tests
 
       - name: Success Reporting
         if: ${{ always() }}
