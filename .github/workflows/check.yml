@@ -16,11 +16,11 @@ on:
   pull_request:
 
 jobs:
-  # To prevent build a particular commit use
-  #     git commit -m "......... [ci skip]"
-  if: "!contains(github.event.head_commit.message, '[ci skip]')"
-
   shell-check:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     name: Shell Check
     runs-on: ubuntu-latest
 
@@ -34,6 +34,10 @@ jobs:
         run: shellcheck -s bash .ci/*.sh
 
   check-license:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     name: Check License
     runs-on: ubuntu-latest
 
