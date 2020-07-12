@@ -1,355 +1,384 @@
+// Copyright (c) 2014-2020 Zephir Team
+//
+// This source file is subject the MIT license, that is bundled with
+// this package in the file LICENSE, and is available through the
+// world-wide-web at the following url:
+//
+// https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
+
 {
-    parserClass="com.zephir.lang.core.parser.ZephirParser"
-    parserUtilClass="com.zephir.lang.core.parser.manual.ZephirManualParseRules"
+    parserClass='com.zephir.lang.core.parser.ZephirParser'
+    parserUtilClass='com.zephir.lang.core.parser.manual.ZephirManualParseRules'
 
-    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+    extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
 
-    psiClassPrefix="Zephir"
-    psiImplClassSuffix="Impl"
-    psiPackage="com.zephir.lang.core.psi"
-    psiImplPackage="com.zephir.lang.core.psi.impl"
+    psiClassPrefix='Zephir'
+    psiImplClassSuffix='Impl'
+    psiPackage='com.zephir.lang.core.psi'
+    psiImplPackage='com.zephir.lang.core.psi.impl'
 
-    elementTypeHolderClass="com.zephir.lang.core.psi.ZephirTypes"
-    elementTypeClass="com.zephir.lang.core.psi.ZephirElementType"
-    tokenTypeClass="com.zephir.lang.core.psi.ZephirTokenType"
+    elementTypeHolderClass='com.zephir.lang.core.psi.ZephirTypes'
+    elementTypeClass='com.zephir.lang.core.psi.ZephirElementType'
+    tokenTypeClass='com.zephir.lang.core.psi.ZephirTokenType'
     // TODO(serghei): Do we need this?
     // Also see: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/3
-    psiImplUtilClass="com.zephir.lang.core.psi.impl.ZephirPsiImplUtil"
+    psiImplUtilClass='com.zephir.lang.core.psi.impl.ZephirPsiImplUtil'
 
     tokens = [
         // regex
-        comment='regexp://.*'
-        comment_block='regexp:(/\*([^*]+|[*]+[^/*])*[*]*\*/)'
-        identifier='regexp:[_a-zA-Z][a-zA-Z0-9_]*'
-        integer='regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
-        double='regexp:([\-]?[0-9]+[.][0-9]+)'
-        schar="regexp:(['] ([^'\\]|\\.)* ['])"
-        string='regexp:(["] ([^"\\]|\\.)* ["])'
-        cblock='regexp:%[{]([^}]+|[}]+[^%{])*[}]%'
+        COMMENT            = 'regexp://.*'
+        COMMENT_BLOCK      = 'regexp:(/\*([^*]+|[*]+[^/*])*[*]*\*/)'
+        IDENTIFIER         = 'regexp:[_a-zA-Z][a-zA-Z0-9_]*'
+        INTEGER            = 'regexp:([\-]?[0-9]+)|([\-]?[0][x][0-9A-Fa-f]+)'
+        DOUBLE             = 'regexp:([\-]?[0-9]+[.][0-9]+)'
+        SCHAR              = "regexp:(['] ([^'\\]|\\.)* ['])"
+        STRING             = 'regexp:(["] ([^"\\]|\\.)* ["])'
+        CBLOCK             = 'regexp:%[{]([^}]+|[}]+[^%{])*[}]%'
 
-        // OOP keywords
-        INTERNAL="internal"
-        NAMESPACE="namespace"
-        USE="use"
-        AS="as"
-        INTEFACE="interface"
-        CLASS="class"
-        FUNCTION="function" // fn
-        EXTENDS="extends"
-        IMPLEMENTS="implements"
-        ABSTRACT="abstract"
-        FINAL="final"
-        PUBLIC="public"
-        PROTECTED="protected"
-        PRIVATE="private"
-        STATIC="static"
-        INLINE="inline"
-        DEPRECATED="deprecated"
+        // OOP Keywords
+        INTERNAL           = 'internal'
+        NAMESPACE          = 'namespace'
+        USE                = 'use'
+        AS                 = 'as'
+        INTEFACE           = 'interface'
+        CLASS              = 'class'
+        FUNCTION           = 'function'
+        EXTENDS            = 'extends'
+        IMPLEMENTS         = 'implements'
+        ABSTRACT           = 'abstract'
+        FINAL              = 'final'
+        PUBLIC             = 'public'
+        PROTECTED          = 'protected'
+        PRIVATE            = 'private'
+        STATIC             = 'static'
+        INLINE             = 'inline'
+        DEPRECATED         = 'deprecated'
 
-        // types
-        TYPE_VAR="var"
-        TYPE_VOID="void"
-        TYPE_INT="int" // integer
-        TYPE_UINT="uint"
-        TYPE_LONG="long"
-        TYPE_ULONG="ulong"
-        TYPE_CHAR="char"
-        TYPE_UCHAR="uchar"
-        TYPE_DOUBLE="double" // float
-        TYPE_BOOL="bool" // boolean
-        TYPE_STRING="string"
-        TYPE_ARRAY="array"
-        TYPE_OBJECT="object"
-        TYPE_CALLABLE="callable"
-        TYPE_RESOURCE="resource"
+        // Types
+        TYPE_VAR           = 'var'
+        TYPE_VOID          = 'void'
+        TYPE_INT           = 'int'
+        TYPE_UINT          = 'uint'
+        TYPE_LONG          = 'long'
+        TYPE_ULONG         = 'ulong'
+        TYPE_CHAR          = 'char'
+        TYPE_UCHAR         = 'uchar'
+        TYPE_DOUBLE        = 'double'
+        TYPE_BOOL          = 'bool'
+        TYPE_STRING        = 'string'
+        TYPE_ARRAY         = 'array'
+        TYPE_OBJECT        = 'object'
+        TYPE_CALLABLE      = 'callable'
+        TYPE_RESOURCE      = 'resource'
 
-        // value keywords
-        NULL="null"
-        FALSE="false"
-        TRUE="true"
+        // Value Keywords
+        NULL               = 'null'
+        FALSE              = 'false'
+        TRUE               = 'true'
 
-        // keywords
-        LET="let"
-        ECHO="echo"
-        CONST="const"
-        IF="if"
-        ELSE="else"
-        ELSEIF="elseif"
-        SWITCH="switch"
-        CASE="case"
-        DEFAULT="default"
-        DO="do"
-        WHILE="while"
-        FOR="for"
-        LOOP="loop"
-        REVERSE="reverse"
-        BREAK="break"
-        CONTINUE="continue"
-        IN="in"
-        NEW="new"
-        RETURN="return"
-        REQUIRE="require"
-        CLONE="clone"
-        EMPTY="empty"
-        TYPEOF="typeof"
-        INSTANCEOF="instanceof"
-        LIKELY="likely"
-        UNLIKELY="unlikely"
-        ISSET="isset"
-        UNSET="unset"
-        THROW="throw"
-        FETCH="fetch"
-        TRY="try"
-        CATCH="catch"
+        // Keywords
+        LET                = 'let'
+        ECHO               = 'echo'
+        CONST              = 'const'
+        IF                 = 'if'
+        ELSE               = 'else'
+        ELSEIF             = 'elseif'
+        SWITCH             = 'switch'
+        CASE               = 'case'
+        DEFAULT            = 'default'
+        DO                 = 'do'
+        WHILE              = 'while'
+        FOR                = 'for'
+        LOOP               = 'loop'
+        REVERSE            = 'reverse'
+        BREAK              = 'break'
+        CONTINUE           = 'continue'
+        IN                 = 'in'
+        NEW                = 'new'
+        RETURN             = 'return'
+        REQUIRE            = 'require'
+        CLONE              = 'clone'
+        EMPTY              = 'empty'
+        TYPEOF             = 'typeof'
+        INSTANCEOF         = 'instanceof'
+        LIKELY             = 'likely'
+        UNLIKELY           = 'unlikely'
+        ISSET              = 'isset'
+        UNSET              = 'unset'
+        THROW              = 'throw'
+        FETCH              = 'fetch'
+        TRY                = 'try'
+        CATCH              = 'catch'
 
-        //other
-        PARENTHESES_OPEN="("
-        PARENTHESES_CLOSE=")"
-        BRACKET_OPEN="{"
-        BRACKET_CLOSE="}"
-        SBRACKET_OPEN="["
-        SBRACKET_CLOSE="]"
-        AT="@"
-        NOT="!"
-        AND="&&"
-        OR="||"
-        BITWISE_AND="&"
-        BITWISE_OR="|"
-        BITWISE_XOR="^"
-        BITWISE_SHIFTLEFT="<<"
-        BITWISE_SHIFTRIGHT=">>"
-        ASSIGN="="
-        ADDASSIGN="+="
-        SUBASSIGN="-="
-        MULASSIGN="*="
-        EXPASSIGN="**="
-        DIVASSIGN="/="
-        MODASSIGN="%="
-        CONCATASSIGN=".="
-        EQUALS="=="
-        NOTEQUALS="!="
-        IDENTICAL="==="
-        NOTIDENTICAL="!=="
-        LESSEQUAL="<="
-        GREATEREQUAL=">="
-        LESS="<"
-        GREATER=">"
-        ARROW="->"
-        DOUBLECOLON="::"
-        DOT="."
-        ADD="+"
-        SUB="-"
-        MUL="*"
-        EXP="**"
-        DIV="/"
-        MOD="%"
-        INCR="++"
-        DECR="--"
-        COLON=":"
-        DOTCOMMA=";"
-        COMMA=","
-        QUESTION="?"
+        // Other
+        PARENTHESES_OPEN   = '('
+        PARENTHESES_CLOSE  = ')'
+        BRACKET_OPEN       = '{'
+        BRACKET_CLOSE      = '}'
+        SBRACKET_OPEN      = '['
+        SBRACKET_CLOSE     = ']'
+        AT                 = '@'
+        NOT                = '!'
+        AND                = '&&'
+        OR                 = '||'
+        BITWISE_AND        = '&'
+        BITWISE_OR         = '|'
+        BITWISE_XOR        = '^'
+        BITWISE_SHIFTLEFT  = '<<'
+        BITWISE_SHIFTRIGHT = '>>'
+        ASSIGN             = '='
+        ADDASSIGN          = '+='
+        SUBASSIGN          = '-='
+        MULASSIGN          = '*='
+        EXPASSIGN          = '**='
+        DIVASSIGN          = '/='
+        MODASSIGN          = '%='
+        CONCATASSIGN       = '.='
+        EQUALS             = '=='
+        NOTEQUALS          = '!='
+        IDENTICAL          = '==='
+        NOTIDENTICAL       = '!=='
+        LESSEQUAL          = '<='
+        GREATEREQUAL       = '>='
+        LESS               = '<'
+        GREATER            = '>'
+        ARROW              = '->'
+        DOUBLECOLON        = '::'
+        DOT                = '.'
+        ADD                = '+'
+        SUB                = '-'
+        MUL                = '*'
+        EXP                = '**'
+        DIV                = '/'
+        MOD                = '%'
+        INCR               = '++'
+        DECR               = '--'
+        COLON              = ':'
+        DOTCOMMA           = ';'
+        COMMA              = ','
+        QUESTION           = '?'
     ]
 
-    extends(".*expr")=expr
+    extends(".*Expr") = Expr
 }
 
-zephir_file ::= top_statement*
+// This is the grammar of the Zephir language which is used by Grammar Kit
+// to generate the parser and the PSI classes. Rule `FooBar` corresponds
+// to `ZephirFooBar` PSI class.
+//
+// Naming convention:
+//
+//   * tokens are lowercase: for, if, identifier
+//   * rules are PascalCase: TopStatement, ArrayAccess
+//   * lexer rules are UPPER_CASE: TYPE_UINT, DOUBLECOLON
 
-c_block ::= cblock
+File ::= TopStatement*
 
-private top_statement ::= namespace_statement import_statement* c_block* (class_definition | interface_definition)
+CBlock ::= CBLOCK
 
-php_reserved ::= '$resource' | '$namespace' | '$internal'
+private TopStatement ::= NamespaceStatement ImportStatement* CBlock* (ClassDefinition | InterfaceDefinition)
 
-namespace_statement ::= 'namespace' complex_id ';' {pin=2}
+PhpReserved ::= '$resource' | '$namespace' | '$internal'
 
-import_statement ::= 'use' complex_id ('as' id)? ';' {pin=2}
+NamespaceStatement ::= 'namespace' ComplexId ';' {pin=2}
 
-class_definition ::= class_modifier? 'class' id super_class? implements_list? class_body {pin=3}
-private class_modifier ::= 'abstract' | 'final'
-super_class ::= 'extends' complex_id {pin=1}
-implements_list ::= 'implements' complex_id_list {pin=1}
-class_body ::= '{' class_member* '}' {pin=1}
-private class_member ::= constant_definition |
-                         property_definition |
-                         method_definition |
-                         abstract_method_definition
+ImportStatement ::= 'use' ComplexId ('as' Id)? ';' {pin=2}
 
-interface_definition ::= 'interface' id super_interfaces? interface_body {pin=2}
-super_interfaces ::= 'extends' complex_id_list {pin=1}
-interface_body ::= '{' interface_member* '}' {pin=1}
-private interface_member ::= constant_definition |
-                             interface_method_definition
+ClassDefinition ::= ClassModifier? 'class' Id SuperClass? ImplementsList? ClassBody {pin=3}
 
-interface_method_definition ::= method_header '(' arguments* ')' return_type? ';' {pin=2}
-abstract_method_definition ::= 'abstract' interface_method_definition
+private ClassModifier ::= 'abstract' | 'final'
 
-constant_definition ::= 'const' id default_value? ';' {pin=2}
+SuperClass ::= 'extends' ComplexId {pin=1}
+ImplementsList ::= 'implements' ComplexIdList {pin=1}
+ClassBody ::= '{' ClassMember* '}' {pin=1}
 
-property_definition ::= 'static'? visibility 'static'?  id default_value? member_meta_access? ';' {pin=4}
+private ClassMember ::= ConstantDefinition |
+                        PropertyDefinition |
+                        MethodDefinition |
+                        AbstractMethodDefinition
 
-private member_meta_access ::= '{' member_meta_modifier (',' member_meta_modifier)* '}' {pin=1}
-private member_meta_modifier ::= 'get' | 'set' | '__toString'
+InterfaceDefinition ::= 'interface' Id SuperInterfaces? InterfaceBody {pin=2}
+SuperInterfaces ::= 'extends' ComplexIdList {pin=1}
+InterfaceBody ::= '{' InterfaceMember* '}' {pin=1}
 
-method_definition ::= method_header '(' arguments* ')' return_type? method_body {pin=2}
-method_modifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
-method_body ::= code_block
+private InterfaceMember ::= ConstantDefinition |
+                            InterfaceMethodDefinition
 
-private method_header ::= (visibility | method_modifiers)* FUNCTION id
-code_block ::= '{' code* '}' {pin=1}
+InterfaceMethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? ';' {pin=2}
+AbstractMethodDefinition ::= 'abstract' InterfaceMethodDefinition
 
-return_type ::= '->' (type | 'null') ('|' (type | 'null'))* {pin(".*")=1}
+ConstantDefinition ::= 'const' Id DefaultValue? ';' {pin=2}
 
-arguments ::= argument (',' argument)* {pin(".*")=1}
-argument ::= type? '!'? (php_reserved | id) default_value? {pin=3}
+PropertyDefinition ::= 'static'? Visibility 'static'?  Id DefaultValue? MemberMetaAccess? ';' {pin=4}
 
-default_value ::= '=' expr {pin=1}
-visibility ::= 'public' | 'protected' | 'private'
+private MemberMetaAccess ::= '{' MemberMetaModifier (',' MemberMetaModifier)* '}' {pin=1}
+private MemberMetaModifier ::= 'get' | 'set' | '__toString'
 
-id ::= '$'?identifier
+MethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? MethodBody {pin=2}
+MethodModifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
+MethodBody ::= CodeBlock
 
-complex_id ::= '$'? '\'? id ('\' id)* {pin(".*")=3}
-complex_id_list ::= complex_id (',' complex_id)* {pin(".*")=1}
+private MethodHeader ::= (Visibility | MethodModifiers)* FUNCTION Id
 
-type ::= void_type | scalar_type | class_type | resource_type
-scalar_type ::= 'var' | number_type | string_type | bool_type | 'array' | 'object' | 'callable' | 'resource'
-private string_type ::= 'string' | 'char' | 'uchar'
-private bool_type ::= 'bool' | 'boolean'
-private number_type ::= int_type | double_type | 'uint' | 'long' | 'ulong'
-private int_type ::= 'int' | 'integer'
-private double_type ::= 'double' | 'float'
-private class_type ::= '<' complex_id array_append_expr? '>'
-private resource_type ::= '<' '$'complex_id array_append_expr? '>'
-private void_type ::= 'void'
+CodeBlock ::= '{' Code* '}' {pin=1}
 
-code ::= declaration_statement |
-         let_statement |
-         call_statement |
-         chain_of_call_statement |
-         control_statement |
-         loop_statement |
-         switch_statement |
-         if_statement |
-         try_statement |
-         return_statement |
-         echo_statement |
-         throw_statement |
-         require_statement |
-         unset_statement |
-         c_block
+ReturnType ::= '->' (Type | 'null') ('|' (Type | 'null'))* {pin(".*")=1}
 
+Arguments ::= Argument (',' Argument)* {pin(".*")=1}
+Argument ::= Type? '!'? (PhpReserved | Id) DefaultValue? {pin=3}
 
-declaration_statement ::= type declaration_statement_element (',' declaration_statement_element)* ';' {pin(".*")=1}
-private declaration_statement_element ::= (id | php_reserved) default_value?
+DefaultValue ::= '=' Expr {pin=1}
+Visibility ::= 'public' | 'protected' | 'private'
 
-let_statement ::= 'let' change_variable_expr (',' change_variable_expr)* ';' {pin(".*")=1}
+Id ::= '$'?IDENTIFIER
 
-change_variable_expr ::= assignment_expr | increment_expr
-assignment_expr ::= (typecast | type)? (variable | exploded_variable | php_reserved) array_append_expr? assignment_operator (typecast | type)?  (php_reserved | expr) { rightAssociative=true }
+ComplexId ::= '$'? '\'? Id ('\' Id)* {pin(".*")=3}
+ComplexIdList ::= ComplexId (',' ComplexId)* {pin(".*")=1}
 
-private array_append_expr ::= '[' ']'
-assignment_operator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
-typecast ::= '(' scalar_type ')' | '<' complex_id '>'
+Type ::= VoidType | ScalarType | ClassType | ResourceType
+ScalarType ::= 'var' | NumberType | StringType | BoolType | 'array' | 'object' | 'callable' | 'resource'
 
-increment_expr ::= variable increment_operator {rightAssociative=true}
-increment_operator ::= '++' | '--'
+private StringType ::= 'string' | 'char' | 'uchar'
+private BoolType ::= 'bool' | 'boolean'
+private NumberType ::= IntType | DoubleType | 'uint' | 'long' | 'ulong'
+private IntType ::= 'int' | 'integer'
+private DoubleType ::= 'double' | 'float'
+private ClassType ::= '<' ComplexId ArrayAppendExpr? '>'
+private ResourceType ::= '<' '$'ComplexId ArrayAppendExpr? '>'
+private VoidType ::= 'void'
 
-call_statement ::= call_expr ';'
+Code ::= DeclarationStatement |
+         LetStatement |
+         CallStatement |
+         ChainOfCallStatement |
+         ControlStatement |
+         LoopStatement |
+         SwitchStatement |
+         IfStatement |
+         TryStatement |
+         ReturnStatement |
+         EchoStatement |
+         ThrowStatement |
+         RequireStatement |
+         UnsetStatement |
+         CBlock
 
-control_statement ::= ('continue' | 'break') ';'
+DeclarationStatement ::= Type DeclarationStatementElement (',' DeclarationStatementElement)* ';' {pin(".*")=1}
 
-loop_statement ::= infinity_loop_statement |
-                   while_loop_statement |
-                   foreach_loop_statement
+private DeclarationStatementElement ::= (Id | PhpReserved) DefaultValue?
 
-infinity_loop_statement ::= 'loop' code_block {pin=1}
+LetStatement ::= 'let' ChangeVariableExpr (',' ChangeVariableExpr)* ';' {pin(".*")=1}
 
-while_loop_statement ::= 'while' expr code_block {pin=2}
+ChangeVariableExpr ::= AssignmentExpr | IncrementExpr
+AssignmentExpr ::= (Typecast | Type)? (Variable | ExplodedVariable | PhpReserved) ArrayAppendExpr? AssignmentOperator (Typecast | Type)?  (PhpReserved | Expr) { rightAssociative=true }
 
-foreach_loop_statement ::= 'for' id (',' id)? 'in' 'reverse'? (php_reserved | expr) code_block {pin=2}
-unset_statement ::= 'unset' (variable | '(' variable ')') ';'
+private ArrayAppendExpr ::= '[' ']'
 
-switch_statement ::= 'switch' expr '{' case_expr*  '}' {pin=1}
-static_call_expr ::= ((('{' id '}') | 'static') '::') call_expr {pin=1}
+AssignmentOperator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
+Typecast ::= '(' ScalarType ')' | '<' ComplexId '>'
 
-case_expr ::= ('case' expr | 'default') ':' code* {pin=1}
+IncrementExpr ::= Variable IncrementOperator {rightAssociative=true}
+IncrementOperator ::= '++' | '--'
 
-if_statement ::= 'if' ('likely' | 'unlikely')? expr code_block elseif_statements* else_statement? {pin=1}
-elseif_statements ::= 'elseif' expr code_block {pin=1}
-else_statement ::= 'else' code_block {pin=1}
+CallStatement ::= CallExpr ';'
 
-try_statement ::= 'try' code_block catch_block*  {pin=1}
-catch_block ::= 'catch' class_type? complex_id (',' complex_id)* code_block {pin=3}
+ControlStatement ::= ('continue' | 'break') ';'
 
-return_statement ::= 'return' (require_statement | (typecast? expr? ';'))
+LoopStatement ::= InfinityLoopStatement |
+                   WhileLoopStatement |
+                   ForeachLoopStatement
 
-echo_statement ::= 'echo' expr (',' expr)* ';' {pin(".*")=1}
+InfinityLoopStatement ::= 'loop' CodeBlock {pin=1}
 
-throw_statement ::= 'throw' expr ';' {pin=1}
-require_statement ::= require_expr ';' {pin=1}
-private require_expr ::= 'require' expr
+WhileLoopStatement ::= 'while' Expr CodeBlock {pin=2}
 
-expr ::= unary_expr |
-         bit_expr |
-         bool_group_expr |
-         math_expr |
-         primary_group_expr |
-         special_group_expr
+ForeachLoopStatement ::= 'for' Id (',' Id)? 'in' 'reverse'? (PhpReserved | Expr) CodeBlock {pin=2}
+UnsetStatement ::= 'unset' (Variable | '(' Variable ')') ';'
 
-private bool_group_expr ::= bool_expr | ternary_expr | empty_expr | isset_expr | fetch_expr | instanceof_expr
-private primary_group_expr ::= chain_of_call_expr | static_call_expr | literal_expr | paren_expr | precast_expr | callback_expr | call_expr | clone_expr
-private special_group_expr ::= new_expr | typeof_expr
+SwitchStatement ::= 'switch' Expr '{' CaseExpr*  '}' {pin=1}
+StaticCallExpr ::= ((('{' Id '}') | 'static') '::') CallExpr {pin=1}
 
-chain_of_call_statement ::= chain_of_call_expr ;
-chain_of_call_expr ::= (paren_expr '->') expr
+CaseExpr ::= ('case' Expr | 'default') ':' Code* {pin=1}
 
-bit_expr ::= expr bit_operator expr
-bit_operator ::= '&' | '|' | '^' | '>>' | '<<'
+IfStatement ::= 'if' ('likely' | 'unlikely')? Expr CodeBlock ElseifStatements* ElseStatement? {pin=1}
+ElseifStatements ::= 'elseif' Expr CodeBlock {pin=1}
+ElseStatement ::= 'else' CodeBlock {pin=1}
 
-math_expr ::= expr math_operator expr
-math_operator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
+TryStatement ::= 'try' CodeBlock CatchBlock*  {pin=1}
+CatchBlock ::= 'catch' ClassType? ComplexId (',' ComplexId)* CodeBlock {pin=3}
 
-unary_expr ::= ('+' | '-' | '!') expr
-bool_expr ::= expr bool_operator expr
-bool_operator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | '!=='
+ReturnStatement ::= 'return' (RequireStatement | (Typecast? Expr? ';'))
 
-ternary_expr ::= expr '?' expr ':' expr {pin=1}
-literal_expr ::= typecast? (variable | scalar)
-paren_expr ::= '(' expr ')' {pin=1}
-precast_expr ::= '{' expr '}' {pin=1}
+EchoStatement ::= 'echo' Expr (',' Expr)* ';' {pin(".*")=1}
 
+ThrowStatement ::= 'throw' Expr ';' {pin=1}
+RequireStatement ::= RequireExpr ';' {pin=1}
 
-empty_expr ::= 'empty' expr {pin=1}
-isset_expr ::= 'isset' expr {pin=1}
-fetch_expr ::= 'fetch' id ',' expr {pin=2}
-instanceof_expr ::= variable 'instanceof' expr {pin=2}
+private RequireExpr ::= 'require' Expr
 
-call_expr ::=  expr '(' call_arguments? ')' ('->' id '(' call_arguments? ')')* array_access? {pin=3}
-magic_call_expr ::= '$'('clone' | 'fetch') '(' arguments* ')'
-callback_expr ::= 'function' '(' arguments* ')' code_block {pin=1}
-clone_expr ::= 'clone' variable
+Expr ::= UnaryExpr |
+         BitExpr |
+         BoolGroupExpr |
+         MathExpr |
+         PrimaryGroupExpr |
+         SpecialGroupExpr
 
-new_expr ::= new_expr_classic | new_expr_dynamic
-private new_expr_classic ::= 'new' complex_id ('(' call_arguments? ')')? {pin=2}
-private new_expr_dynamic ::= 'new' '{' expr '}' ('(' call_arguments? ')')? {pin=2}
-typeof_expr ::= 'typeof' expr {pin=1}
+private BoolGroupExpr ::= BoolExpr | TernaryExpr | EmptyExpr | IssetExpr | FetchExpr | InstanceofExpr
+private PrimaryGroupExpr ::= ChainOfCallExpr | StaticCallExpr | LiteralExpr | ParenExpr | PrecastExpr | CallbackExpr | CallExpr | CloneExpr
+private SpecialGroupExpr ::= NewExpr | TypeofExpr
 
+ChainOfCallStatement ::= ChainOfCallExpr ;
+ChainOfCallExpr ::= (ParenExpr '->') Expr
 
-call_arguments ::= call_argument (',' call_argument)* {pin(".*")=1}
-private call_argument ::= 'require'? typecast? (php_reserved | expr)
+BitExpr ::= Expr BitOperator Expr
+BitOperator ::= '&' | '|' | '^' | '>>' | '<<'
 
-private scalar_short ::= string  | schar | double | integer | scalar_value
-scalar ::= scalar_short | array_value
-scalar_value ::= 'null' | 'true' | 'false'
+MathExpr ::= Expr MathOperator Expr
+MathOperator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
 
-array_value ::= '[' array_body? ']' {pin=1}
-private array_body ::= array_item (',' array_item)* {pin(".*")=1}
-array_item ::= array_key_value | expr
-array_key_value ::= (scalar_short | expr) ':' expr
+UnaryExpr ::= ('+' | '-' | '!') Expr
+BoolExpr ::= Expr BoolOperator Expr
+BoolOperator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | '!=='
 
-variable ::= complex_id (property_access | array_append_expr |  array_access)*
-exploded_variable ::= '{' variable '}'
+TernaryExpr ::= Expr '?' Expr ':' Expr {pin=1}
+LiteralExpr ::= Typecast? (Variable | scalar)
+ParenExpr ::= '(' Expr ')' {pin=1}
+PrecastExpr ::= '{' Expr '}' {pin=1}
 
-private property_access ::= ('::' | '->') (variable | '{' (string | id) '}' | magic_call_expr) {pin=2}
-private array_access ::= '[' (expr | php_reserved) ']' {pin=1}
+EmptyExpr ::= 'empty' Expr {pin=1}
+IssetExpr ::= 'isset' Expr {pin=1}
+FetchExpr ::= 'fetch' Id ',' Expr {pin=2}
+InstanceofExpr ::= Variable 'instanceof' Expr {pin=2}
+
+CallExpr ::=  Expr '(' CallArguments? ')' ('->' Id '(' CallArguments? ')')* ArrayAccess? {pin=3}
+MagicCallExpr ::= '$'('clone' | 'fetch') '(' Arguments* ')'
+CallbackExpr ::= 'function' '(' Arguments* ')' CodeBlock {pin=1}
+CloneExpr ::= 'clone' Variable
+
+NewExpr ::= NewExprClassic | NewExprDynamic
+
+private NewExprClassic ::= 'new' ComplexId ('(' CallArguments? ')')? {pin=2}
+private NewExprDynamic ::= 'new' '{' Expr '}' ('(' CallArguments? ')')? {pin=2}
+
+TypeofExpr ::= 'typeof' Expr {pin=1}
+
+CallArguments ::= CallArgument (',' CallArgument)* {pin(".*")=1}
+
+private CallArgument ::= 'require'? Typecast? (PhpReserved | Expr)
+private ScalarShort ::= STRING  | SCHAR | DOUBLE | INTEGER | ScalarValue
+
+scalar ::= ScalarShort | ArrayValue
+ScalarValue ::= 'null' | 'true' | 'false'
+
+ArrayValue ::= '[' ArrayBody? ']' {pin=1}
+
+private ArrayBody ::= ArrayItem (',' ArrayItem)* {pin(".*")=1}
+
+ArrayItem ::= ArrayKeyValue | Expr
+ArrayKeyValue ::= (ScalarShort | Expr) ':' Expr
+
+Variable ::= ComplexId (PropertyAccess | ArrayAppendExpr |  ArrayAccess)*
+ExplodedVariable ::= '{' Variable '}'
+
+private PropertyAccess ::= ('::' | '->') (Variable | '{' (STRING | Id) '}' | MagicCallExpr) {pin=2}
+private ArrayAccess ::= '[' (Expr | PhpReserved) ']' {pin=1}

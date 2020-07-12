@@ -25,7 +25,7 @@ EOF
 
 COPYRIGHT_NOTICE=$(echo "$COPYRIGHT_NOTICE" | tr '\r\n' ' ')
 
-NO_LICENSE=$(find . -type f \( -iname '*.kt' -o -iname '*.kts' \) -print0 | \
+NO_LICENSE=$(find . -type f \( -iname '*.kt' -o -iname '*.kts' -o -iname '*.bnf' -o -iname '*.flex' \) -print0 | \
   xargs -0 pcregrep -L -M "${COPYRIGHT_NOTICE// /\\s}" || true)
 
 if [ -n "$NO_LICENSE" ]; then
