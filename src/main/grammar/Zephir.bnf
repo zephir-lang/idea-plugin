@@ -7,22 +7,22 @@
 // https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
 {
-    parserClass="com.zephir.lang.core.parser.ZephirParser"
-    parserUtilClass="com.zephir.lang.core.parser.manual.ZephirManualParseRules"
+    parserClass='com.zephir.lang.core.parser.ZephirParser'
+    parserUtilClass='com.zephir.lang.core.parser.manual.ZephirManualParseRules'
 
-    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+    extends='com.intellij.extapi.psi.ASTWrapperPsiElement'
 
-    psiClassPrefix="Zephir"
-    psiImplClassSuffix="Impl"
-    psiPackage="com.zephir.lang.core.psi"
-    psiImplPackage="com.zephir.lang.core.psi.impl"
+    psiClassPrefix='Zephir'
+    psiImplClassSuffix='Impl'
+    psiPackage='com.zephir.lang.core.psi'
+    psiImplPackage='com.zephir.lang.core.psi.impl'
 
-    elementTypeHolderClass="com.zephir.lang.core.psi.ZephirTypes"
-    elementTypeClass="com.zephir.lang.core.psi.ZephirElementType"
-    tokenTypeClass="com.zephir.lang.core.psi.ZephirTokenType"
+    elementTypeHolderClass='com.zephir.lang.core.psi.ZephirTypes'
+    elementTypeClass='com.zephir.lang.core.psi.ZephirElementType'
+    tokenTypeClass='com.zephir.lang.core.psi.ZephirTokenType'
     // TODO(serghei): Do we need this?
     // Also see: https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/3
-    psiImplUtilClass="com.zephir.lang.core.psi.impl.ZephirPsiImplUtil"
+    psiImplUtilClass='com.zephir.lang.core.psi.impl.ZephirPsiImplUtil'
 
     tokens = [
         // regex
@@ -36,127 +36,127 @@
         CBLOCK             = 'regexp:%[{]([^}]+|[}]+[^%{])*[}]%'
 
         // OOP Keywords
-        INTERNAL           = "internal"
-        NAMESPACE          = "namespace"
-        USE                = "use"
-        AS                 = "as"
-        INTEFACE           = "interface"
-        CLASS              = "class"
-        FUNCTION           = "function"
-        EXTENDS            = "extends"
-        IMPLEMENTS         = "implements"
-        ABSTRACT           = "abstract"
-        FINAL              = "final"
-        PUBLIC             = "public"
-        PROTECTED          = "protected"
-        PRIVATE            = "private"
-        STATIC             = "static"
-        INLINE             = "inline"
-        DEPRECATED         = "deprecated"
+        INTERNAL           = 'internal'
+        NAMESPACE          = 'namespace'
+        USE                = 'use'
+        AS                 = 'as'
+        INTEFACE           = 'interface'
+        CLASS              = 'class'
+        FUNCTION           = 'function'
+        EXTENDS            = 'extends'
+        IMPLEMENTS         = 'implements'
+        ABSTRACT           = 'abstract'
+        FINAL              = 'final'
+        PUBLIC             = 'public'
+        PROTECTED          = 'protected'
+        PRIVATE            = 'private'
+        STATIC             = 'static'
+        INLINE             = 'inline'
+        DEPRECATED         = 'deprecated'
 
         // Types
-        TYPE_VAR           = "var"
-        TYPE_VOID          = "void"
-        TYPE_INT           = "int"
-        TYPE_UINT          = "uint"
-        TYPE_LONG          = "long"
-        TYPE_ULONG         = "ulong"
-        TYPE_CHAR          = "char"
-        TYPE_UCHAR         = "uchar"
-        TYPE_DOUBLE        = "double"
-        TYPE_BOOL          = "bool"
-        TYPE_STRING        = "string"
-        TYPE_ARRAY         = "array"
-        TYPE_OBJECT        = "object"
-        TYPE_CALLABLE      = "callable"
-        TYPE_RESOURCE      = "resource"
+        TYPE_VAR           = 'var'
+        TYPE_VOID          = 'void'
+        TYPE_INT           = 'int'
+        TYPE_UINT          = 'uint'
+        TYPE_LONG          = 'long'
+        TYPE_ULONG         = 'ulong'
+        TYPE_CHAR          = 'char'
+        TYPE_UCHAR         = 'uchar'
+        TYPE_DOUBLE        = 'double'
+        TYPE_BOOL          = 'bool'
+        TYPE_STRING        = 'string'
+        TYPE_ARRAY         = 'array'
+        TYPE_OBJECT        = 'object'
+        TYPE_CALLABLE      = 'callable'
+        TYPE_RESOURCE      = 'resource'
 
         // Value Keywords
-        NULL               = "null"
-        FALSE              = "false"
-        TRUE               = "true"
+        NULL               = 'null'
+        FALSE              = 'false'
+        TRUE               = 'true'
 
         // Keywords
-        LET                = "let"
-        ECHO               = "echo"
-        CONST              = "const"
-        IF                 = "if"
-        ELSE               = "else"
-        ELSEIF             = "elseif"
-        SWITCH             = "switch"
-        CASE               = "case"
-        DEFAULT            = "default"
-        DO                 = "do"
-        WHILE              = "while"
-        FOR                = "for"
-        LOOP               = "loop"
-        REVERSE            = "reverse"
-        BREAK              = "break"
-        CONTINUE           = "continue"
-        IN                 = "in"
-        NEW                = "new"
-        RETURN             = "return"
-        REQUIRE            = "require"
-        CLONE              = "clone"
-        EMPTY              = "empty"
-        TYPEOF             = "typeof"
-        INSTANCEOF         = "instanceof"
-        LIKELY             = "likely"
-        UNLIKELY           = "unlikely"
-        ISSET              = "isset"
-        UNSET              = "unset"
-        THROW              = "throw"
-        FETCH              = "fetch"
-        TRY                = "try"
-        CATCH              = "catch"
+        LET                = 'let'
+        ECHO               = 'echo'
+        CONST              = 'const'
+        IF                 = 'if'
+        ELSE               = 'else'
+        ELSEIF             = 'elseif'
+        SWITCH             = 'switch'
+        CASE               = 'case'
+        DEFAULT            = 'default'
+        DO                 = 'do'
+        WHILE              = 'while'
+        FOR                = 'for'
+        LOOP               = 'loop'
+        REVERSE            = 'reverse'
+        BREAK              = 'break'
+        CONTINUE           = 'continue'
+        IN                 = 'in'
+        NEW                = 'new'
+        RETURN             = 'return'
+        REQUIRE            = 'require'
+        CLONE              = 'clone'
+        EMPTY              = 'empty'
+        TYPEOF             = 'typeof'
+        INSTANCEOF         = 'instanceof'
+        LIKELY             = 'likely'
+        UNLIKELY           = 'unlikely'
+        ISSET              = 'isset'
+        UNSET              = 'unset'
+        THROW              = 'throw'
+        FETCH              = 'fetch'
+        TRY                = 'try'
+        CATCH              = 'catch'
 
         // Other
-        PARENTHESES_OPEN   = "("
-        PARENTHESES_CLOSE  = ")"
-        BRACKET_OPEN       = "{"
-        BRACKET_CLOSE      = "}"
-        SBRACKET_OPEN      = "["
-        SBRACKET_CLOSE     = "]"
-        AT                 = "@"
-        NOT                = "!"
-        AND                = "&&"
-        OR                 = "||"
-        BITWISE_AND        = "&"
-        BITWISE_OR         = "|"
-        BITWISE_XOR        = "^"
-        BITWISE_SHIFTLEFT  = "<<"
-        BITWISE_SHIFTRIGHT = ">>"
-        ASSIGN             = "="
-        ADDASSIGN          = "+="
-        SUBASSIGN          = "-="
-        MULASSIGN          = "*="
-        EXPASSIGN          = "**="
-        DIVASSIGN          = "/="
-        MODASSIGN          = "%="
-        CONCATASSIGN       = ".="
-        EQUALS             = "=="
-        NOTEQUALS          = "!="
-        IDENTICAL          = "==="
-        NOTIDENTICAL       = "!=="
-        LESSEQUAL          = "<="
-        GREATEREQUAL       = ">="
-        LESS               = "<"
-        GREATER            = ">"
-        ARROW              = "->"
-        DOUBLECOLON        = "::"
-        DOT                = "."
-        ADD                = "+"
-        SUB                = "-"
-        MUL                = "*"
-        EXP                = "**"
-        DIV                = "/"
-        MOD                = "%"
-        INCR               = "++"
-        DECR               = "--"
-        COLON              = ":"
-        DOTCOMMA           = ";"
-        COMMA              = ","
-        QUESTION           = "?"
+        PARENTHESES_OPEN   = '('
+        PARENTHESES_CLOSE  = ')'
+        BRACKET_OPEN       = '{'
+        BRACKET_CLOSE      = '}'
+        SBRACKET_OPEN      = '['
+        SBRACKET_CLOSE     = ']'
+        AT                 = '@'
+        NOT                = '!'
+        AND                = '&&'
+        OR                 = '||'
+        BITWISE_AND        = '&'
+        BITWISE_OR         = '|'
+        BITWISE_XOR        = '^'
+        BITWISE_SHIFTLEFT  = '<<'
+        BITWISE_SHIFTRIGHT = '>>'
+        ASSIGN             = '='
+        ADDASSIGN          = '+='
+        SUBASSIGN          = '-='
+        MULASSIGN          = '*='
+        EXPASSIGN          = '**='
+        DIVASSIGN          = '/='
+        MODASSIGN          = '%='
+        CONCATASSIGN       = '.='
+        EQUALS             = '=='
+        NOTEQUALS          = '!='
+        IDENTICAL          = '==='
+        NOTIDENTICAL       = '!=='
+        LESSEQUAL          = '<='
+        GREATEREQUAL       = '>='
+        LESS               = '<'
+        GREATER            = '>'
+        ARROW              = '->'
+        DOUBLECOLON        = '::'
+        DOT                = '.'
+        ADD                = '+'
+        SUB                = '-'
+        MUL                = '*'
+        EXP                = '**'
+        DIV                = '/'
+        MOD                = '%'
+        INCR               = '++'
+        DECR               = '--'
+        COLON              = ':'
+        DOTCOMMA           = ';'
+        COMMA              = ','
+        QUESTION           = '?'
     ]
 
     extends(".*Expr") = Expr
