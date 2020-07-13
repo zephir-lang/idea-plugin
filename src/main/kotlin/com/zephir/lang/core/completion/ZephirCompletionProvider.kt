@@ -15,9 +15,14 @@ import com.intellij.patterns.ElementPattern
 import com.intellij.psi.PsiElement
 import com.zephir.lang.core.psi.ZephirFile
 
+/**
+ * The base class to implement Zephir completion providers.
+ */
 abstract class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
     abstract val context: ElementPattern<out PsiElement>
     open val type: CompletionType = CompletionType.BASIC
 
     fun isTopStatement(elem: PsiElement) = elem.parent is ZephirFile
+
+    // TODO(serghei): fun PsiElement.isOfType(elementType: IElementType, vararg rest: IElementType): Boolean
 }

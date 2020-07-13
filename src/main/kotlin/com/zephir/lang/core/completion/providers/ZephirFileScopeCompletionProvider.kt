@@ -11,11 +11,11 @@ package com.zephir.lang.core.completion.providers
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.icons.AllIcons
 import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.PatternCondition
-import com.intellij.patterns.PlatformPatterns
+import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiElement
+import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.zephir.lang.core.completion.ZephirCompletionProvider
 
@@ -26,7 +26,7 @@ import com.zephir.lang.core.completion.ZephirCompletionProvider
  */
 object ZephirFileScopeCompletionProvider : ZephirCompletionProvider() {
     private val topLevel = mapOf(
-        "namespace" to AllIcons.Nodes.Package
+        "namespace" to PlatformIcons.PACKAGE_ICON
     )
 
     private val keywords = arrayOf(
@@ -41,8 +41,7 @@ object ZephirFileScopeCompletionProvider : ZephirCompletionProvider() {
     )
 
     override val context: ElementPattern<PsiElement>
-        get() = PlatformPatterns
-            .psiElement()
+        get() = psiElement()
             .with(object : PatternCondition<PsiElement>("toplevel") {
                 override fun accepts(elem: PsiElement, context: ProcessingContext?) = !isTopStatement(elem)
             })
