@@ -10,25 +10,14 @@ package com.zephir.lang.core.completion
 
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
-import com.intellij.codeInsight.completion.CompletionResultSet
-import com.intellij.util.ProcessingContext
-import com.zephir.lang.core.completion.suggestors.*
+import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.patterns.ElementPattern
+import com.intellij.psi.PsiElement
+import com.zephir.lang.core.psi.ZephirFile
 
-// TODO(serghei): re-visit this later
-class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
-    private val suggestors = listOf(
-        ZephirFileScopeKeywordsSuggestor,
-        ZephirMethodScopeCompletionSuggestor,
-        ZephirClassScopeKeywordsSuggestor
-    )
+abstract class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
+    abstract val context: ElementPattern<out PsiElement>
+    open val type: CompletionType = CompletionType.BASIC
 
-    override fun addCompletions(
-        parameters: CompletionParameters,
-        context: ProcessingContext,
-        result: CompletionResultSet
-    ) {
-        suggestors.forEach {
-            it.addCompletions(parameters, result)
-        }
-    }
+    fun isTopStatement(elem: PsiElement) = elem.parent is ZephirFile
 }
