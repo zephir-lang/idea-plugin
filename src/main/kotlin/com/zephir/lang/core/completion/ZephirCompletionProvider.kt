@@ -22,7 +22,15 @@ abstract class ZephirCompletionProvider : CompletionProvider<CompletionParameter
     abstract val context: ElementPattern<out PsiElement>
     open val type: CompletionType = CompletionType.BASIC
 
+    /**
+     * Checks if the element is inside top statement.
+     *
+     * @return true if the element is inside top statement.
+     */
     fun isTopStatement(elem: PsiElement) = elem.parent is ZephirFile
 
-    // TODO(serghei): fun PsiElement.isOfType(elementType: IElementType, vararg rest: IElementType): Boolean
+    // TODO(serghei):
+    // Implement fun PsiElement.isOfType(elementType: IElementType, vararg rest: IElementType): Boolean
+    // For example:
+    // fun PsiElement.isTopStatement(): Boolean = isOfType(this, FUNCTION, NAMESPACE, CLASS, ...)
 }
