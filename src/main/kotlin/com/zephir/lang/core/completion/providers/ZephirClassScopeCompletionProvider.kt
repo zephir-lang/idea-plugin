@@ -27,7 +27,7 @@ import com.zephir.lang.core.psi.ZephirClassBody
  */
 object ZephirClassScopeCompletionProvider : ZephirCompletionProvider() {
     // TODO(serghei): scoped
-    private val keywords = arrayOf(
+    private val candidates = arrayOf(
         "protected",
         "public",
         "private",
@@ -51,7 +51,7 @@ object ZephirClassScopeCompletionProvider : ZephirCompletionProvider() {
         val parent = originalPosition?.parent ?: return
 
         if (parent is ZephirClassBody) {
-            keywords.forEach {
+            candidates.forEach {
                 result.addElement(LookupElementBuilder.create(it))
             }
         }

@@ -11,25 +11,20 @@ package com.zephir.lang.core.completion.providers
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.icons.AllIcons
 import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.PatternCondition
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiElement
-import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.zephir.lang.core.completion.ZephirCompletionProvider
 
 /**
  * Provides code completion support at the top level.
- *
- * TODO(serghei): Add support for "as", "extends", "implements"
  */
 object ZephirFileScopeCompletionProvider : ZephirCompletionProvider() {
-    private val topLevel = mapOf(
-        "namespace" to PlatformIcons.PACKAGE_ICON
-    )
-
-    private val keywords = arrayOf(
+    // TODO(serghei): Add support for "as", "extends", "implements"
+    private val candidates = arrayOf(
         "internal",
         "inline",
         "use",
@@ -51,14 +46,12 @@ object ZephirFileScopeCompletionProvider : ZephirCompletionProvider() {
         processingContext: ProcessingContext,
         result: CompletionResultSet
     ) {
-        topLevel.forEach {
-            result.addElement(LookupElementBuilder
-                .create(it.key)
-                .withIcon(it.value)
-            )
-        }
+        result.addElement(LookupElementBuilder
+            .create("namespace")
+            .withIcon(AllIcons.Nodes.Package)
+        )
 
-        keywords.forEach {
+        candidates.forEach {
             result.addElement(LookupElementBuilder.create(it))
         }
     }
