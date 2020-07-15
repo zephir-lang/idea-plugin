@@ -8,14 +8,14 @@
 
 package com.zephir.lang.core.completion
 
-import com.intellij.codeInsight.completion.CompletionContributor
-import com.zephir.lang.core.completion.providers.ZephirClassScopeCompletionProvider
-import com.zephir.lang.core.completion.providers.ZephirFileScopeCompletionProvider
+import com.intellij.codeInsight.completion.*
+import com.zephir.lang.core.completion.providers.*
 
 class ZephirCompletionContributor : CompletionContributor() {
     private val providers = listOf(
         ZephirFileScopeCompletionProvider,
-        ZephirClassScopeCompletionProvider
+        ZephirClassScopeCompletionProvider,
+        ZephirTypeHintCompletionProvider
     )
 
     init {
