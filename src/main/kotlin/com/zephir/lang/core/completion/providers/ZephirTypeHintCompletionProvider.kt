@@ -22,6 +22,9 @@ import com.zephir.lang.core.completion.ZephirCompletionProvider
 import com.zephir.lang.core.psi.ZephirMethodDefinition
 import com.zephir.lang.core.psi.ZephirTypes
 
+/**
+ * Provides code completion support for zephir type hints.
+ */
 object ZephirTypeHintCompletionProvider : ZephirCompletionProvider() {
     private val candidates = arrayOf(
         "void",
@@ -59,11 +62,6 @@ object ZephirTypeHintCompletionProvider : ZephirCompletionProvider() {
         }
     }
 
-    /**
-     * Checks if input in the suitable context.
-     *
-     * @return true if input should trigger code completion.
-     */
     private fun isSuitableContext(parameters: CompletionParameters): Boolean {
         val originalPosition = parameters.originalPosition
         val parent = originalPosition?.parent ?: return false

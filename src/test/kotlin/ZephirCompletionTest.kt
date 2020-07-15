@@ -38,6 +38,26 @@ class ZephirCompletionTest : BasePlatformTestCase() {
         "function"
     )
 
+    fun testReturnTypeHints1() = doTest(
+        "void",
+        "null",
+        "int",
+        "uint",
+        "long",
+        "ulong",
+        "char",
+        "double",
+        "bool",
+        "string",
+        "array",
+        "var",
+        "callable",
+        "resource",
+        "object"
+    )
+
+    fun testReturnTypeHints2() = testReturnTypeHints1()
+
     private fun doTest(vararg variants: String) {
         myFixture.testCompletionVariants("$basePath/$testFilename", *variants)
     }
