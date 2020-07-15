@@ -14,7 +14,6 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiElement
-import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.zephir.lang.core.ZephirLanguage
 import com.zephir.lang.core.completion.ZephirCompletionProvider
@@ -22,13 +21,12 @@ import com.zephir.lang.core.psi.ZephirClassBody
 
 /**
  * Provides code completion support for the class scope.
+ *
+ * TODO(serghei): Check for class properties and suggest to generate getter/setter
+ * via code completion popup.
  */
 object ZephirClassScopeCompletionProvider : ZephirCompletionProvider() {
-    private val keywordsWithIcons = mapOf(
-        // TODO(serghei): Move "function" to keywords after implementing snippets
-        "function" to PlatformIcons.FUNCTION_ICON
-    )
-
+    // TODO(serghei): scoped
     private val keywords = arrayOf(
         "protected",
         "public",
@@ -37,7 +35,8 @@ object ZephirClassScopeCompletionProvider : ZephirCompletionProvider() {
         "inline",
         "internal",
         "final",
-        "abstract"
+        "abstract",
+        "function"
     )
 
     override val context: ElementPattern<out PsiElement>
@@ -52,14 +51,6 @@ object ZephirClassScopeCompletionProvider : ZephirCompletionProvider() {
         val parent = originalPosition?.parent ?: return
 
         if (parent is ZephirClassBody) {
-            // TODO(serghei): Move "function" to keywords after implementing snippets
-            keywordsWithIcons.forEach {
-                result.addElement(LookupElementBuilder
-                    .create(it.key)
-                    .withIcon(it.value)
-                )
-            }
-
             keywords.forEach {
                 result.addElement(LookupElementBuilder.create(it))
             }

@@ -10,9 +10,9 @@ import com.intellij.testFramework.ParsingTestCase
 import com.zephir.lang.core.parser.ZephirParserDefinition
 
 class ZephirParserTest : ParsingTestCase("parser", "zep", ZephirParserDefinition()) {
+    override fun getTestDataPath() = "src/test/testData"
+
     fun testHelloWorld() = doTest(true)
 
     fun testIssue12() = doTest(true)
-
-    override fun getTestDataPath() = "src/test/testData"
 }
