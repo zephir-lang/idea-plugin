@@ -10,25 +10,27 @@ package com.zephir.lang.core.completion
 
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
-import com.intellij.codeInsight.completion.CompletionResultSet
-import com.intellij.util.ProcessingContext
-import com.zephir.lang.core.completion.suggestors.*
+import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.patterns.ElementPattern
+import com.intellij.psi.PsiElement
+import com.zephir.lang.core.psi.ZephirFile
 
-// TODO(serghei): re-visit this later
-class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
-    private val suggestors = listOf(
-        ZephirFileScopeKeywordsSuggestor,
-        ZephirMethodScopeCompletionSuggestor,
-        ZephirClassScopeKeywordsSuggestor
-    )
+/**
+ * The base class to implement Zephir completion providers.
+ */
+abstract class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
+    abstract val context: ElementPattern<out PsiElement>
+    open val type: CompletionType = CompletionType.BASIC
 
-    override fun addCompletions(
-        parameters: CompletionParameters,
-        context: ProcessingContext,
-        result: CompletionResultSet
-    ) {
-        suggestors.forEach {
-            it.addCompletions(parameters, result)
-        }
-    }
+    /**
+     * Checks if [element] is inside top statement.
+     *
+     * @return true if the element is inside top statement.
+     */
+    fun isTopStatement(element: PsiElement) = element.parent is ZephirFile
+
+    // TODO(serghei):
+    // Implement fun PsiElement.isOfType(elementType: IElementType, vararg rest: IElementType): Boolean
+    // For example:
+    // fun PsiElement.isTopStatement(): Boolean = isOfType(this, FUNCTION, NAMESPACE, CLASS, ...)
 }

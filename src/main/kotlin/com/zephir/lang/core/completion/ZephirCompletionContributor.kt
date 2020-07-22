@@ -8,14 +8,21 @@
 
 package com.zephir.lang.core.completion
 
-import com.intellij.codeInsight.completion.CompletionContributor
-import com.intellij.codeInsight.completion.CompletionType
-import com.intellij.patterns.PlatformPatterns.psiElement
-import com.zephir.lang.core.ZephirLanguage
+import com.intellij.codeInsight.completion.*
+import com.zephir.lang.core.completion.providers.*
 
-// TODO(serghei): re-visit this later
 class ZephirCompletionContributor : CompletionContributor() {
+    private val providers = listOf(
+        ZephirFileScopeCompletionProvider,
+        ZephirClassScopeCompletionProvider,
+        ZephirTypeHintCompletionProvider
+    )
+
     init {
-        extend(CompletionType.BASIC, psiElement().withLanguage(ZephirLanguage), ZephirCompletionProvider())
+        providers.forEach { extend(it) }
+    }
+
+    private fun extend(provider: ZephirCompletionProvider) {
+        extend(provider.type, provider.context, provider)
     }
 }

@@ -176,6 +176,7 @@ File ::= TopStatement*
 
 CBlock ::= CBLOCK
 
+// TODO(serghei): Add function definition here
 private TopStatement ::= NamespaceStatement ImportStatement* CBlock* (ClassDefinition | InterfaceDefinition)
 
 PhpReserved ::= '$resource' | '$namespace' | '$internal'
@@ -324,7 +325,14 @@ Expr ::= UnaryExpr |
          SpecialGroupExpr
 
 private BoolGroupExpr ::= BoolExpr | TernaryExpr | EmptyExpr | IssetExpr | FetchExpr | InstanceofExpr
-private PrimaryGroupExpr ::= ChainOfCallExpr | StaticCallExpr | LiteralExpr | ParenExpr | PrecastExpr | CallbackExpr | CallExpr | CloneExpr
+private PrimaryGroupExpr ::= ChainOfCallExpr |
+                             StaticCallExpr |
+                             LiteralExpr |
+                             ParenExpr |
+                             PrecastExpr |
+                             CallbackExpr |
+                             CallExpr |
+                             CloneExpr
 private SpecialGroupExpr ::= NewExpr | TypeofExpr
 
 ChainOfCallStatement ::= ChainOfCallExpr ;
@@ -365,7 +373,7 @@ TypeofExpr ::= 'typeof' Expr {pin=1}
 CallArguments ::= CallArgument (',' CallArgument)* {pin(".*")=1}
 
 private CallArgument ::= 'require'? Typecast? (PhpReserved | Expr)
-private ScalarShort ::= STRING  | SCHAR | DOUBLE | INTEGER | ScalarValue
+private ScalarShort ::= STRING | SCHAR | DOUBLE | INTEGER | ScalarValue
 
 scalar ::= ScalarShort | ArrayValue
 ScalarValue ::= 'null' | 'true' | 'false'
@@ -377,7 +385,7 @@ private ArrayBody ::= ArrayItem (',' ArrayItem)* {pin(".*")=1}
 ArrayItem ::= ArrayKeyValue | Expr
 ArrayKeyValue ::= (ScalarShort | Expr) ':' Expr
 
-Variable ::= ComplexId (PropertyAccess | ArrayAppendExpr |  ArrayAccess)*
+Variable ::= ComplexId (PropertyAccess | ArrayAppendExpr | ArrayAccess)*
 ExplodedVariable ::= '{' Variable '}'
 
 private PropertyAccess ::= ('::' | '->') (Variable | '{' (STRING | Id) '}' | MagicCallExpr) {pin=2}
