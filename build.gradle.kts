@@ -6,11 +6,22 @@
 //
 // https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
-import org.jetbrains.intellij.tasks.PatchPluginXmlTask
+import org.gradle.api.internal.HasConvention
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.gradle.api.internal.HasConvention
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    // The IDEA Plugin - https://docs.gradle.org/current/userguide/idea_plugin.html
+    idea
+    // Kotlin support
+    kotlin("jvm") version "1.3.72"
+    // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
+    id("org.jetbrains.intellij") version "0.4.21"
+    // Grammar-Kit support - read more: https://github.com/JetBrains/Grammar-Kit
+    id("org.jetbrains.grammarkit") version "2020.1"
+}
 
 // Import variables from gradle.properties file
 val pluginGroup: String by project
@@ -21,6 +32,8 @@ val pluginDescription: String by project
 val pluginRepository: String by project
 
 val platformDownloadSources: String by project
+val platformVersion: String by project
+
 val psiViewerPluginVersion: String by project
 
 group = pluginGroup
@@ -29,39 +42,34 @@ description = pluginDescription
 
 val isCI = !System.getenv("CI").isNullOrBlank()
 
+// Configure project's dependencies
 repositories {
     jcenter()
 }
-
-plugins {
-    idea
-    id("org.jetbrains.intellij") version "0.4.21"
-    id("org.jetbrains.grammarkit") version "2020.1"
-    id("net.saliman.properties") version "1.5.1"
-    kotlin("jvm") version "1.3.72"
-}
-
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 }
 
-idea {
-    module {
-        generatedSourceDirs.add(file("gen"))
-    }
-}
-
-// See https://github.com/JetBrains/gradle-intellij-plugin/
+// Configure gradle-intellij-plugin plugin.
+// Read more: https://github.com/JetBrains/gradle-intellij-plugin
 intellij {
     pluginName = pluginName
-    version = prop("ideVersion")
-    updateSinceUntilBuild = true
+    version = platformVersion
     downloadSources = platformDownloadSources.toBoolean() && isCI
+    updateSinceUntilBuild = true
 
+    //  Plugin Dependencies
     val plugins = mutableListOf("java")
     if (!isCI) plugins += "PsiViewer:$psiViewerPluginVersion"
 
     setPlugins(*plugins.toTypedArray())
+}
+
+// Configure IDEA plugin.
+idea {
+    module {
+        generatedSourceDirs.add(file("gen"))
+    }
 }
 
 sourceSets {
@@ -74,21 +82,6 @@ sourceSets {
         kotlin.srcDirs("src/test/kotlin")
         resources.srcDirs("src/test/resources")
     }
-}
-
-tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
-    version(pluginVersion)
-    sinceBuild(pluginSinceBuild)
-
-    changeNotes("""
-        <b>Changes in version $pluginVersion:</b>
-        ${readChangeNotes("CHANGELOG.md", pluginVersion).orEmpty()}
-        <p>
-            To see full list of changes to this plugin refer to
-            <a href="$pluginRepository/blob/master/CHANGELOG.md">GitHub repo</a>.
-        </p>
-        """.trimIndent()
-    )
 }
 
 val generateLexer = task<GenerateLexer>("generateLexer") {
@@ -116,24 +109,41 @@ tasks {
         jvmArgs("--add-exports", "java.base/jdk.internal.vm=ALL-UNNAMED")
     }
 
+    // Set the compatibility versions to 1.8
+    withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    listOf("compileKotlin", "compileTestKotlin").forEach {
+        getByName<KotlinCompile>(it) {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+
+    patchPluginXml {
+        version(pluginVersion)
+        sinceBuild(pluginSinceBuild)
+
+        // Get the latest available change notes from the CHANGELOG.md file
+        changeNotes("""
+            <b>Changes in version $pluginVersion:</b>
+            ${readChangeNotes("CHANGELOG.md", pluginVersion).orEmpty()}
+            <p>
+                To see full list of changes to this plugin refer to
+                <a href="$pluginRepository/blob/master/CHANGELOG.md">GitHub repo</a>.
+            </p>
+            """.trimIndent()
+        )
+    }
+
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
         dependsOn(
             generateLexer,
             generateParser
         )
     }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
 }
-
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
 
 val SourceSet.kotlin: SourceDirectorySet
     get() =
@@ -141,10 +151,6 @@ val SourceSet.kotlin: SourceDirectorySet
             .convention
             .getPlugin(KotlinSourceSet::class.java)
             .kotlin
-
-fun prop(name: String): String =
-    extra.properties[name] as? String
-        ?: error("Property `$name` is not defined in gradle.properties")
 
 fun readChangeNotes(pathname: String, version: String): String? {
     val changeLog = file(pathname)
