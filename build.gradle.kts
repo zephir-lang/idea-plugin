@@ -12,9 +12,22 @@ import org.jetbrains.grammarkit.tasks.GenerateParser
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.gradle.api.internal.HasConvention
 
-group = "com.zephir"
-version = prop("version")
-description = prop("pluginDescription")
+// Import variables from gradle.properties file
+val pluginGroup: String by project
+val pluginName: String by project
+val pluginVersion: String by project
+val pluginSinceBuild: String by project
+val pluginDescription: String by project
+val pluginRepository: String by project
+
+val platformDownloadSources: String by project
+val psiViewerPluginVersion: String by project
+
+group = pluginGroup
+version = pluginVersion
+description = pluginDescription
+
+val isCI = !System.getenv("CI").isNullOrBlank()
 
 repositories {
     jcenter()
@@ -40,9 +53,15 @@ idea {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    pluginName = prop("pluginName")
+    pluginName = pluginName
     version = prop("ideVersion")
-    updateSinceUntilBuild = false
+    updateSinceUntilBuild = true
+    downloadSources = platformDownloadSources.toBoolean() && isCI
+
+    val plugins = mutableListOf("java")
+    if (!isCI) plugins += "PsiViewer:$psiViewerPluginVersion"
+
+    setPlugins(*plugins.toTypedArray())
 }
 
 sourceSets {
@@ -58,15 +77,15 @@ sourceSets {
 }
 
 tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
-    version(version)
-    sinceBuild("191")
+    version(pluginVersion)
+    sinceBuild(pluginSinceBuild)
 
     changeNotes("""
-        <b>Changes in version $version:</b>
-        ${readChangeNotes("CHANGELOG.md", version).orEmpty()}
+        <b>Changes in version $pluginVersion:</b>
+        ${readChangeNotes("CHANGELOG.md", pluginVersion).orEmpty()}
         <p>
             To see full list of changes to this plugin refer to
-            <a href="${prop("repository")}/blob/master/CHANGELOG.md">GitHub repo</a>.
+            <a href="$pluginRepository/blob/master/CHANGELOG.md">GitHub repo</a>.
         </p>
         """.trimIndent()
     )
