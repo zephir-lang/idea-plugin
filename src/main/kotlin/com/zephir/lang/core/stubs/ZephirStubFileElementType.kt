@@ -14,7 +14,6 @@ import com.zephir.lang.core.ZephirLanguage
 import com.zephir.lang.core.psi.ZephirFile
 
 /** Stub file element type for Zephir, providing a unique external ID and debug name to avoid platform conflicts. */
-class ZephirStubFileElementType : IStubFileElementType<PsiFileStub<ZephirFile>>(ZephirLanguage) {
+class ZephirStubFileElementType : IStubFileElementType<PsiFileStub<ZephirFile>>("ZephirFile", ZephirLanguage) {
     override fun getExternalId(): String = "zephir.file"
-    override fun getDebugName(): String = "ZephirFile"
 }
