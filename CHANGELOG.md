@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased][Unreleased]
 
-## [0.5.0][0.5.0] - 2026-03-19
+## [0.5.0][0.5.0] - 2026-03-20
 ### Added
 - Added `docker-compose.yml` with a persistent Gradle cache volume for reproducible local builds
 
@@ -20,7 +20,10 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 - JVM target updated from 1.8 to 17
 - Grammar: added `mixed`, `object`, `callable`, `resource` as recognized type keywords
 - Grammar: added `mixed` type to type hints in method scope completion
+- Grammar: added `do...while` loop statement (`do { } while expr;`)
+- Grammar: fixed `INTEFACE` token name typo — corrected to `INTERFACE`
 - Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
+- Added parser tests for `do...while` loop and `mixed` type usage
 
 ## [0.4.0][0.4.0] - 2020-05-24
 ### Added
