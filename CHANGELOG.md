@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 - Grammar: fixed `INTEFACE` token name typo — corrected to `INTERFACE`
 - Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
 - Added parser tests for `do...while` loop and `mixed` type usage
+- Replaced deprecated `LOG` static field with `thisLogger()` in `ZephirCreateFileAction`
 
 ## [0.4.0][0.4.0] - 2020-05-24
 ### Added
