@@ -45,11 +45,16 @@ class ZephirClassReference(element: ZephirComplexId) : PsiReferenceBase<ZephirCo
                 findInDirectory(child, name, psiManager)?.let { return it }
             } else if (child.extension == "zep") {
                 val psiFile = psiManager.findFile(child) as? ZephirFile ?: continue
-                for (element in psiFile.children) {
-                    if (element is ZephirClassDefinition && element.id.text == name) return element.id
-                    if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
-                }
+                findDeclarationInFile(psiFile, name)?.let { return it }
             }
+        }
+        return null
+    }
+
+    private fun findDeclarationInFile(psiFile: ZephirFile, name: String): PsiElement? {
+        for (element in psiFile.children) {
+            if (element is ZephirClassDefinition && element.id.text == name) return element.id
+            if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
         }
         return null
     }

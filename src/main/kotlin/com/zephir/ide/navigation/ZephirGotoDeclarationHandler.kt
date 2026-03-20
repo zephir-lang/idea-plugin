@@ -77,10 +77,6 @@ class ZephirGotoDeclarationHandler : GotoDeclarationHandler {
         return null
     }
 
-    /**
-     * Resolves a fully-qualified Zephir name by mapping each namespace segment to a
-     * directory component (case-insensitive), then finds the `.zep` file for the class.
-     */
     private fun findByNamespacePath(
         baseDir: VirtualFile,
         namespaceParts: List<String>,
@@ -96,11 +92,7 @@ class ZephirGotoDeclarationHandler : GotoDeclarationHandler {
             !it.isDirectory && it.extension == "zep" && it.nameWithoutExtension.equals(className, ignoreCase = true)
         } ?: return null
         val psiFile = psiManager.findFile(file) as? ZephirFile ?: return null
-        for (element in psiFile.children) {
-            if (element is ZephirClassDefinition && element.id.text == className) return element.id
-            if (element is ZephirInterfaceDefinition && element.id.text == className) return element.id
-        }
-        return psiFile
+        return findDeclarationInFile(psiFile, className) ?: psiFile
     }
 
     private fun findInDirectory(dir: VirtualFile, name: String, psiManager: PsiManager): PsiElement? {
@@ -109,11 +101,16 @@ class ZephirGotoDeclarationHandler : GotoDeclarationHandler {
                 findInDirectory(child, name, psiManager)?.let { return it }
             } else if (child.extension == "zep") {
                 val psiFile = psiManager.findFile(child) as? ZephirFile ?: continue
-                for (element in psiFile.children) {
-                    if (element is ZephirClassDefinition && element.id.text == name) return element.id
-                    if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
-                }
+                findDeclarationInFile(psiFile, name)?.let { return it }
             }
+        }
+        return null
+    }
+
+    private fun findDeclarationInFile(psiFile: ZephirFile, name: String): PsiElement? {
+        for (element in psiFile.children) {
+            if (element is ZephirClassDefinition && element.id.text == name) return element.id
+            if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
         }
         return null
     }
