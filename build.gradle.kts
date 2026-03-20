@@ -139,9 +139,11 @@ tasks {
         dependsOn(generateLexer, generateParser)
     }
     // buildSearchableOptions runs a sandboxed IDE to index plugin settings for the
-    // Settings search. When using a local() IDE path it incorrectly tries to register
-    // the platform a second time (Plugin 2.x bug). Safe to disable — only affects
-    // whether plugin settings appear in the IDE's Settings search box.
+    // Settings search. Safe to disable — only affects whether plugin settings appear
+    // in the IDE's Settings search box, which Zephir does not use.
+    buildSearchableOptions {
+        enabled = false
+    }
 }
 
 kotlin {
