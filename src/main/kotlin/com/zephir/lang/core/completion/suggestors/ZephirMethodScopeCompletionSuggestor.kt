@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Zephir Team
+// Copyright (c) 2014-2026 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the
@@ -30,7 +30,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
 
     private val typeHints = arrayOf(
         "var", "array", "object", "callable", "resource", "int", "integer", "uint", "long", "ulong",
-        "double", "float", "string", "char", "uchar"
+        "double", "float", "string", "char", "uchar", "mixed"
     )
 
     override fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -74,6 +74,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
                         true
                     )
             }
+            completionElement ?: continue
             result.addElement(
                 PrioritizedLookupElement.withPriority(completionElement, ZephirCompletionPriority.METHOD_SCOPE_PRIORITY)
             )

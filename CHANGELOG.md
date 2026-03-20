@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [Unreleased][Unreleased]
+
+## [0.5.0][0.5.0] - 2026-03-19
+### Added
+- Added `docker-compose.yml` with a persistent Gradle cache volume for reproducible local builds
+
+### Changed
+- Requires IntelliJ Platform 2024.1 or newer (minimum build `241`)
+- Gradle wrapper updated from 6.5.1 to 8.9
+- `org.jetbrains.intellij` plugin updated from 0.4.21 to 1.17.4
+- `org.jetbrains.grammarkit` plugin updated from 2020.1 to 2022.3.2
+- Kotlin JVM plugin updated from 1.3.72 to 2.1.0
+- Replaced `jcenter()` repository with `mavenCentral()`
+- JVM target updated from 1.8 to 17
+- Grammar: added `mixed`, `object`, `callable`, `resource` as recognized type keywords
+- Grammar: added `mixed` type to type hints in method scope completion
+- Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
+
 ## [0.4.0][0.4.0] - 2020-05-24
 ### Added
 - Amended Color Scheme configuration
@@ -92,7 +109,8 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ### Added
 - Initial release
 
-[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.4.0...HEAD
+[Unreleased]: https://github.com/zephir-lang/idea-plugin/compare/0.5.0...HEAD
+[0.5.0]: https://github.com/zephir-lang/idea-plugin/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/zephir-lang/idea-plugin/compare/0.3.6...0.4.0
 [0.3.6]: https://github.com/zephir-lang/idea-plugin/compare/0.3.5...0.3.6
 [0.3.5]: https://github.com/zephir-lang/idea-plugin/compare/0.3.4...0.3.5

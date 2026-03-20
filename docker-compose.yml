@@ -6,14 +6,13 @@
 #
 # https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
-kotlin.code.style=official
+services:
+  gradle:
+    image: gradle:9.0-jdk17
+    working_dir: /project
+    volumes:
+      - .:/project
+      - gradle-cache:/home/gradle/.gradle
 
-pluginName=Zephir
-pluginDescription=Zephir plugin for the IntelliJ Platform
-version=0.5.0
-repository=https://github.com/zephir-lang/idea-plugin
-
-ideVersion=2024.3
-
-# Allocate more memory to compile the Java files
-org.gradle.jvmargs=-Xms128m -Xmx1024m
+volumes:
+  gradle-cache:

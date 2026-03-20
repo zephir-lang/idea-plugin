@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Zephir Team
+// Copyright (c) 2014-2026 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the
@@ -19,6 +19,6 @@ object ZephirIcons {
      * Returns the absolute path of the given [icon].
      */
     private fun getIcon(icon: String): Icon {
-        return IconLoader.getIcon("/icons/$icon")
+        return IconLoader.getIcon("/icons/$icon", ZephirIcons::class.java)
     }
 }

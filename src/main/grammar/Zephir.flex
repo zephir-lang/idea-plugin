@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Zephir Team
+// Copyright (c) 2014-2026 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the
@@ -107,6 +107,7 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "object"             { yybegin(YYINITIAL); return TYPE_OBJECT; }
   "callable"           { yybegin(YYINITIAL); return TYPE_CALLABLE; }
   "resource"           { yybegin(YYINITIAL); return TYPE_RESOURCE; }
+  "mixed"              { yybegin(YYINITIAL); return TYPE_MIXED; }
   "null"               { yybegin(YYINITIAL); return NULL; }
   "false"              { yybegin(YYINITIAL); return FALSE; }
   "true"               { yybegin(YYINITIAL); return TRUE; }

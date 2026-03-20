@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2014-2020 Zephir Team
+# Copyright (c) 2014-2026 Zephir Team
 #
 # This source file is subject the MIT license, that is bundled with
 # this package in the file LICENSE, and is available through the
@@ -13,7 +13,7 @@
 set -eu
 
 COPYRIGHT_NOTICE=$(cat <<-EOF
-// Copyright \\(c\\) 2014-2020 Zephir Team
+// Copyright \\(c\\) 2014-2026 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the

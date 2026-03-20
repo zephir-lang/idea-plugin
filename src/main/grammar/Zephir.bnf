@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Zephir Team
+// Copyright (c) 2014-2026 Zephir Team
 //
 // This source file is subject the MIT license, that is bundled with
 // this package in the file LICENSE, and is available through the
@@ -70,6 +70,7 @@
         TYPE_OBJECT        = 'object'
         TYPE_CALLABLE      = 'callable'
         TYPE_RESOURCE      = 'resource'
+        TYPE_MIXED         = 'mixed'
 
         // Value Keywords
         NULL               = 'null'
@@ -236,7 +237,7 @@ ComplexId ::= '$'? '\'? Id ('\' Id)* {pin(".*")=3}
 ComplexIdList ::= ComplexId (',' ComplexId)* {pin(".*")=1}
 
 Type ::= VoidType | ScalarType | ClassType | ResourceType
-ScalarType ::= 'var' | NumberType | StringType | BoolType | 'array' | 'object' | 'callable' | 'resource'
+ScalarType ::= 'var' | NumberType | StringType | BoolType | 'array' | 'object' | 'callable' | 'resource' | 'mixed'
 
 private StringType ::= 'string' | 'char' | 'uchar'
 private BoolType ::= 'bool' | 'boolean'
