@@ -74,6 +74,10 @@
         <lang.foldingBuilder language="Zephir"
                              implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
 
+        <!-- Documentation (Ctrl+Q / hover) -->
+        <lang.documentationProvider language="Zephir"
+                                    implementationClass="com.zephir.ide.documentation.ZephirDocumentationProvider"/>
+
         <!-- Go To Declaration (Ctrl+click) -->
         <gotoDeclarationHandler implementation="com.zephir.ide.navigation.ZephirGotoDeclarationHandler"/>
 
