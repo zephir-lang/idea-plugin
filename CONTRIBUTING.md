@@ -43,23 +43,26 @@ $ cd idea-plugin
 
 ### Building & Running
 
-Run `./gradlew runIde` run configuration to build and launch development IDE
-with the plugin.
+We use Gradle with the [IntelliJ Platform Gradle Plugin 2.x][gradle-intellij]
+to build the plugin. It comes with a wrapper script (`gradlew` in the root of
+the repository).
 
-We use gradle with [gradle-intellij][gradle-intellij] plugin to build the
-plugin. It comes with a wrapper script (`gradlew` in the root of the
-repository)  which downloads appropriate version of gradle automatically as
-long as you have JDK installed.  
+**Requirements:** JDK 21. If you do not have a standalone JDK 21 installed,
+you can use the bundled JBR from an existing IntelliJ-based IDE (e.g.
+PhpStorm or IntelliJ IDEA):
+
+```shell script
+$ JAVA_HOME=/path/to/ide/jbr ./gradlew buildPlugin --no-daemon
+```
 
 Common Gradle tasks are:
 
-- `./gradlew build` -- Fully build plugin and create an archive at
-  `build/distributions` which can be installed into IntelliJ IDEA via
-  `Install plugin from disk...` action found in `Settings > Plugins`
-- `./gradlew runIde` - Runs Intellij IDEA with installed plugin. Break points
-  works like a charm.
-- `./gradlew test` - Runs the unit tests. To run gradle with single class and
-  method use something like this: `gradle test --tests com.zephir.ns.Class`
+- `./gradlew buildPlugin` -- Fully build the plugin and create an archive at
+  `build/distributions` which can be installed via
+  `Settings > Plugins > ⚙️ > Install Plugin from Disk...`
+- `./gradlew runIde` -- Launches a sandboxed IDE with the plugin installed
+- `./gradlew test` -- Runs the unit tests. To run a single class or method:
+  `./gradlew test --tests com.zephir.ns.Class`
 
 ### Development in IntelliJ IDEA
 
@@ -93,7 +96,7 @@ all other files do.
 [kotlin-plugin]: https://plugins.jetbrains.com/plugin/6954-kotlin
 [discord]: https://discord.gg/PNFsSsr
 [issues]: https://github.com/zephir-lang/zephir-mode/issues
-[gradle-intellij]: https://github.com/JetBrains/gradle-intellij-plugin
+[gradle-intellij]: https://github.com/JetBrains/intellij-platform-gradle-plugin
 [idea]: https://www.jetbrains.com/idea/download/
 [g-kit]: https://plugins.jetbrains.com/plugin/6606-grammar-kit
 [psi-view]: https://plugins.jetbrains.com/plugin/227-psiviewer

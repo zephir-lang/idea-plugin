@@ -33,6 +33,7 @@ Functionality is exposed to the PHP language.
   | `tc`         | try-catch block                        |
 
 - **Rename Refactoring** — rename classes, interfaces, methods, properties, and constants across the file
+- **Implementations Gutter** — see subclass and implementation counts next to class and interface declarations in the editor gutter
 
 ## Install
 
