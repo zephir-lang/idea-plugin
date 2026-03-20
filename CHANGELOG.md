@@ -9,29 +9,35 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 ## [0.5.0][0.5.0] - 2026-03-20
 ### Added
 - Added `docker-compose.yml` with a persistent Gradle cache volume for reproducible local builds
-
-### Changed
-- Requires IntelliJ Platform 2024.1 or newer (minimum build `241`)
-- Gradle wrapper updated from 6.5.1 to 8.9
-- `org.jetbrains.intellij` plugin updated from 0.4.21 to 1.17.4
-- `org.jetbrains.grammarkit` plugin updated from 2020.1 to 2022.3.2
-- Kotlin JVM plugin updated from 1.3.72 to 2.1.0
-- Replaced `jcenter()` repository with `mavenCentral()`
-- JVM target updated from 1.8 to 17
-- Grammar: added `mixed`, `object`, `callable`, `resource` as recognized type keywords
-- Grammar: added `mixed` type to type hints in method scope completion
-- Grammar: added `do...while` loop statement (`do { } while expr;`)
-- Grammar: fixed `INTEFACE` token name typo — corrected to `INTERFACE`
-- Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
-- Added parser tests for `do...while` loop and `mixed` type usage
-- Replaced deprecated `LOG` static field with `thisLogger()` in `ZephirCreateFileAction`
-- Added `ZephirNamedElement` interface and `ZephirNamedElementMixin` abstract class for rename refactoring support
-- Added `ZephirElementFactory` to create PSI elements programmatically (used by rename refactoring)
-- Grammar: added `mixin`/`implements` attributes to class, interface, method, property, and constant definition rules to wire named-element support
 - Added Structure View (`ZephirStructureViewFactory`, `ZephirStructureViewElement`, `ZephirStructureViewModel`) showing classes, interfaces, methods, properties, and constants in the IDE structure panel
 - Added Code Folding (`ZephirFoldingBuilder`) for class/interface bodies, method code blocks, inline C blocks, and multi-line block comments
 - Added Live Templates (`Zephir.xml`) with abbreviations: `cl` (class), `pubf`, `protf`, `privf` (function stubs), `fore`, `fori`, `rev` (for loops), `wh` (while), `dowhile` (do-while), `tc` (try-catch)
 - Added `ZephirTemplateContext` so live templates are only active inside `.zep` files
+- Added Implementations Gutter (`ZephirLineMarkerProvider`) showing subclass and implementation counts next to class and interface declarations
+- Added `ZephirNamedElement` interface, `ZephirNamedElementMixin`, and `ZephirIdMixin` for rename refactoring support
+- Added `ZephirElementFactory` to create PSI elements programmatically
+- Added `ZephirRefactoringSupportProvider` to enable inline rename for named elements
+- Added parser tests for `do...while` loop and `mixed` type usage
+
+### Changed
+- Requires IntelliJ Platform 2024.3 or newer (minimum build `243`)
+- Gradle wrapper updated from 6.5.1 to 9.0.0
+- Migrated from `org.jetbrains.intellij` 0.4.21 to `org.jetbrains.intellij.platform` 2.13.1
+- `org.jetbrains.grammarkit` plugin updated from 2020.1 to 2022.3.2
+- Kotlin JVM plugin updated from 1.3.72 to 2.1.0
+- Replaced `jcenter()` repository with `mavenCentral()`
+- JVM toolchain updated from 1.8 to 21
+- GitHub Actions updated to Node.js 24 compatible versions (`checkout@v6`, `setup-java@v5`, `cache@v5`, `upload-artifact@v7`)
+- GitHub Actions build updated to use JDK 21
+- Grammar: added `mixed`, `object`, `callable`, `resource` as recognized type keywords
+- Grammar: added `mixed` type to type hints in method scope completion
+- Grammar: added `do...while` loop statement (`do { } while expr;`)
+- Grammar: fixed `INTEFACE` token name typo — corrected to `INTERFACE`
+- Grammar: added `mixin`/`implements` attributes to `Id`, class, interface, method, property, and constant definition rules
+- Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
+- Replaced deprecated `LOG` static field with `thisLogger()` in `ZephirCreateFileAction`
+- Fixed `ZephirStubFileElementType` to provide unique `externalId` and `debugName` to prevent platform exceptions
+- Updated copyright year to 2026 across all source files
 
 ## [0.4.0][0.4.0] - 2020-05-24
 ### Added
