@@ -30,7 +30,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
 
     private val typeHints = arrayOf(
         "var", "array", "object", "callable", "resource", "int", "integer", "uint", "long", "ulong",
-        "double", "float", "string", "char", "uchar"
+        "double", "float", "string", "char", "uchar", "mixed"
     )
 
     override fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -74,6 +74,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
                         true
                     )
             }
+            completionElement ?: continue
             result.addElement(
                 PrioritizedLookupElement.withPriority(completionElement, ZephirCompletionPriority.METHOD_SCOPE_PRIORITY)
             )

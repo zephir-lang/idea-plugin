@@ -107,6 +107,7 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "object"             { yybegin(YYINITIAL); return TYPE_OBJECT; }
   "callable"           { yybegin(YYINITIAL); return TYPE_CALLABLE; }
   "resource"           { yybegin(YYINITIAL); return TYPE_RESOURCE; }
+  "mixed"              { yybegin(YYINITIAL); return TYPE_MIXED; }
   "null"               { yybegin(YYINITIAL); return NULL; }
   "false"              { yybegin(YYINITIAL); return FALSE; }
   "true"               { yybegin(YYINITIAL); return TRUE; }

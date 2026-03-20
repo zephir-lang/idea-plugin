@@ -70,6 +70,7 @@
         TYPE_OBJECT        = 'object'
         TYPE_CALLABLE      = 'callable'
         TYPE_RESOURCE      = 'resource'
+        TYPE_MIXED         = 'mixed'
 
         // Value Keywords
         NULL               = 'null'
@@ -236,7 +237,7 @@ ComplexId ::= '$'? '\'? Id ('\' Id)* {pin(".*")=3}
 ComplexIdList ::= ComplexId (',' ComplexId)* {pin(".*")=1}
 
 Type ::= VoidType | ScalarType | ClassType | ResourceType
-ScalarType ::= 'var' | NumberType | StringType | BoolType | 'array' | 'object' | 'callable' | 'resource'
+ScalarType ::= 'var' | NumberType | StringType | BoolType | 'array' | 'object' | 'callable' | 'resource' | 'mixed'
 
 private StringType ::= 'string' | 'char' | 'uchar'
 private BoolType ::= 'bool' | 'boolean'

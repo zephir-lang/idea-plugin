@@ -6,4 +6,11 @@
 //
 // https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "Zephir"

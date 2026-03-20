@@ -19,6 +19,6 @@ object ZephirIcons {
      * Returns the absolute path of the given [icon].
      */
     private fun getIcon(icon: String): Icon {
-        return IconLoader.getIcon("/icons/$icon")
+        return IconLoader.getIcon("/icons/$icon", ZephirIcons::class.java)
     }
 }

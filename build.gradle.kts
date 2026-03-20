@@ -6,30 +6,35 @@
 //
 // https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
-import org.jetbrains.grammarkit.tasks.GenerateLexer
-import org.jetbrains.grammarkit.tasks.GenerateParser
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-import org.gradle.api.internal.HasConvention
+
+plugins {
+    idea
+    id("net.saliman.properties") version "1.5.2"
+    id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.grammarkit") version "2022.3.2"
+    kotlin("jvm") version "2.1.0"
+}
 
 group = "com.zephir"
 version = prop("version")
 description = prop("pluginDescription")
 
 repositories {
-    jcenter()
-}
-
-plugins {
-    idea
-    id("org.jetbrains.intellij") version "0.4.21"
-    id("org.jetbrains.grammarkit") version "2020.1"
-    id("net.saliman.properties") version "1.5.1"
-    kotlin("jvm") version "1.3.72"
+    mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.opentest4j:opentest4j:1.3.0")
+    // Grammar-kit 2022.3.2 uses these Kotlin runtime libraries at generation time.
+    // The IntelliJ 2022.3 platform Maven modules (pulled via intellijRelease) do not
+    // declare them as transitive deps, so we add them explicitly to the tool classpath.
+    "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.5")
 }
 
 idea {
@@ -38,32 +43,48 @@ idea {
     }
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    pluginName = prop("pluginName")
-    version = prop("ideVersion")
-    updateSinceUntilBuild = false
+    pluginName.set(prop("pluginName"))
+    version.set(prop("ideVersion"))
+    updateSinceUntilBuild.set(false)
+}
+
+// Use IntelliJ 2022.3 platform JARs for grammar generation — grammar-kit 2022.3.2
+// was built against that SDK. Without this, the tool gets 2024.3 JARs which have
+// additional runtime requirements (OpenTelemetry, etc.) that break the generator.
+grammarKit {
+    intellijRelease.set("223.8617.56")
+}
+
+// The IntelliJ 2022.3 platform dependency tree pulls in optional AI/spellchecker
+// and remote-dev JARs that are not available in public Maven repos. Grammar-kit
+// doesn't use any of these for source generation, so we exclude them.
+configurations.named("grammarKitClassPath") {
+    exclude(group = "com.jetbrains.infra")
+    exclude(group = "ai.grazie.spell")
+    exclude(group = "ai.grazie.utils")
+    exclude(group = "ai.grazie.nlp")
+    exclude(group = "ai.grazie.model")
+    exclude(group = "ai.grazie.api")
+    exclude(group = "org.roaringbitmap")
+    exclude(group = "com.jetbrains.rd")
 }
 
 sourceSets {
+    // Only add gen/ for generated Java sources — all other dirs are already at their defaults.
     main {
         java.srcDirs("gen")
-        kotlin.srcDirs("src/main/kotlin")
-        resources.srcDirs("src/main/resources")
-    }
-    test {
-        kotlin.srcDirs("src/test/kotlin")
-        resources.srcDirs("src/test/resources")
     }
 }
 
-tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
-    version(version)
-    sinceBuild("191")
+tasks.named<PatchPluginXmlTask>("patchPluginXml") {
+    version.set(prop("version"))
+    sinceBuild.set("241")
 
-    changeNotes("""
-        <b>Changes in version $version:</b>
-        ${readChangeNotes("CHANGELOG.md", version).orEmpty()}
+    changeNotes.set(
+        """
+        <b>Changes in version ${prop("version")}:</b>
+        ${readChangeNotes("CHANGELOG.md", prop("version")).orEmpty()}
         <p>
             To see full list of changes to this plugin refer to
             <a href="${prop("repository")}/blob/master/CHANGELOG.md">GitHub repo</a>.
@@ -72,56 +93,35 @@ tasks.getByName<PatchPluginXmlTask>("patchPluginXml") {
     )
 }
 
-val generateLexer = task<GenerateLexer>("generateLexer") {
+val generateLexer = tasks.named<GenerateLexerTask>("generateLexer") {
     group = "build setup"
     description = "Generate the Lexer"
-    source = "src/main/grammar/Zephir.flex"
-    targetDir = "gen/com/zephir/lang/core/lexer/"
-    targetClass = "_ZephirLexer"
-    skeleton = "src/main/grammar/Lexer.skeleton"
-    purgeOldFiles = true
+    sourceFile.set(file("src/main/grammar/Zephir.flex"))
+    targetDir.set("gen/com/zephir/lang/core/lexer/")
+    targetClass.set("_ZephirLexer")
+    skeleton.set(file("src/main/grammar/Lexer.skeleton"))
+    purgeOldFiles.set(true)
 }
 
-val generateParser = task<GenerateParser>("generateParser") {
+val generateParser = tasks.named<GenerateParserTask>("generateParser") {
     group = "build setup"
     description = "Generate the Parser and PsiElement classes"
-    source = "src/main/grammar/Zephir.bnf"
-    targetRoot = file("gen")
-    pathToParser = "/com/zephir/lang/core/parser/ZephirParser.java"
-    pathToPsiRoot = "/com/zephir/lang/core/psi"
-    purgeOldFiles = true
+    sourceFile.set(file("src/main/grammar/Zephir.bnf"))
+    targetRoot.set("gen")
+    pathToParser.set("com/zephir/lang/core/parser/ZephirParser.java")
+    pathToPsiRoot.set("com/zephir/lang/core/psi")
+    purgeOldFiles.set(true)
 }
 
 tasks {
-    runIde {
-        jvmArgs("--add-exports", "java.base/jdk.internal.vm=ALL-UNNAMED")
-    }
-
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-        dependsOn(
-            generateLexer,
-            generateParser
-        )
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        dependsOn(generateLexer, generateParser)
     }
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+kotlin {
+    jvmToolchain(17)
 }
-
-
-val SourceSet.kotlin: SourceDirectorySet
-    get() =
-        (this as HasConvention)
-            .convention
-            .getPlugin(KotlinSourceSet::class.java)
-            .kotlin
 
 fun prop(name: String): String =
     extra.properties[name] as? String
