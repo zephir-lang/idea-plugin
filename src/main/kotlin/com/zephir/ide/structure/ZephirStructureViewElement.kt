@@ -19,6 +19,7 @@ import com.zephir.ide.icons.ZephirIcons
 import com.zephir.lang.core.psi.*
 import javax.swing.Icon
 
+/** A node in the Zephir structure view tree, wrapping a PSI element and providing its presentation and children. */
 class ZephirStructureViewElement(private val element: PsiElement) : StructureViewTreeElement {
 
     override fun getValue() = element

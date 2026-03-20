@@ -14,13 +14,16 @@ import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
 import com.zephir.lang.core.ZephirFileType
 
+/** Factory for creating Zephir PSI elements programmatically, used by rename refactoring. */
 object ZephirElementFactory {
+    /** Creates a [ZephirId] node with the given [name] by parsing a minimal dummy Zephir file. */
     fun createId(project: Project, name: String): ZephirId {
         val file = PsiFileFactory.getInstance(project)
             .createFileFromText("dummy.zep", ZephirFileType, "namespace Dummy;\nclass $name {}") as ZephirFile
         return PsiTreeUtil.findChildOfType(file, ZephirId::class.java)!!
     }
 
+    /** Creates a bare `IDENTIFIER` leaf element with the given [name], used by [ZephirIdMixin.setName]. */
     fun createIdentifier(project: Project, name: String): PsiElement {
         return createId(project, name).identifier
     }

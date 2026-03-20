@@ -20,6 +20,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.zephir.lang.core.ZephirFileType
 import com.zephir.lang.core.psi.*
 
+/** Adds gutter icons to class and interface declarations showing the number of subclasses or implementations. */
 class ZephirLineMarkerProvider : LineMarkerProvider, DumbAware {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null

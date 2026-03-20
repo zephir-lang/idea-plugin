@@ -12,6 +12,7 @@ import com.intellij.lang.refactoring.RefactoringSupportProvider
 import com.intellij.psi.PsiElement
 import com.zephir.lang.core.psi.ZephirNamedElement
 
+/** Enables inline rename refactoring for Zephir named elements (classes, interfaces, methods, properties, constants). */
 class ZephirRefactoringSupportProvider : RefactoringSupportProvider() {
     override fun isMemberInplaceRenameAvailable(element: PsiElement, context: PsiElement?): Boolean =
         element is ZephirNamedElement

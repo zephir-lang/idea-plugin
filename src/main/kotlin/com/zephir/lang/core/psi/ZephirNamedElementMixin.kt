@@ -13,6 +13,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
+/** Base mixin for named Zephir PSI elements, providing [getName], [getNameIdentifier], and [setName] backed by [ZephirElementFactory]. */
 abstract class ZephirNamedElementMixin(node: ASTNode) : ASTWrapperPsiElement(node), ZephirNamedElement {
     override fun getName(): String? = nameIdentifier?.text
 

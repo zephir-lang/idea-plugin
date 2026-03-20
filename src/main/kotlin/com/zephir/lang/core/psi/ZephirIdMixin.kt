@@ -13,6 +13,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 
+/** Mixin for the [ZephirId] rule, implementing [PsiNameIdentifierOwner] so IntelliJ can find the renamable element at cursor. */
 abstract class ZephirIdMixin(node: ASTNode) : ASTWrapperPsiElement(node), PsiNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? = findChildByType(ZephirTypes.IDENTIFIER)
 

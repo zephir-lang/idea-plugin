@@ -12,6 +12,7 @@ import com.intellij.codeInsight.template.TemplateActionContext
 import com.intellij.codeInsight.template.TemplateContextType
 import com.zephir.lang.core.psi.ZephirFile
 
+/** Live template context that restricts Zephir templates to `.zep` files only. */
 class ZephirTemplateContext : TemplateContextType("Zephir") {
     override fun isInContext(templateActionContext: TemplateActionContext): Boolean =
         templateActionContext.file is ZephirFile

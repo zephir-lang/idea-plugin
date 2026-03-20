@@ -17,6 +17,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
 import com.zephir.lang.core.psi.*
 
+/** Builds fold regions for Zephir files: class/interface bodies, code blocks, inline C blocks, and block comments. */
 class ZephirFoldingBuilder : FoldingBuilderEx(), DumbAware {
 
     override fun buildFoldRegions(root: PsiElement, document: Document, quick: Boolean): Array<FoldingDescriptor> {

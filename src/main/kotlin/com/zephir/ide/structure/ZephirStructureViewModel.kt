@@ -15,6 +15,7 @@ import com.intellij.ide.util.treeView.smartTree.Sorter
 import com.intellij.openapi.editor.Editor
 import com.zephir.lang.core.psi.*
 
+/** Structure view model for Zephir files, exposing classes, interfaces, methods, properties, and constants. */
 class ZephirStructureViewModel(file: ZephirFile, editor: Editor?) :
     StructureViewModelBase(file, editor, ZephirStructureViewElement(file)),
     StructureViewModel.ElementInfoProvider {

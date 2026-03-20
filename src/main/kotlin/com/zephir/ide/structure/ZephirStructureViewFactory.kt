@@ -16,6 +16,7 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiFile
 import com.zephir.lang.core.psi.ZephirFile
 
+/** Provides the [StructureViewBuilder] for Zephir files, wiring the IDE structure panel to [ZephirStructureViewModel]. */
 class ZephirStructureViewFactory : PsiStructureViewFactory {
     override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder? {
         if (psiFile !is ZephirFile) return null

@@ -10,4 +10,5 @@ package com.zephir.lang.core.psi
 
 import com.intellij.psi.PsiNameIdentifierOwner
 
+/** Marker interface for Zephir PSI elements that have a name identifier (classes, interfaces, methods, properties, constants). */
 interface ZephirNamedElement : PsiNameIdentifierOwner
