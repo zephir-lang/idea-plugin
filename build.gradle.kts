@@ -22,6 +22,8 @@ group = "com.zephir"
 version = prop("version")
 description = prop("pluginDescription")
 
+val grammarKitClassPath = "grammarKitClassPath"
+
 repositories {
     // Local Maven repo for IDE artifacts that are too large to download reliably.
     // Populated manually via: ~/temp/local-maven. Remove once CI can download reliably.
@@ -41,8 +43,8 @@ dependencies {
     // Grammar-kit 2022.3.2 uses these Kotlin runtime libraries at generation time.
     // The IntelliJ 2022.3 platform Maven modules (pulled via intellijRelease) do not
     // declare them as transitive deps, so we add them explicitly to the tool classpath.
-    "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
-    "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.5")
+    grammarKitClassPath("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
+    grammarKitClassPath("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.5")
 
     intellijPlatform {
         intellijIdeaCommunity(prop("ideVersion"))
@@ -76,6 +78,12 @@ intellijPlatform {
             """.trimIndent()
         } ?: ""
     }
+
+    pluginVerification {
+        ides {
+            recommended()
+        }
+    }
 }
 
 // Use IntelliJ 2022.3 platform JARs for grammar generation — grammar-kit 2022.3.2
@@ -88,7 +96,7 @@ grammarKit {
 // The IntelliJ 2022.3 platform dependency tree pulls in optional AI/spellchecker
 // and remote-dev JARs that are not available in public Maven repos. Grammar-kit
 // doesn't use any of these for source generation, so we exclude them.
-configurations.named("grammarKitClassPath") {
+configurations.named(grammarKitClassPath) {
     exclude(group = "com.jetbrains.infra")
     exclude(group = "ai.grazie.spell")
     exclude(group = "ai.grazie.utils")
