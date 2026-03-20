@@ -13,4 +13,7 @@ import com.intellij.psi.tree.IStubFileElementType
 import com.zephir.lang.core.ZephirLanguage
 import com.zephir.lang.core.psi.ZephirFile
 
-class ZephirStubFileElementType : IStubFileElementType<PsiFileStub<ZephirFile>>(ZephirLanguage)
+class ZephirStubFileElementType : IStubFileElementType<PsiFileStub<ZephirFile>>(ZephirLanguage) {
+    override fun getExternalId(): String = "zephir.file"
+    override fun getDebugName(): String = "ZephirFile"
+}
