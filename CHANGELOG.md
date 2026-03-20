@@ -25,6 +25,13 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 - Replaced deprecated `IconLoader.getIcon(String)` with `IconLoader.getIcon(String, ClassLoader)`
 - Added parser tests for `do...while` loop and `mixed` type usage
 - Replaced deprecated `LOG` static field with `thisLogger()` in `ZephirCreateFileAction`
+- Added `ZephirNamedElement` interface and `ZephirNamedElementMixin` abstract class for rename refactoring support
+- Added `ZephirElementFactory` to create PSI elements programmatically (used by rename refactoring)
+- Grammar: added `mixin`/`implements` attributes to class, interface, method, property, and constant definition rules to wire named-element support
+- Added Structure View (`ZephirStructureViewFactory`, `ZephirStructureViewElement`, `ZephirStructureViewModel`) showing classes, interfaces, methods, properties, and constants in the IDE structure panel
+- Added Code Folding (`ZephirFoldingBuilder`) for class/interface bodies, method code blocks, inline C blocks, and multi-line block comments
+- Added Live Templates (`Zephir.xml`) with abbreviations: `cl` (class), `pubf`, `protf`, `privf` (function stubs), `fore`, `fori`, `rev` (for loops), `wh` (while), `dowhile` (do-while), `tc` (try-catch)
+- Added `ZephirTemplateContext` so live templates are only active inside `.zep` files
 
 ## [0.4.0][0.4.0] - 2020-05-24
 ### Added
