@@ -76,21 +76,15 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          cache: gradle
 
       - name: Grant Execute Permission for Gradle
         run: chmod +x gradlew
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
-
-      - name: Displays All Dependencies
-        run: ./gradlew dependencies
-
       - name: Bundle the Project as a Distribution
+        run: ./gradlew buildPlugin
+
+      - name: Validate Plugin
         run: ./gradlew buildPlugin
 
       - name: Upload Artifact
@@ -148,16 +142,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+          cache: gradle
 
       - name: Grant Execute Permission for Gradle
         run: chmod +x gradlew
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v5
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
 
       - name: Bundle the Project as a Distribution
         run: ./gradlew buildPlugin
