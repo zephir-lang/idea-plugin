@@ -62,7 +62,7 @@ val ZEPHIR_KEYWORDS = tokenSetOf(
 
     // OOP
     INTERNAL,
-    INTEFACE,
+    INTERFACE,
     CLASS,
     FUNCTION,
     EXTENDS,

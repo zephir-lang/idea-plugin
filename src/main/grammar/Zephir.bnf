@@ -40,7 +40,7 @@
         NAMESPACE          = 'namespace'
         USE                = 'use'
         AS                 = 'as'
-        INTEFACE           = 'interface'
+        INTERFACE          = 'interface'
         CLASS              = 'class'
         FUNCTION           = 'function'
         EXTENDS            = 'extends'
@@ -286,10 +286,13 @@ CallStatement ::= CallExpr ';'
 ControlStatement ::= ('continue' | 'break') ';'
 
 LoopStatement ::= InfinityLoopStatement |
+                   DoWhileLoopStatement |
                    WhileLoopStatement |
                    ForeachLoopStatement
 
 InfinityLoopStatement ::= 'loop' CodeBlock {pin=1}
+
+DoWhileLoopStatement ::= 'do' CodeBlock 'while' Expr ';' {pin=1}
 
 WhileLoopStatement ::= 'while' Expr CodeBlock {pin=2}
 
