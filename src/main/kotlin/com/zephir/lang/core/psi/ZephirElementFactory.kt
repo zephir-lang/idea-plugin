@@ -9,6 +9,7 @@
 package com.zephir.lang.core.psi
 
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
 import com.zephir.lang.core.ZephirFileType
@@ -18,5 +19,9 @@ object ZephirElementFactory {
         val file = PsiFileFactory.getInstance(project)
             .createFileFromText("dummy.zep", ZephirFileType, "namespace Dummy;\nclass $name {}") as ZephirFile
         return PsiTreeUtil.findChildOfType(file, ZephirId::class.java)!!
+    }
+
+    fun createIdentifier(project: Project, name: String): PsiElement {
+        return createId(project, name).identifier
     }
 }

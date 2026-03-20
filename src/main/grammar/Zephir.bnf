@@ -255,7 +255,10 @@ Argument ::= Type? '!'? (PhpReserved | Id) DefaultValue? {pin=3}
 DefaultValue ::= '=' Expr {pin=1}
 Visibility ::= 'public' | 'protected' | 'private'
 
-Id ::= '$'?IDENTIFIER
+Id ::= '$'?IDENTIFIER {
+    mixin="com.zephir.lang.core.psi.ZephirIdMixin"
+    implements="com.intellij.psi.PsiNameIdentifierOwner"
+}
 
 ComplexId ::= '$'? '\'? Id ('\' Id)* {pin(".*")=3}
 ComplexIdList ::= ComplexId (',' ComplexId)* {pin(".*")=1}

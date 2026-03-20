@@ -69,6 +69,10 @@
         <lang.foldingBuilder language="Zephir"
                              implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
 
+        <!-- Rename Refactoring -->
+        <lang.refactoringSupport language="Zephir"
+                                 implementationClass="com.zephir.ide.refactoring.ZephirRefactoringSupportProvider"/>
+
         <!-- Live Templates -->
         <defaultLiveTemplates file="/liveTemplates/Zephir.xml"/>
         <liveTemplateContext implementation="com.zephir.ide.template.ZephirTemplateContext"
