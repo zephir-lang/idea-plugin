@@ -8,12 +8,12 @@
 
 import org.jetbrains.grammarkit.tasks.GenerateLexerTask
 import org.jetbrains.grammarkit.tasks.GenerateParserTask
-import org.jetbrains.intellij.tasks.PatchPluginXmlTask
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 
 plugins {
     idea
     id("net.saliman.properties") version "1.5.2"
-    id("org.jetbrains.intellij") version "1.17.4"
+    id("org.jetbrains.intellij.platform") version "2.13.1"
     id("org.jetbrains.grammarkit") version "2022.3.2"
     kotlin("jvm") version "2.1.0"
 }
@@ -23,11 +23,19 @@ version = prop("version")
 description = prop("pluginDescription")
 
 repositories {
+    // Local Maven repo for IDE artifacts that are too large to download reliably.
+    // Populated manually via: ~/temp/local-maven. Remove once CI can download reliably.
+    val localMaven = File(System.getProperty("user.home"), "temp/local-maven")
+    if (localMaven.exists()) {
+        maven { url = uri(localMaven.toURI()) }
+    }
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.opentest4j:opentest4j:1.3.0")
     // Grammar-kit 2022.3.2 uses these Kotlin runtime libraries at generation time.
@@ -35,6 +43,11 @@ dependencies {
     // declare them as transitive deps, so we add them explicitly to the tool classpath.
     "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4")
     "grammarKitClassPath"("org.jetbrains.kotlinx:kotlinx-collections-immutable-jvm:0.3.5")
+
+    intellijPlatform {
+        intellijIdeaCommunity(prop("ideVersion"))
+        testFramework(TestFrameworkType.Platform)
+    }
 }
 
 idea {
@@ -43,10 +56,26 @@ idea {
     }
 }
 
-intellij {
-    pluginName.set(prop("pluginName"))
-    version.set(prop("ideVersion"))
-    updateSinceUntilBuild.set(false)
+intellijPlatform {
+    pluginConfiguration {
+        name = prop("pluginName")
+        version = prop("version")
+
+        ideaVersion {
+            sinceBuild = "243"
+        }
+
+        changeNotes = readChangeNotes("CHANGELOG.md", prop("version"))?.let {
+            """
+            <b>Changes in version ${prop("version")}:</b>
+            $it
+            <p>
+                To see full list of changes to this plugin refer to
+                <a href="${prop("repository")}/blob/master/CHANGELOG.md">GitHub repo</a>.
+            </p>
+            """.trimIndent()
+        } ?: ""
+    }
 }
 
 // Use IntelliJ 2022.3 platform JARs for grammar generation — grammar-kit 2022.3.2
@@ -77,22 +106,6 @@ sourceSets {
     }
 }
 
-tasks.named<PatchPluginXmlTask>("patchPluginXml") {
-    version.set(prop("version"))
-    sinceBuild.set("241")
-
-    changeNotes.set(
-        """
-        <b>Changes in version ${prop("version")}:</b>
-        ${readChangeNotes("CHANGELOG.md", prop("version")).orEmpty()}
-        <p>
-            To see full list of changes to this plugin refer to
-            <a href="${prop("repository")}/blob/master/CHANGELOG.md">GitHub repo</a>.
-        </p>
-        """.trimIndent()
-    )
-}
-
 val generateLexer = tasks.named<GenerateLexerTask>("generateLexer") {
     group = "build setup"
     description = "Generate the Lexer"
@@ -117,10 +130,14 @@ tasks {
     compileKotlin {
         dependsOn(generateLexer, generateParser)
     }
+    // buildSearchableOptions runs a sandboxed IDE to index plugin settings for the
+    // Settings search. When using a local() IDE path it incorrectly tries to register
+    // the platform a second time (Plugin 2.x bug). Safe to disable — only affects
+    // whether plugin settings appear in the IDE's Settings search box.
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 fun prop(name: String): String =
