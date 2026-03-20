@@ -61,6 +61,10 @@
         <lang.psiStructureViewFactory language="Zephir"
                                       implementationClass="com.zephir.ide.structure.ZephirStructureViewFactory"/>
 
+        <!-- Line Markers -->
+        <codeInsight.lineMarkerProvider language="Zephir"
+                                        implementationClass="com.zephir.ide.linemarker.ZephirLineMarkerProvider"/>
+
         <!-- Code Folding -->
         <lang.foldingBuilder language="Zephir"
                              implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
