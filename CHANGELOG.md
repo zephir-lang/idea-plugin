@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 
 ## [0.5.0][0.5.0] - 2026-03-20
 ### Added
+- Added Documentation functionality (**Ctrl+Q** and on **hover**)
 - Added **Go To Declaration** (`Ctrl+click`) for class and interface references:
 - Qualified names (`Phalcon\Storage\Adapter\Libmemcached`) resolve via namespace-to-directory mapping, preventing ambiguous matches when multiple classes share the same short name
 - Unqualified names fall back to a full project scan
