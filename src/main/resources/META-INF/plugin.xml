@@ -56,6 +56,19 @@
 
         <!-- Color Settings -->
         <colorSettingsPage implementation="com.zephir.ide.color.ZephirColorSettingsPage"/>
+
+        <!-- Structure View -->
+        <lang.psiStructureViewFactory language="Zephir"
+                                      implementationClass="com.zephir.ide.structure.ZephirStructureViewFactory"/>
+
+        <!-- Code Folding -->
+        <lang.foldingBuilder language="Zephir"
+                             implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
+
+        <!-- Live Templates -->
+        <defaultLiveTemplates file="/liveTemplates/Zephir.xml"/>
+        <liveTemplateContext implementation="com.zephir.ide.template.ZephirTemplateContext"
+                             contextId="Zephir"/>
     </extensions>
 
     <actions>
