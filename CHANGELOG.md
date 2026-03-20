@@ -4,10 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [Unreleased][Unreleased]
-
 ## [0.5.0][0.5.0] - 2026-03-20
 ### Added
+- Added **Go To Declaration** (`Ctrl+click`) for class and interface references:
+- Qualified names (`Phalcon\Storage\Adapter\Libmemcached`) resolve via namespace-to-directory mapping, preventing ambiguous matches when multiple classes share the same short name
+- Unqualified names fall back to a full project scan
+- Alias names (`use Foo as Bar` → clicking `Bar`) navigate to the `use` statement so the real class path can be followed with a second Ctrl+click
 - Added `docker-compose.yml` with a persistent Gradle cache volume for reproducible local builds
 - Added Structure View (`ZephirStructureViewFactory`, `ZephirStructureViewElement`, `ZephirStructureViewModel`) showing classes, interfaces, methods, properties, and constants in the IDE structure panel
 - Added Code Folding (`ZephirFoldingBuilder`) for class/interface bodies, method code blocks, inline C blocks, and multi-line block comments

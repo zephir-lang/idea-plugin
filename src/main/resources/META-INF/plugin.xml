@@ -27,6 +27,7 @@
       <li><b>Live Templates</b> — expand common Zephir snippets (class, functions, loops, try/catch) with short abbreviations</li>
       <li><b>Rename Refactoring</b> — rename classes, interfaces, methods, properties, and constants</li>
       <li><b>Implementations Gutter</b> — see subclass and implementation counts in the editor gutter</li>
+      <li><b>Go To Declaration</b> — Ctrl+click a class or interface name to jump to its declaration; qualified names resolve via namespace path, aliases navigate to their use statement</li>
     </ul>
     ]]></description>
 
@@ -72,6 +73,13 @@
         <!-- Code Folding -->
         <lang.foldingBuilder language="Zephir"
                              implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
+
+        <!-- Go To Declaration (Ctrl+click) -->
+        <gotoDeclarationHandler implementation="com.zephir.ide.navigation.ZephirGotoDeclarationHandler"/>
+
+        <!-- References (Find Usages, Rename across usages) -->
+        <psi.referenceContributor language="Zephir"
+                                  implementation="com.zephir.lang.core.psi.ZephirReferenceContributor"/>
 
         <!-- Rename Refactoring -->
         <lang.refactoringSupport language="Zephir"

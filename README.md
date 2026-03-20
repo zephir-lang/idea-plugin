@@ -34,6 +34,7 @@ Functionality is exposed to the PHP language.
 
 - **Rename Refactoring** — rename classes, interfaces, methods, properties, and constants across the file
 - **Implementations Gutter** — see subclass and implementation counts next to class and interface declarations in the editor gutter
+- **Go To Declaration** — Ctrl+click a class or interface name to jump to its declaration; qualified names resolve via namespace-to-directory mapping, and aliases navigate to their `use` statement
 
 ## Install
 
