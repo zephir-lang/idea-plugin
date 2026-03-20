@@ -37,7 +37,7 @@ missing functionality that you would want to see. Check out
 
 ## License
 
-Copyright (c) 2014-2020 Zephir Team.
+Copyright (c) 2014-2026 Zephir Team.
 
 Licensed under the [MIT](./LICENSE) License.
 
