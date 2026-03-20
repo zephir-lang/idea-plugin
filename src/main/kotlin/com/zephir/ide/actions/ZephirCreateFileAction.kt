@@ -10,6 +10,7 @@ package com.zephir.ide.actions
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.actions.CreateFileFromTemplateAction
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.fileTemplates.FileTemplate
 import com.intellij.ide.fileTemplates.FileTemplateManager
@@ -59,10 +60,10 @@ class ZephirCreateFileAction : CreateFileFromTemplateAction(
                 properties
             ).create()
         } catch (e: IncorrectOperationException) {
-            LOG.error("Error while creating new file", e)
+            thisLogger().error("Error while creating new file", e)
             throw e
         } catch (e: Exception) {
-            LOG.error("Error while creating new file", e)
+            thisLogger().error("Error while creating new file", e)
             null
         }
 

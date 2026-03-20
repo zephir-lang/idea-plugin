@@ -20,9 +20,14 @@
     <h2>Highlighted Features</h2>
     <ul>
       <li>Syntax highlighting</li>
-      <li>Basic syntax definition</li>
-      <li>Basic autocompletion support</li>
-      <li>Basic syntax check support</li>
+      <li>Syntax definition and autocompletion</li>
+      <li>Syntax check support</li>
+      <li><b>Structure View</b> — browse classes, interfaces, methods, properties, and constants via the IDE structure panel</li>
+      <li><b>Code Folding</b> — fold class/interface bodies, method blocks, inline C blocks, and block comments</li>
+      <li><b>Live Templates</b> — expand common Zephir snippets (class, functions, loops, try/catch) with short abbreviations</li>
+      <li><b>Rename Refactoring</b> — rename classes, interfaces, methods, properties, and constants</li>
+      <li><b>Implementations Gutter</b> — see subclass and implementation counts in the editor gutter</li>
+      <li><b>Go To Declaration</b> — Ctrl+click a class or interface name to jump to its declaration; qualified names resolve via namespace path, aliases navigate to their use statement</li>
     </ul>
     ]]></description>
 
@@ -56,6 +61,34 @@
 
         <!-- Color Settings -->
         <colorSettingsPage implementation="com.zephir.ide.color.ZephirColorSettingsPage"/>
+
+        <!-- Structure View -->
+        <lang.psiStructureViewFactory language="Zephir"
+                                      implementationClass="com.zephir.ide.structure.ZephirStructureViewFactory"/>
+
+        <!-- Line Markers -->
+        <codeInsight.lineMarkerProvider language="Zephir"
+                                        implementationClass="com.zephir.ide.linemarker.ZephirLineMarkerProvider"/>
+
+        <!-- Code Folding -->
+        <lang.foldingBuilder language="Zephir"
+                             implementationClass="com.zephir.ide.folding.ZephirFoldingBuilder"/>
+
+        <!-- Go To Declaration (Ctrl+click) -->
+        <gotoDeclarationHandler implementation="com.zephir.ide.navigation.ZephirGotoDeclarationHandler"/>
+
+        <!-- References (Find Usages, Rename across usages) -->
+        <psi.referenceContributor language="Zephir"
+                                  implementation="com.zephir.lang.core.psi.ZephirReferenceContributor"/>
+
+        <!-- Rename Refactoring -->
+        <lang.refactoringSupport language="Zephir"
+                                 implementationClass="com.zephir.ide.refactoring.ZephirRefactoringSupportProvider"/>
+
+        <!-- Live Templates -->
+        <defaultLiveTemplates file="/liveTemplates/Zephir.xml"/>
+        <liveTemplateContext implementation="com.zephir.ide.template.ZephirTemplateContext"
+                             contextId="Zephir"/>
     </extensions>
 
     <actions>

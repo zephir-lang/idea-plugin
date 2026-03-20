@@ -40,7 +40,7 @@
         NAMESPACE          = 'namespace'
         USE                = 'use'
         AS                 = 'as'
-        INTEFACE           = 'interface'
+        INTERFACE          = 'interface'
         CLASS              = 'class'
         FUNCTION           = 'function'
         EXTENDS            = 'extends'
@@ -185,7 +185,11 @@ NamespaceStatement ::= 'namespace' ComplexId ';' {pin=2}
 
 ImportStatement ::= 'use' ComplexId ('as' Id)? ';' {pin=2}
 
-ClassDefinition ::= ClassModifier? 'class' Id SuperClass? ImplementsList? ClassBody {pin=3}
+ClassDefinition ::= ClassModifier? 'class' Id SuperClass? ImplementsList? ClassBody {
+    pin=3
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 
 private ClassModifier ::= 'abstract' | 'final'
 
@@ -198,24 +202,44 @@ private ClassMember ::= ConstantDefinition |
                         MethodDefinition |
                         AbstractMethodDefinition
 
-InterfaceDefinition ::= 'interface' Id SuperInterfaces? InterfaceBody {pin=2}
+InterfaceDefinition ::= 'interface' Id SuperInterfaces? InterfaceBody {
+    pin=2
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 SuperInterfaces ::= 'extends' ComplexIdList {pin=1}
 InterfaceBody ::= '{' InterfaceMember* '}' {pin=1}
 
 private InterfaceMember ::= ConstantDefinition |
                             InterfaceMethodDefinition
 
-InterfaceMethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? ';' {pin=2}
+InterfaceMethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? ';' {
+    pin=2
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 AbstractMethodDefinition ::= 'abstract' InterfaceMethodDefinition
 
-ConstantDefinition ::= 'const' Id DefaultValue? ';' {pin=2}
+ConstantDefinition ::= 'const' Id DefaultValue? ';' {
+    pin=2
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 
-PropertyDefinition ::= 'static'? Visibility 'static'?  Id DefaultValue? MemberMetaAccess? ';' {pin=4}
+PropertyDefinition ::= 'static'? Visibility 'static'?  Id DefaultValue? MemberMetaAccess? ';' {
+    pin=4
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 
 private MemberMetaAccess ::= '{' MemberMetaModifier (',' MemberMetaModifier)* '}' {pin=1}
 private MemberMetaModifier ::= 'get' | 'set' | '__toString'
 
-MethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? MethodBody {pin=2}
+MethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? MethodBody {
+    pin=2
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 MethodModifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
 MethodBody ::= CodeBlock
 
@@ -231,7 +255,10 @@ Argument ::= Type? '!'? (PhpReserved | Id) DefaultValue? {pin=3}
 DefaultValue ::= '=' Expr {pin=1}
 Visibility ::= 'public' | 'protected' | 'private'
 
-Id ::= '$'?IDENTIFIER
+Id ::= '$'?IDENTIFIER {
+    mixin="com.zephir.lang.core.psi.ZephirIdMixin"
+    implements="com.intellij.psi.PsiNameIdentifierOwner"
+}
 
 ComplexId ::= '$'? '\'? Id ('\' Id)* {pin(".*")=3}
 ComplexIdList ::= ComplexId (',' ComplexId)* {pin(".*")=1}
@@ -286,10 +313,13 @@ CallStatement ::= CallExpr ';'
 ControlStatement ::= ('continue' | 'break') ';'
 
 LoopStatement ::= InfinityLoopStatement |
+                   DoWhileLoopStatement |
                    WhileLoopStatement |
                    ForeachLoopStatement
 
 InfinityLoopStatement ::= 'loop' CodeBlock {pin=1}
+
+DoWhileLoopStatement ::= 'do' CodeBlock 'while' Expr ';' {pin=1}
 
 WhileLoopStatement ::= 'while' Expr CodeBlock {pin=2}
 

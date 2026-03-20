@@ -1,0 +1,70 @@
+<templateSet group="Zephir">
+
+    <template name="cl" value="class $NAME$&#10;{&#10;    $END$&#10;}" description="class definition"
+              toReformat="true" toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="&quot;ClassName&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="pubf" value="public function $NAME$($PARAMS$)&#10;{&#10;    $END$&#10;}"
+              description="public function" toReformat="true" toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="&quot;methodName&quot;" alwaysStopAt="true"/>
+        <variable name="PARAMS" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="protf" value="protected function $NAME$($PARAMS$)&#10;{&#10;    $END$&#10;}"
+              description="protected function" toReformat="true" toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="&quot;methodName&quot;" alwaysStopAt="true"/>
+        <variable name="PARAMS" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="privf" value="private function $NAME$($PARAMS$)&#10;{&#10;    $END$&#10;}"
+              description="private function" toReformat="true" toShortenFQNames="false">
+        <variable name="NAME" expression="" defaultValue="&quot;methodName&quot;" alwaysStopAt="true"/>
+        <variable name="PARAMS" expression="" defaultValue="" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="fore" value="for $KEY$, $VALUE$ in $EXPR$ {&#10;    $END$&#10;}"
+              description="for key, value in collection" toReformat="true" toShortenFQNames="false">
+        <variable name="KEY" expression="" defaultValue="&quot;key&quot;" alwaysStopAt="true"/>
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true"/>
+        <variable name="EXPR" expression="" defaultValue="&quot;collection&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="fori" value="for $VALUE$ in $EXPR$ {&#10;    $END$&#10;}"
+              description="for value in collection" toReformat="true" toShortenFQNames="false">
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true"/>
+        <variable name="EXPR" expression="" defaultValue="&quot;collection&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="rev" value="for $VALUE$ in reverse $EXPR$ {&#10;    $END$&#10;}"
+              description="for value in reverse collection" toReformat="true" toShortenFQNames="false">
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true"/>
+        <variable name="EXPR" expression="" defaultValue="&quot;collection&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="wh" value="while $COND$ {&#10;    $END$&#10;}"
+              description="while loop" toReformat="true" toShortenFQNames="false">
+        <variable name="COND" expression="" defaultValue="&quot;condition&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="dowhile" value="do {&#10;    $END$&#10;} while $COND$;"
+              description="do-while loop" toReformat="true" toShortenFQNames="false">
+        <variable name="COND" expression="" defaultValue="&quot;condition&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+    <template name="tc" value="try {&#10;    $END$&#10;} catch $EXCEPTION$ e {&#10;    &#10;}"
+              description="try-catch block" toReformat="true" toShortenFQNames="false">
+        <variable name="EXCEPTION" expression="" defaultValue="&quot;Exception&quot;" alwaysStopAt="true"/>
+        <context><option name="Zephir" value="true"/></context>
+    </template>
+
+</templateSet>

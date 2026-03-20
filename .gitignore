@@ -24,3 +24,5 @@ gen/
 
 # This file is required to use standalone gradle
 !gradle/wrapper/gradle-wrapper.jar
+
+.intellijPlatform/

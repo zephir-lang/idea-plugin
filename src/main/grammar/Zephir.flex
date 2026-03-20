@@ -74,7 +74,7 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "namespace"          { yybegin(YYINITIAL); return NAMESPACE; }
   "use"                { yybegin(YYINITIAL); return USE; }
   "as"                 { yybegin(YYINITIAL); return AS; }
-  "interface"          { yybegin(YYINITIAL); return INTEFACE; }
+  "interface"          { yybegin(YYINITIAL); return INTERFACE; }
   "class"              { yybegin(YYINITIAL); return CLASS; }
   "function"           { yybegin(YYINITIAL); return FUNCTION; }
   "fn"                 { yybegin(YYINITIAL); return FUNCTION; }
