@@ -2,8 +2,8 @@
 
 [![Build Status][actions-badge]][actions link]
 
-A IntelliJ plugin for editing [Zephir][zephir-lang] code. Provides syntax
-definition, autocompletion and syntax check support.
+An IntelliJ plugin for editing [Zephir][zephir-lang] code. Provides syntax
+highlighting, autocompletion, code folding, structure view, and live templates.
 
 Zephir is a high level programming language that eases the creation and
 maintainability of extensions for PHP. Zephir extensions are exported to C code
@@ -13,9 +13,26 @@ Functionality is exposed to the PHP language.
 ## Highlighted Features
 
 - Syntax highlighting
-- Basic syntax definition
-- Basic autocompletion support
-- Basic syntax check support
+- Syntax definition and autocompletion
+- Syntax check support
+- **Structure View** — browse classes, interfaces, methods, properties, and constants via the IDE structure panel
+- **Code Folding** — fold class/interface bodies, method blocks, inline C blocks (`%{ }%`), and multi-line block comments
+- **Live Templates** — expand common Zephir snippets with a short abbreviation:
+
+  | Abbreviation | Expands to                             |
+  |--------------|----------------------------------------|
+  | `cl`         | class definition                       |
+  | `pubf`       | public function                        |
+  | `protf`      | protected function                     |
+  | `privf`      | private function                       |
+  | `fore`       | `for key, value in collection` loop    |
+  | `fori`       | `for value in collection` loop         |
+  | `rev`        | `for value in reverse collection` loop |
+  | `wh`         | while loop                             |
+  | `dowhile`    | do-while loop                          |
+  | `tc`         | try-catch block                        |
+
+- **Rename Refactoring** — rename classes, interfaces, methods, properties, and constants across the file
 
 ## Install
 
