@@ -20,8 +20,8 @@
     <h2>Highlighted Features</h2>
     <ul>
       <li>Syntax highlighting</li>
-      <li>Syntax definition and autocompletion</li>
       <li>Syntax check support</li>
+      <li><b>Autocompletion</b> — local variables, class/interface names from the project, PHP built-in functions, and member access (<code>-&gt;</code>) for Zephir-typed variables</li>
       <li><b>Structure View</b> — browse classes, interfaces, methods, properties, and constants via the IDE structure panel</li>
       <li><b>Code Folding</b> — fold class/interface bodies, method blocks, inline C blocks, and block comments</li>
       <li><b>Live Templates</b> — expand common Zephir snippets (class, functions, loops, try/catch) with short abbreviations</li>
