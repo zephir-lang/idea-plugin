@@ -18,8 +18,12 @@ import com.zephir.lang.core.completion.suggestors.*
 class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
     private val suggestors = listOf(
         ZephirFileScopeKeywordsSuggestor,
+        ZephirClassScopeKeywordsSuggestor,
         ZephirMethodScopeCompletionSuggestor,
-        ZephirClassScopeKeywordsSuggestor
+        ZephirVariablesSuggestor,
+        ZephirMemberAccessSuggestor,
+        ZephirBuiltinFunctionSuggestor,
+        ZephirClassNameSuggestor
     )
 
     override fun addCompletions(

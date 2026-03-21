@@ -115,19 +115,34 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
     }
 
     private fun processClassMethods(classBody: ZephirClassBody, result: CompletionResultSet) {
+        for (methodDef in classBody.methodDefinitionList) {
+            result.addElement(
+                PrioritizedLookupElement.withPriority(
+                    methodLookup(methodDef.id.text, methodDef.returnType?.text ?: ""),
+                    ZephirCompletionPriority.CLASS_METHOD_PRIORITY
+                )
+            )
+        }
         for (abstractDef in classBody.abstractMethodDefinitionList) {
             val interDef = abstractDef.interfaceMethodDefinition
-
-            val completionElement = LookupElementBuilder
-                .create(interDef.id.text, "this->" + interDef.id.text.toString() + "()")
-                .withTypeText(if (interDef.returnType != null) interDef.returnType!!.text else "")
-                .withLookupString(interDef.id.text)
-
             result.addElement(
-                PrioritizedLookupElement.withPriority(completionElement, ZephirCompletionPriority.CLASS_METHOD_PRIORITY)
+                PrioritizedLookupElement.withPriority(
+                    methodLookup(interDef.id.text, interDef.returnType?.text ?: ""),
+                    ZephirCompletionPriority.CLASS_METHOD_PRIORITY
+                )
             )
         }
     }
+
+    private fun methodLookup(name: String, returnType: String) =
+        LookupElementBuilder
+            .create(name, "this->$name()")
+            .withTypeText(returnType)
+            .withLookupString(name)
+            .withInsertHandler { ctx, _ ->
+                ctx.document.insertString(ctx.tailOffset, "()")
+                ctx.editor.caretModel.moveToOffset(ctx.tailOffset - 1)
+            }
 
     private fun getPsiByCurrentPos(psiElement: PsiElement, objectType: String): PsiElement? {
         var parent = psiElement.parent

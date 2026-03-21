@@ -13,8 +13,8 @@ Functionality is exposed to the PHP language.
 ## Highlighted Features
 
 - Syntax highlighting
-- Syntax definition and autocompletion
 - Syntax check support
+- **Autocompletion** — local variables, class/interface names from the project, PHP built-in functions, and member access (`->`) for Zephir-typed variables
 - **Structure View** — browse classes, interfaces, methods, properties, and constants via the IDE structure panel
 - **Code Folding** — fold class/interface bodies, method blocks, inline C blocks (`%{ }%`), and multi-line block comments
 - **Live Templates** — expand common Zephir snippets with a short abbreviation:
