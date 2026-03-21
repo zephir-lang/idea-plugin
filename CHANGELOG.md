@@ -4,14 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [0.5.1][0.5.1] - 2026-03-20
-### Changed
-- Replaced internal API override of `IElementType.getDebugName()` in `ZephirStubFileElementType` with the public `IStubFileElementType(String, Language)` constructor parameter
-
-## [0.5.0][0.5.0] - 2026-03-20
-### Fixed
-- Replaced `IElementType.getDebugName()` override in `ZephirStubFileElementType` with `toString()` to eliminate `@ApiStatus.Internal` API usage flagged by Plugin Verifier
-
+## [0.5.1][0.5.1] - 2026-03-21
 ### Added
 - Enhanced autocompletion for Zephir code:
   - Local variable names — suggests variables declared with `let`, type-annotated declarations (`var`/`string`/etc.), and `for` loop iteration variables
@@ -19,6 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org).
   - PHP built-in functions — suggests ~80 common PHP built-in functions in method scope, auto-inserting `()` with the cursor positioned inside
   - Member access (`->`) — when a variable is typed as a Zephir class or interface (e.g. `<AdapterInterface> adapter`), typing `adapter->` suggests that type's methods and properties from the project's `.zep` files
   - Concrete class methods now included in `this->` completion (previously only abstract methods were suggested); selected methods auto-insert `()` with cursor inside
+
+### Changed
+- Replaced internal API override of `IElementType.getDebugName()` in `ZephirStubFileElementType` with the public `IStubFileElementType(String, Language)` constructor parameter
+
+## [0.5.0][0.5.0] - 2026-03-20
+### Added
 - Added Documentation functionality (**Ctrl+Q** and on **hover**)
 - Added **Go To Declaration** (`Ctrl+click`) for class and interface references:
 - Qualified names (`Phalcon\Storage\Adapter\Libmemcached`) resolve via namespace-to-directory mapping, preventing ambiguous matches when multiple classes share the same short name
