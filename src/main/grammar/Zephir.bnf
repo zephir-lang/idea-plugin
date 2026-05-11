@@ -383,7 +383,10 @@ InstanceofExpr ::= Variable 'instanceof' Expr {pin=2}
 
 CallExpr ::=  Expr '(' CallArguments? ')' ('->' Id '(' CallArguments? ')')* ArrayAccess? {pin=3}
 MagicCallExpr ::= '$'('clone' | 'fetch') '(' Arguments* ')'
-CallbackExpr ::= 'function' '(' Arguments* ')' CodeBlock {pin=1}
+CallbackExpr ::= 'function' '(' Arguments* ')' UseClause? CodeBlock {pin=1}
+UseClause ::= 'use' '(' UseArguments? ')' {pin=1}
+UseArguments ::= UseArgument (',' UseArgument)* {pin(".*")=1}
+UseArgument ::= 'const'? '&'? Id {pin=3}
 CloneExpr ::= 'clone' Variable
 
 NewExpr ::= NewExprClassic | NewExprDynamic

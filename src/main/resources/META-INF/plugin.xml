@@ -40,6 +40,7 @@
                   fieldName="INSTANCE" extensions="zep"/>
         <internalFileTemplate name="Zephir Class"/>
         <internalFileTemplate name="Zephir Interface"/>
+        <internalFileTemplate name="Zephir File"/>
 
         <!-- Parser -->
         <lang.parserDefinition language="Zephir"
