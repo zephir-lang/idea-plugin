@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com)
 and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [Unreleased]
+### Added
+- Grammar: variadic parameters — `...` (`ELLIPSIS`) is now recognized before an argument name (e.g. `function foo(int ...values)`)
+- Grammar: `static` return type — `<static>` is now accepted as a class type, allowing `self`/`static` returns (e.g. `-> <static>`)
+- Grammar: closure `use` clause — `function () use (x, y) { }`, including `const` and by-reference (`&`) captured variables
+- Registered the `Zephir File` internal file template in `plugin.xml`
+
 ## [0.6.0][0.6.0] - 2026-03-21
 ### Added
 - Enhanced autocompletion for Zephir code:
