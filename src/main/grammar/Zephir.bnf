@@ -146,6 +146,7 @@
         ARROW              = '->'
         DOUBLECOLON        = '::'
         DOT                = '.'
+        ELLIPSIS           = '...'
         ADD                = '+'
         SUB                = '-'
         MUL                = '*'
@@ -250,7 +251,7 @@ CodeBlock ::= '{' Code* '}' {pin=1}
 ReturnType ::= '->' (Type | 'null') ('|' (Type | 'null'))* {pin(".*")=1}
 
 Arguments ::= Argument (',' Argument)* {pin(".*")=1}
-Argument ::= Type? '!'? (PhpReserved | Id) DefaultValue? {pin=3}
+Argument ::= Type? '!'? '...'? (PhpReserved | Id) DefaultValue? {pin=4}
 
 DefaultValue ::= '=' Expr {pin=1}
 Visibility ::= 'public' | 'protected' | 'private'
@@ -271,7 +272,7 @@ private BoolType ::= 'bool' | 'boolean'
 private NumberType ::= IntType | DoubleType | 'uint' | 'long' | 'ulong'
 private IntType ::= 'int' | 'integer'
 private DoubleType ::= 'double' | 'float'
-private ClassType ::= '<' ComplexId ArrayAppendExpr? '>'
+private ClassType ::= '<' (ComplexId | 'static') ArrayAppendExpr? '>'
 private ResourceType ::= '<' '$'ComplexId ArrayAppendExpr? '>'
 private VoidType ::= 'void'
 

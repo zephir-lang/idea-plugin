@@ -18,5 +18,9 @@ class ZephirParserTest : ParsingTestCase("parser", "zep", ZephirParserDefinition
 
     fun testMixedType() = doTest(true)
 
+    fun testStaticSelfReturn() = doTest(true)
+
+    fun testVariadic() = doTest(true)
+
     override fun getTestDataPath() = "src/test/testData"
 }

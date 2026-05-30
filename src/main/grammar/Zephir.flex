@@ -176,6 +176,7 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   ">"                  { yybegin(YYINITIAL); return GREATER; }
   "->"                 { yybegin(YYINITIAL); return ARROW; }
   "::"                 { yybegin(YYINITIAL); return DOUBLECOLON; }
+  "..."                { yybegin(YYINITIAL); return ELLIPSIS; }
   "."                  { yybegin(YYINITIAL); return DOT; }
   "+"                  { yybegin(YYINITIAL); return ADD; }
   "-"                  { yybegin(YYINITIAL); return SUB; }
