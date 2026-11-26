@@ -10,6 +10,38 @@ and this project adheres to [Semantic Versioning](http://semver.org).
 - Grammar: `static` return type — `<static>` is now accepted as a class type, allowing `self`/`static` returns (e.g. `-> <static>`)
 - Grammar: closure `use` clause — `function () use (x, y) { }`, including `const` and by-reference (`&`) captured variables
 - Registered the `Zephir File` internal file template in `plugin.xml`
+- Grammar: traits — `trait` declarations with the members of a class, and `use A, B;` inside class and trait bodies
+- Grammar: top-level functions (with a body or ending in `;`) and top-level declarations in any order; `namespace` is optional
+- Grammar: keywords are matched case-insensitively (`CLASS`, `Function`); names keep their case
+- Grammar: member modifiers in any order, including `internal` and `readonly`; a method ending in `;` is an abstract method
+- Grammar: typed properties (`int`, `<Cls>`, `?int`, `?<Cls>`), union types (`int|string|null`, `<A>|<B>`, `false`) on properties, parameters and returns, and `readonly` properties
+- Grammar: property shortcut lists accept any names, an empty list, and docblocks between names
+- Grammar: parameter forms — `const` parameters, by-reference (`&x`, `int &x`, `...&x`) and the deprecated strict marker (`int! x`, `-> int!`)
+- Grammar: return types `false`, `this` and `<Name[]>`
+- Grammar: attributes — `#[A, B(1)]` on declarations, members, trait `use` statements, interface methods and parameters, with keyword-named attributes and docblocks on either side
+- Grammar: constant and property defaults take full expressions
+- Grammar: `yield`, `yield expr;`, `yield key, value;`, `require_once`, destructuring (`let [a, , c] = x;`), and the `&=`, `|=`, `^=`, `<<=`, `>>=` assignments
+- Grammar: closure return types, `use (&x)` captures, and arrow closures (`n => n * 2`)
+- Grammar: named arguments (`call(name: value)`) in calls, `new` and attributes, with keyword names
+- Grammar: `X::class`, `static::class`, `static::CONST`, `new static`, `new X` without parentheses, and `instanceof static`
+- Grammar: ranges (`..`, `...`), the short ternary (`a ?: b`), interpolated strings (`~"…"`), and the unary `~`
+- Grammar: empty statements (`;`)
+- Grammar: method calls on `new X()` and on an array access, chained further (`new X()->y()->z()`, `foo()[0]->bar()[1]`)
+- Error recovery: a parse error stays inside the declaration, member or statement that holds it, and is reported at the bad token; the code after it still parses and highlights
+- Highlighting for the new keywords, operators and `~"…"` strings, and a configurable attribute colour (`Attributes` in the colour settings)
+- Keyword completion for the new keywords, `extends`/`implements` in a class header, and `extends` in an interface header
+- `this->` and `self::` completion inside a trait offers the trait's own members; class-name completion offers traits; variable completion offers destructured names
+- Traits and top-level functions in the Structure View, trait bodies in Code Folding, Go To Declaration from a class's `use` to the trait, and a "Used By" gutter marker on a trait
+- Documentation for traits and top-level functions, and a docblock written before an attribute documents its declaration
+- `Zephir Trait` internal file template and a Trait kind in the New Zephir File dialog
+
+### Changed
+- Parse errors are now reported for forms Zephir rejects: `void` and `<$x>` as property, parameter, union or return types (`-> void` alone still parses), `&...x`, `?T` on a parameter, `<Cls[]>` outside a return type, and a class or interface method with no modifier
+- The Structure View lists abstract methods in file order with the other methods
+- `extends` and `implements` are offered only in a class or interface header, no longer at file level
+
+### Fixed
+- Class-scope keyword completion appeared at file level instead of inside class bodies
 
 ## [0.6.0][0.6.0] - 2026-03-21
 ### Added

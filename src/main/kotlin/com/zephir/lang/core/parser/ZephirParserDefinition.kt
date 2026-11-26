@@ -25,7 +25,7 @@ class ZephirParserDefinition : ParserDefinition {
     override fun getFileNodeType() = FILE
     override fun getWhitespaceTokens() = TokenSet.create(TokenType.WHITE_SPACE)
     override fun getCommentTokens() = ZEPHIR_COMMENTS
-    override fun getStringLiteralElements() = TokenSet.create(ZephirTypes.STRING, ZephirTypes.SCHAR)
+    override fun getStringLiteralElements() = TokenSet.create(ZephirTypes.STRING, ZephirTypes.SCHAR, ZephirTypes.ISTRING)
 
     override fun createFile(viewProvider: FileViewProvider) = ZephirFile(viewProvider)
 

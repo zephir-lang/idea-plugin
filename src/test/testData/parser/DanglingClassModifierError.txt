@@ -1,0 +1,3 @@
+Zephir File
+  PsiErrorElement:<declaration> expected
+    PsiElement(abstract)('abstract')

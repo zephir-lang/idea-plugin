@@ -18,6 +18,7 @@ import com.zephir.lang.core.completion.ZephirCompletionSuggestor
 import com.zephir.lang.core.psi.ZephirClassDefinition
 import com.zephir.lang.core.psi.ZephirFile
 import com.zephir.lang.core.psi.ZephirInterfaceDefinition
+import com.zephir.lang.core.psi.ZephirTraitDefinition
 
 object ZephirClassNameSuggestor : ZephirCompletionSuggestor {
 
@@ -38,10 +39,15 @@ object ZephirClassNameSuggestor : ZephirCompletionSuggestor {
                 val psiFile = psiManager.findFile(child) as? ZephirFile ?: continue
                 for (element in psiFile.children) {
                     when (element) {
-                        is ZephirClassDefinition ->
-                            result.addElement(LookupElementBuilder.create(element.id.text).withTypeText("class"))
-                        is ZephirInterfaceDefinition ->
-                            result.addElement(LookupElementBuilder.create(element.id.text).withTypeText("interface"))
+                        is ZephirClassDefinition -> element.id?.let {
+                            result.addElement(LookupElementBuilder.create(it.text).withTypeText("class"))
+                        }
+                        is ZephirInterfaceDefinition -> element.id?.let {
+                            result.addElement(LookupElementBuilder.create(it.text).withTypeText("interface"))
+                        }
+                        is ZephirTraitDefinition -> element.id?.let {
+                            result.addElement(LookupElementBuilder.create(it.text).withTypeText("trait"))
+                        }
                     }
                 }
             }

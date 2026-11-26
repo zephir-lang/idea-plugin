@@ -16,7 +16,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.psi.util.PsiTreeUtil
 import com.zephir.lang.core.completion.ZephirCompletionSuggestor
-import com.zephir.lang.core.psi.ZephirAbstractMethodDefinition
 import com.zephir.lang.core.psi.ZephirClassBody
 import com.zephir.lang.core.psi.ZephirClassDefinition
 import com.zephir.lang.core.psi.ZephirDeclarationStatement
@@ -25,6 +24,7 @@ import com.zephir.lang.core.psi.ZephirInterfaceBody
 import com.zephir.lang.core.psi.ZephirInterfaceDefinition
 import com.zephir.lang.core.psi.ZephirMethodDefinition
 import com.zephir.lang.core.psi.ZephirVariable
+import com.zephir.lang.core.psi.visibilityText
 
 object ZephirMemberAccessSuggestor : ZephirCompletionSuggestor {
 
@@ -54,6 +54,7 @@ object ZephirMemberAccessSuggestor : ZephirCompletionSuggestor {
         for (args in methodDef.argumentsList) {
             for (arg in args.argumentList) {
                 if (arg.id?.text == varName) {
+                    if (arg.unionType != null) return null
                     return arg.type?.complexId?.idList?.lastOrNull()?.text
                 }
             }
@@ -79,9 +80,9 @@ object ZephirMemberAccessSuggestor : ZephirCompletionSuggestor {
                 val psiFile = psiManager.findFile(child) as? ZephirFile ?: continue
                 for (element in psiFile.children) {
                     when {
-                        element is ZephirClassDefinition && element.id.text == typeName ->
+                        element is ZephirClassDefinition && element.id?.text == typeName ->
                             suggestClassMembers(element.classBody ?: continue, result)
-                        element is ZephirInterfaceDefinition && element.id.text == typeName ->
+                        element is ZephirInterfaceDefinition && element.id?.text == typeName ->
                             suggestInterfaceMembers(element.interfaceBody ?: continue, result)
                     }
                 }
@@ -93,14 +94,11 @@ object ZephirMemberAccessSuggestor : ZephirCompletionSuggestor {
         for (method in classBody.methodDefinitionList) {
             result.addElement(methodLookup(method.id.text, method.returnType?.typeList?.firstOrNull()?.text))
         }
-        for (abstractDef in classBody.abstractMethodDefinitionList) {
-            val inner = abstractDef.interfaceMethodDefinition
-            result.addElement(methodLookup(inner.id.text, inner.returnType?.typeList?.firstOrNull()?.text))
-        }
         for (prop in classBody.propertyDefinitionList) {
+            val name = prop.id?.text ?: continue
             result.addElement(
-                LookupElementBuilder.create(prop.id.text)
-                    .withTypeText(prop.visibility.text)
+                LookupElementBuilder.create(name)
+                    .withTypeText(prop.visibilityText())
             )
         }
     }

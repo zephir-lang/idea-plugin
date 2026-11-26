@@ -16,8 +16,8 @@ import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiReferenceBase
 
 /**
- * A reference from a [ZephirComplexId] usage site to the [ZephirClassDefinition] or
- * [ZephirInterfaceDefinition] that declares the name. The reference range covers only
+ * A reference from a [ZephirComplexId] usage site to the [ZephirClassDefinition],
+ * [ZephirInterfaceDefinition] or [ZephirTraitDefinition] that declares the name. The reference range covers only
  * the last [ZephirId] segment so that clicking on a qualified name like
  * `Phalcon\Mvc\Controller` navigates via `Controller`, not the namespace prefix.
  */
@@ -53,8 +53,9 @@ class ZephirClassReference(element: ZephirComplexId) : PsiReferenceBase<ZephirCo
 
     private fun findDeclarationInFile(psiFile: ZephirFile, name: String): PsiElement? {
         for (element in psiFile.children) {
-            if (element is ZephirClassDefinition && element.id.text == name) return element.id
-            if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
+            if (element is ZephirClassDefinition && element.id?.text == name) return element.id
+            if (element is ZephirInterfaceDefinition && element.id?.text == name) return element.id
+            if (element is ZephirTraitDefinition && element.id?.text == name) return element.id
         }
         return null
     }

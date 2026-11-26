@@ -21,6 +21,7 @@ import com.zephir.lang.core.psi.ZephirFile
 import com.zephir.lang.core.psi.ZephirImportStatement
 import com.zephir.lang.core.psi.ZephirInterfaceDefinition
 import com.zephir.lang.core.psi.ZephirNamespaceStatement
+import com.zephir.lang.core.psi.ZephirTraitDefinition
 
 /**
  * Handles Ctrl+click Go To Declaration for Zephir class and interface references.
@@ -29,7 +30,7 @@ import com.zephir.lang.core.psi.ZephirNamespaceStatement
  * 1. Qualified name (`Phalcon\Storage\Adapter\Libmemcached`): walk the namespace segments
  *    as directory components and open the matching `.zep` file precisely.
  * 2. Unqualified name (`MyClass`): scan all `.zep` files under the project base for a
- *    matching class or interface declaration.
+ *    matching class, interface or trait declaration.
  * 3. Alias fallback: if no class is found, look for a `use ... as Name` statement in the
  *    current file and navigate to that alias so the user can Ctrl+click the real path.
  */
@@ -109,8 +110,9 @@ class ZephirGotoDeclarationHandler : GotoDeclarationHandler {
 
     private fun findDeclarationInFile(psiFile: ZephirFile, name: String): PsiElement? {
         for (element in psiFile.children) {
-            if (element is ZephirClassDefinition && element.id.text == name) return element.id
-            if (element is ZephirInterfaceDefinition && element.id.text == name) return element.id
+            if (element is ZephirClassDefinition && element.id?.text == name) return element.id
+            if (element is ZephirInterfaceDefinition && element.id?.text == name) return element.id
+            if (element is ZephirTraitDefinition && element.id?.text == name) return element.id
         }
         return null
     }

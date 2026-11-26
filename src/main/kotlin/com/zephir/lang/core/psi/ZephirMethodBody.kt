@@ -6,8 +6,7 @@
 //
 // https://github.com/zephir-lang/idea-plugin/blob/master/LICENSE
 
-package com.zephir.lang.core.parser.manual
+package com.zephir.lang.core.psi
 
-import com.intellij.lang.parser.GeneratedParserUtilBase
-
-class ZephirManualParseRules : GeneratedParserUtilBase()
+/** A method ends in either a body or a `;`; one without a body is abstract. */
+fun ZephirMethodDefinition.hasBody(): Boolean = methodBody != null

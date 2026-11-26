@@ -1,0 +1,6 @@
+namespace ${NAMESPACE};
+
+trait ${NAME}
+{
+
+}

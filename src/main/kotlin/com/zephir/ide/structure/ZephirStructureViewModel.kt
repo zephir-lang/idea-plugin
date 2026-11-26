@@ -26,7 +26,7 @@ class ZephirStructureViewModel(file: ZephirFile, editor: Editor?) :
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean =
         element.value is ZephirMethodDefinition ||
-        element.value is ZephirAbstractMethodDefinition ||
+        element.value is ZephirFunctionDefinition ||
         element.value is ZephirInterfaceMethodDefinition ||
         element.value is ZephirPropertyDefinition ||
         element.value is ZephirConstantDefinition

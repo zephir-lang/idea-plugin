@@ -41,6 +41,8 @@
         USE                = 'use'
         AS                 = 'as'
         INTERFACE          = 'interface'
+        TRAIT              = 'trait'
+        READONLY           = 'readonly'
         CLASS              = 'class'
         FUNCTION           = 'function'
         EXTENDS            = 'extends'
@@ -98,6 +100,8 @@
         NEW                = 'new'
         RETURN             = 'return'
         REQUIRE            = 'require'
+        REQUIRE_ONCE       = 'require_once'
+        YIELD              = 'yield'
         CLONE              = 'clone'
         EMPTY              = 'empty'
         TYPEOF             = 'typeof'
@@ -159,6 +163,16 @@
         DOTCOMMA           = ';'
         COMMA              = ','
         QUESTION           = '?'
+        ATTRIBUTE_OPEN     = '#['
+        DOUBLEARROW        = '=>'
+        IRANGE             = '..'
+        AND_ASSIGN         = '&='
+        OR_ASSIGN          = '|='
+        XOR_ASSIGN         = '^='
+        SHL_ASSIGN         = '<<='
+        SHR_ASSIGN         = '>>='
+        BITWISE_NOT        = '~'
+        ISTRING            = 'regexp:~(["] ([^"\\]|\\.)* ["])'
     ]
 
     extends(".*Expr") = Expr
@@ -178,16 +192,49 @@ File ::= TopStatement*
 
 CBlock ::= CBLOCK
 
-private TopStatement ::= NamespaceStatement ImportStatement* CBlock* (ClassDefinition | InterfaceDefinition)
+private TopStatement ::= !<<eof>> TopStatementItem {pin=1 recoverWhile=TopStatementRecover}
+
+private TopStatementItem ::= NamespaceStatement |
+                             ImportStatement |
+                             CBlock |
+                             AttributedDeclaration |
+                             Declaration |
+                             <<skipDeclaration>>
+
+private AttributedDeclaration ::= AttributeGroup+ Declaration {pin=1}
+
+private TopStatementRecover ::= !('namespace' | 'use' | 'class' | 'interface' | 'trait' | 'abstract' | 'final' |
+                                  'function' | '#[' | CBLOCK)
+
+private Declaration ::= ClassDefinition |
+                        InterfaceDefinition |
+                        TraitDefinition |
+                        FunctionDefinition
 
 PhpReserved ::= '$resource' | '$namespace' | '$internal'
 
-NamespaceStatement ::= 'namespace' ComplexId ';' {pin=2}
+NamespaceStatement ::= 'namespace' ComplexId ';' {pin=1}
 
-ImportStatement ::= 'use' ComplexId ('as' Id)? ';' {pin=2}
+ImportStatement ::= 'use' ComplexId ('as' Id)? ';' {pin=1}
 
-ClassDefinition ::= ClassModifier? 'class' Id SuperClass? ImplementsList? ClassBody {
-    pin=3
+ClassDefinition ::= ClassModifier? 'class' Id SuperClass? ImplementsList? <<skipHeader>>? ClassBody {
+    pin=2
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
+
+TraitDefinition ::= 'trait' Id <<skipHeader>>? TraitBody {
+    pin=1
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
+
+TraitBody ::= '{' ClassMember* '}' {pin=1}
+
+TraitUseStatement ::= 'use' ComplexIdList ';' {pin=1}
+
+FunctionDefinition ::= 'function' Id ParameterList ReturnType? (CodeBlock | ';') {
+    pin=1
     mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
     implements="com.zephir.lang.core.psi.ZephirNamedElement"
 }
@@ -198,28 +245,44 @@ SuperClass ::= 'extends' ComplexId {pin=1}
 ImplementsList ::= 'implements' ComplexIdList {pin=1}
 ClassBody ::= '{' ClassMember* '}' {pin=1}
 
-private ClassMember ::= ConstantDefinition |
-                        PropertyDefinition |
-                        MethodDefinition |
-                        AbstractMethodDefinition
+private ClassMember ::= !'}' ClassMemberItem {pin=1 recoverWhile=MemberRecover}
 
-InterfaceDefinition ::= 'interface' Id SuperInterfaces? InterfaceBody {
-    pin=2
+private ClassMemberItem ::= AttributedMember |
+                            ClassMemberDeclaration |
+                            <<skipMember>>
+
+private AttributedMember ::= AttributeGroup+ ClassMemberDeclaration {pin=1}
+
+private ClassMemberDeclaration ::= TraitUseStatement |
+                                   ConstantDefinition |
+                                   PropertyDefinition |
+                                   MethodDefinition
+
+private MemberRecover ::= !('internal' | 'public' | 'protected' | 'private' | 'static' | 'inline' | 'deprecated' |
+                            'abstract' | 'final' | 'readonly' | 'const' | 'function' | 'use' | '#[' | '}')
+
+InterfaceDefinition ::= 'interface' Id SuperInterfaces? <<skipHeader>>? InterfaceBody {
+    pin=1
     mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
     implements="com.zephir.lang.core.psi.ZephirNamedElement"
 }
 SuperInterfaces ::= 'extends' ComplexIdList {pin=1}
 InterfaceBody ::= '{' InterfaceMember* '}' {pin=1}
 
-private InterfaceMember ::= ConstantDefinition |
-                            InterfaceMethodDefinition
+private InterfaceMember ::= !'}' InterfaceMemberItem {pin=1 recoverWhile=MemberRecover}
 
-InterfaceMethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? ';' {
-    pin=2
+private InterfaceMemberItem ::= AttributedInterfaceMember |
+                                InterfaceMemberDeclaration |
+                                <<skipMember>>
+
+private AttributedInterfaceMember ::= AttributeGroup+ InterfaceMemberDeclaration {pin=1}
+private InterfaceMemberDeclaration ::= ConstantDefinition | InterfaceMethodDefinition
+
+InterfaceMethodDefinition ::= MemberModifiers FUNCTION Id ParameterList ReturnType? ';' {
+    pin=3
     mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
     implements="com.zephir.lang.core.psi.ZephirNamedElement"
 }
-AbstractMethodDefinition ::= 'abstract' InterfaceMethodDefinition
 
 ConstantDefinition ::= 'const' Id DefaultValue? ';' {
     pin=2
@@ -227,34 +290,67 @@ ConstantDefinition ::= 'const' Id DefaultValue? ';' {
     implements="com.zephir.lang.core.psi.ZephirNamedElement"
 }
 
-PropertyDefinition ::= 'static'? Visibility 'static'?  Id DefaultValue? MemberMetaAccess? ';' {
-    pin=4
-    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
-    implements="com.zephir.lang.core.psi.ZephirNamedElement"
-}
-
-private MemberMetaAccess ::= '{' MemberMetaModifier (',' MemberMetaModifier)* '}' {pin=1}
-private MemberMetaModifier ::= 'get' | 'set' | '__toString'
-
-MethodDefinition ::= MethodHeader '(' Arguments* ')' ReturnType? MethodBody {
+PropertyDefinition ::= MemberModifiers !FUNCTION PropertyType? Id DefaultValue? MemberMetaAccess? ';' {
     pin=2
     mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
     implements="com.zephir.lang.core.psi.ZephirNamedElement"
 }
-MethodModifiers ::= 'static' | 'inline' | 'deprecated' | 'final'
+
+private PropertyType ::= '?' ValueType | UnionType | ValueType
+
+private MemberMetaAccess ::= '{' (PropertyShortcut (',' PropertyShortcut)*)? '}' {pin=1}
+PropertyShortcut ::= IDENTIFIER
+
+MethodDefinition ::= MemberModifiers FUNCTION Id ParameterList ReturnType? (MethodBody | ';') {
+    pin=3
+    mixin="com.zephir.lang.core.psi.ZephirNamedElementMixin"
+    implements="com.zephir.lang.core.psi.ZephirNamedElement"
+}
 MethodBody ::= CodeBlock
 
-private MethodHeader ::= (Visibility | MethodModifiers)* FUNCTION Id
+private ParameterList ::= '(' ParameterListItems ')' {pin=1}
+private ParameterListItems ::= Arguments* {recoverWhile=ParameterListRecover}
+private ParameterListRecover ::= !(')' | '{' | ';' | '->' | 'use')
 
-CodeBlock ::= '{' Code* '}' {pin=1}
+MemberModifiers ::= MemberModifier+
+MemberModifier ::= 'internal' | 'public' | 'protected' | 'private' | 'static' | 'inline' | 'deprecated' |
+                   'abstract' | 'final' | 'readonly'
 
-ReturnType ::= '->' (Type | 'null') ('|' (Type | 'null'))* {pin(".*")=1}
+AttributeGroup ::= '#[' Attribute (',' Attribute)* ']' {pin=1}
+Attribute ::= AttributeName AttributeArguments?
+private AttributeArguments ::= '(' CallArgumentList ')' {pin=1}
+AttributeName ::= ComplexId | 'deprecated' | 'final' | 'internal' | 'readonly' | 'static' | 'default' | 'case' |
+                  'empty' | 'void' | 'reverse' | 'inline'
 
-Arguments ::= Argument (',' Argument)* {pin(".*")=1}
-Argument ::= Type? '!'? '...'? (PhpReserved | Id) DefaultValue? {pin=4}
+CodeBlock ::= '{' Statement* '}' {pin=1}
+
+private Statement ::= StatementItem {recoverWhile=StatementRecover}
+private StatementItem ::= Code | <<skipStatement>>
+private StatementRecover ::= <<statementRecover>>
+
+ReturnType ::= '->' (VoidReturnType | ReturnTypeItem ('|' ReturnTypeItem)*) {
+    pin(".*")=1
+    recoverWhile=ReturnTypeRecover
+}
+private ReturnTypeRecover ::= !('{' | ';' | '}' | 'internal' | 'public' | 'protected' | 'private' | 'static' | 'inline' |
+                               'deprecated' | 'abstract' | 'final' | 'readonly' | 'const' | 'function' | 'use' | '#[' |
+                               'class' | 'interface' | 'trait' | 'namespace')
+private VoidReturnType ::= &'void' Type !('|' | '!')
+private ReturnTypeItem ::= ReturnTypeMember | <<skipType>>
+private ReturnTypeMember ::= !('<' '$') (CollectionType | ValueType '!'? | 'null' | 'false' | 'this')
+CollectionType ::= '<' !'$' ComplexId '[' ']' '>'
+
+UnionType ::= ValueType ('|' UnionTypeMember)+
+private UnionTypeMember ::= ValueType | 'null' | 'false'
+
+private ValueType ::= !('void' | '<' '$') Type
+
+Arguments ::= AttributedArgument (',' AttributedArgument)* {pin(".*")=1}
+private AttributedArgument ::= AttributeGroup* Argument
+private ArgumentType ::= UnionType | ValueType
+Argument ::= 'const'? ArgumentType? '!'? '...'? '&'? (PhpReserved | Id) DefaultValue? {pin=6}
 
 DefaultValue ::= '=' Expr {pin=1}
-Visibility ::= 'public' | 'protected' | 'private'
 
 Id ::= '$'?IDENTIFIER {
     mixin="com.zephir.lang.core.psi.ZephirIdMixin"
@@ -272,8 +368,8 @@ private BoolType ::= 'bool' | 'boolean'
 private NumberType ::= IntType | DoubleType | 'uint' | 'long' | 'ulong'
 private IntType ::= 'int' | 'integer'
 private DoubleType ::= 'double' | 'float'
-private ClassType ::= '<' (ComplexId | 'static') ArrayAppendExpr? '>'
-private ResourceType ::= '<' '$'ComplexId ArrayAppendExpr? '>'
+private ClassType ::= '<' (ComplexId | 'static') '>'
+private ResourceType ::= '<' '$'ComplexId '>'
 private VoidType ::= 'void'
 
 Code ::= DeclarationStatement |
@@ -289,7 +385,9 @@ Code ::= DeclarationStatement |
          EchoStatement |
          ThrowStatement |
          RequireStatement |
+         YieldStatement |
          UnsetStatement |
+         EmptyStatement |
          CBlock
 
 DeclarationStatement ::= Type DeclarationStatementElement (',' DeclarationStatementElement)* ';' {pin(".*")=1}
@@ -298,12 +396,15 @@ private DeclarationStatementElement ::= (Id | PhpReserved) DefaultValue?
 
 LetStatement ::= 'let' ChangeVariableExpr (',' ChangeVariableExpr)* ';' {pin(".*")=1}
 
-ChangeVariableExpr ::= AssignmentExpr | IncrementExpr
+ChangeVariableExpr ::= AssignmentExpr | IncrementExpr | DestructureExpr
+
+DestructureExpr ::= '[' DestructureSlot (',' DestructureSlot)* ']' '=' Expr {pin=1}
+private DestructureSlot ::= Id?
 AssignmentExpr ::= (Typecast | Type)? (Variable | ExplodedVariable | PhpReserved) ArrayAppendExpr? AssignmentOperator (Typecast | Type)?  (PhpReserved | Expr) { rightAssociative=true }
 
 private ArrayAppendExpr ::= '[' ']'
 
-AssignmentOperator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.='
+AssignmentOperator ::= '=' | '+=' | '-=' | '*=' | '**=' | '/=' | '%=' | '.=' | '&=' | '|=' | '^=' | '<<=' | '>>='
 Typecast ::= '(' ScalarType ')' | '<' ComplexId '>'
 
 IncrementExpr ::= Variable IncrementOperator {rightAssociative=true}
@@ -311,7 +412,7 @@ IncrementOperator ::= '++' | '--'
 
 CallStatement ::= CallExpr ';'
 
-ControlStatement ::= ('continue' | 'break') ';'
+ControlStatement ::= ('continue' | 'break') ';' {pin=1}
 
 LoopStatement ::= InfinityLoopStatement |
                    DoWhileLoopStatement |
@@ -325,12 +426,12 @@ DoWhileLoopStatement ::= 'do' CodeBlock 'while' Expr ';' {pin=1}
 WhileLoopStatement ::= 'while' Expr CodeBlock {pin=2}
 
 ForeachLoopStatement ::= 'for' Id (',' Id)? 'in' 'reverse'? (PhpReserved | Expr) CodeBlock {pin=2}
-UnsetStatement ::= 'unset' (Variable | '(' Variable ')') ';'
+UnsetStatement ::= 'unset' (Variable | '(' Variable ')') ';' {pin=1}
 
 SwitchStatement ::= 'switch' Expr '{' CaseExpr*  '}' {pin=1}
 StaticCallExpr ::= ((('{' Id '}') | 'static') '::') CallExpr {pin=1}
 
-CaseExpr ::= ('case' Expr | 'default') ':' Code* {pin=1}
+CaseExpr ::= ('case' Expr | 'default') ':' Statement* {pin=1}
 
 IfStatement ::= 'if' ('likely' | 'unlikely')? Expr CodeBlock ElseifStatements* ElseStatement? {pin=1}
 ElseifStatements ::= 'elseif' Expr CodeBlock {pin=1}
@@ -339,24 +440,31 @@ ElseStatement ::= 'else' CodeBlock {pin=1}
 TryStatement ::= 'try' CodeBlock CatchBlock*  {pin=1}
 CatchBlock ::= 'catch' ClassType? ComplexId (',' ComplexId)* CodeBlock {pin=3}
 
-ReturnStatement ::= 'return' (RequireStatement | (Typecast? Expr? ';'))
+ReturnStatement ::= 'return' (RequireStatement | (Typecast? Expr? ';')) {pin=1}
 
 EchoStatement ::= 'echo' Expr (',' Expr)* ';' {pin(".*")=1}
 
 ThrowStatement ::= 'throw' Expr ';' {pin=1}
 RequireStatement ::= RequireExpr ';' {pin=1}
 
-private RequireExpr ::= 'require' Expr
+EmptyStatement ::= ';'
 
-Expr ::= UnaryExpr |
+YieldStatement ::= 'yield' (Expr (',' Expr)?)? ';' {pin=1}
+
+private RequireExpr ::= ('require' | 'require_once') Expr
+
+Expr ::= ArrowFunctionExpr |
+         UnaryExpr |
          BitExpr |
          BoolGroupExpr |
          MathExpr |
+         RangeExpr |
+         BitwiseNotExpr |
          PrimaryGroupExpr |
          SpecialGroupExpr
 
-private BoolGroupExpr ::= BoolExpr | TernaryExpr | EmptyExpr | IssetExpr | FetchExpr | InstanceofExpr
-private PrimaryGroupExpr ::= ChainOfCallExpr | StaticCallExpr | LiteralExpr | ParenExpr | PrecastExpr | CallbackExpr | CallExpr | CloneExpr
+private BoolGroupExpr ::= BoolExpr | ShortTernaryExpr | TernaryExpr | EmptyExpr | IssetExpr | FetchExpr | InstanceofExpr
+private PrimaryGroupExpr ::= ChainOfCallExpr | StaticAccessExpr | StaticCallExpr | LiteralExpr | ParenExpr | PrecastExpr | CallbackExpr | CallExpr | MethodCallExpr | CloneExpr
 private SpecialGroupExpr ::= NewExpr | TypeofExpr
 
 ChainOfCallStatement ::= ChainOfCallExpr ;
@@ -369,10 +477,15 @@ MathExpr ::= Expr MathOperator Expr
 MathOperator ::= '+' | '-' | '*' | '**' | '/' | '%' | '.'
 
 UnaryExpr ::= ('+' | '-' | '!') Expr
+BitwiseNotExpr ::= '~' Expr
 BoolExpr ::= Expr BoolOperator Expr
 BoolOperator ::= '&&' | '||' | '>' | '<' | '==' | '>=' | '<=' | '===' | '!=' | '!=='
 
+ArrowFunctionExpr ::= Id '=>' Expr {pin=2}
+RangeExpr ::= Expr ('...' | '..') Expr
+ShortTernaryExpr ::= Expr '?' ':' Expr {pin=2 rightAssociative=true}
 TernaryExpr ::= Expr '?' Expr ':' Expr {pin=1}
+StaticAccessExpr ::= 'static' '::' ('class' | Variable) !'('
 LiteralExpr ::= Typecast? (Variable | scalar)
 ParenExpr ::= '(' Expr ')' {pin=1}
 PrecastExpr ::= '{' Expr '}' {pin=1}
@@ -380,11 +493,14 @@ PrecastExpr ::= '{' Expr '}' {pin=1}
 EmptyExpr ::= 'empty' Expr {pin=1}
 IssetExpr ::= 'isset' Expr {pin=1}
 FetchExpr ::= 'fetch' Id ',' Expr {pin=2}
-InstanceofExpr ::= Variable 'instanceof' Expr {pin=2}
+InstanceofExpr ::= Variable 'instanceof' InstanceofOperand {pin=2}
+private InstanceofOperand ::= 'static' !'::' | Expr
 
-CallExpr ::=  Expr '(' CallArguments? ')' ('->' Id '(' CallArguments? ')')* ArrayAccess? {pin=3}
+CallExpr ::=  Expr CallTail ('->' Id CallTail)* ArrayAccess?
+private CallTail ::= '(' CallArgumentList ')' {pin=1}
+MethodCallExpr ::= Expr '->' Id CallTail ArrayAccess?
 MagicCallExpr ::= '$'('clone' | 'fetch') '(' Arguments* ')'
-CallbackExpr ::= 'function' '(' Arguments* ')' UseClause? CodeBlock {pin=1}
+CallbackExpr ::= 'function' ParameterList UseClause? ReturnType? CodeBlock {pin=2}
 UseClause ::= 'use' '(' UseArguments? ')' {pin=1}
 UseArguments ::= UseArgument (',' UseArgument)* {pin(".*")=1}
 UseArgument ::= 'const'? '&'? Id {pin=3}
@@ -392,15 +508,29 @@ CloneExpr ::= 'clone' Variable
 
 NewExpr ::= NewExprClassic | NewExprDynamic
 
-private NewExprClassic ::= 'new' ComplexId ('(' CallArguments? ')')? {pin=2}
-private NewExprDynamic ::= 'new' '{' Expr '}' ('(' CallArguments? ')')? {pin=2}
+private NewExprClassic ::= 'new' (ComplexId | 'static') ('(' CallArgumentList ')')? {pin=2}
+private NewExprDynamic ::= 'new' '{' Expr '}' ('(' CallArgumentList ')')? {pin=2}
 
 TypeofExpr ::= 'typeof' Expr {pin=1}
 
+private CallArgumentList ::= CallArguments? {recoverWhile=CallArgumentsRecover}
+private CallArgumentsRecover ::= !(')' | ';' | '{' | '}')
+
 CallArguments ::= CallArgument (',' CallArgument)* {pin(".*")=1}
 
-private CallArgument ::= 'require'? Typecast? (PhpReserved | Expr)
-private ScalarShort ::= STRING  | SCHAR | DOUBLE | INTEGER | ScalarValue
+private CallArgument ::= NamedArgument | 'require'? Typecast? (PhpReserved | Expr)
+
+NamedArgument ::= NamedArgumentName ':' Expr {pin=2}
+NamedArgumentName ::= Id | 'null' | 'false' | 'true' | 'namespace' | 'use' | 'as' | 'interface' | 'class' | 'trait' |
+                      'extends' | 'implements' | 'internal' | 'public' | 'protected' | 'private' | 'static' |
+                      'inline' | 'deprecated' | 'final' | 'abstract' | 'readonly' | 'let' | 'echo' | 'const' |
+                      'int' | 'uint' | 'long' | 'ulong' | 'char' | 'uchar' | 'string' | 'array' | 'var' |
+                      'object' | 'callable' | 'resource' | 'mixed' | 'if' | 'else' | 'elseif' | 'do' | 'while' |
+                      'for' | 'in' | 'new' | 'return' | 'require_once' | 'yield' | 'require' | 'clone' |
+                      'empty' | 'void' | 'loop' | 'break' | 'continue' | 'typeof' | 'instanceof' | 'likely' |
+                      'unlikely' | 'isset' | 'unset' | 'throw' | 'fetch' | 'switch' | 'case' | 'default' |
+                      'reverse' | 'try' | 'catch'
+private ScalarShort ::= STRING  | ISTRING | SCHAR | DOUBLE | INTEGER | ScalarValue
 
 scalar ::= ScalarShort | ArrayValue
 ScalarValue ::= 'null' | 'true' | 'false'
@@ -415,5 +545,7 @@ ArrayKeyValue ::= (ScalarShort | Expr) ':' Expr
 Variable ::= ComplexId (PropertyAccess | ArrayAppendExpr |  ArrayAccess)*
 ExplodedVariable ::= '{' Variable '}'
 
-private PropertyAccess ::= ('::' | '->') (Variable | '{' (STRING | Id) '}' | MagicCallExpr) {pin=2}
+private PropertyAccess ::= ClassAccess | MemberAccess
+private ClassAccess ::= '::' 'class' {pin=2}
+private MemberAccess ::= ('::' | '->') (Variable | '{' (STRING | Id) '}' | MagicCallExpr) {pin=2}
 private ArrayAccess ::= '[' (Expr | PhpReserved) ']' {pin=1}

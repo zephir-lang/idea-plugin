@@ -19,15 +19,15 @@
 
     <h2>Highlighted Features</h2>
     <ul>
-      <li>Syntax highlighting</li>
-      <li>Syntax check support</li>
+      <li>Syntax highlighting, including attributes with their own colour</li>
+      <li>Syntax check support — Zephir 1.10 syntax (traits, generators, typed and readonly properties, union types, attributes, arrow closures, named arguments and more); parse errors are reported where they occur and stay local</li>
       <li><b>Autocompletion</b> — local variables, class/interface names from the project, PHP built-in functions, and member access (<code>-&gt;</code>) for Zephir-typed variables</li>
-      <li><b>Structure View</b> — browse classes, interfaces, methods, properties, and constants via the IDE structure panel</li>
-      <li><b>Code Folding</b> — fold class/interface bodies, method blocks, inline C blocks, and block comments</li>
+      <li><b>Structure View</b> — browse classes, interfaces, traits, top-level functions, methods, properties, and constants via the IDE structure panel</li>
+      <li><b>Code Folding</b> — fold class/interface/trait bodies, method blocks, inline C blocks, and block comments</li>
       <li><b>Live Templates</b> — expand common Zephir snippets (class, functions, loops, try/catch) with short abbreviations</li>
       <li><b>Rename Refactoring</b> — rename classes, interfaces, methods, properties, and constants</li>
-      <li><b>Implementations Gutter</b> — see subclass and implementation counts in the editor gutter</li>
-      <li><b>Go To Declaration</b> — Ctrl+click a class or interface name to jump to its declaration; qualified names resolve via namespace path, aliases navigate to their use statement</li>
+      <li><b>Implementations Gutter</b> — see subclass and implementation counts, and the classes using a trait, in the editor gutter</li>
+      <li><b>Go To Declaration</b> — Ctrl+click a class, interface or trait name to jump to its declaration; qualified names resolve via namespace path, aliases navigate to their use statement</li>
     </ul>
     ]]></description>
 
@@ -40,6 +40,7 @@
                   fieldName="INSTANCE" extensions="zep"/>
         <internalFileTemplate name="Zephir Class"/>
         <internalFileTemplate name="Zephir Interface"/>
+        <internalFileTemplate name="Zephir Trait"/>
         <internalFileTemplate name="Zephir File"/>
 
         <!-- Parser -->
@@ -49,6 +50,9 @@
         <!-- Syntax Highlighter -->
         <lang.syntaxHighlighterFactory language="Zephir"
                                        implementationClass="com.zephir.ide.highlight.ZephirSyntaxHighlighterFactory"/>
+
+        <!-- Attribute colours -->
+        <annotator language="Zephir" implementationClass="com.zephir.ide.highlight.ZephirAttributeAnnotator"/>
 
         <!-- Commenter -->
         <lang.commenter language="Zephir" implementationClass="com.zephir.ide.commenter.ZephirCommenter"/>

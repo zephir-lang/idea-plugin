@@ -12,7 +12,7 @@ import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionResultSet
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.zephir.lang.core.completion.ZephirCompletionSuggestor
-import com.zephir.lang.core.psi.ZephirFile
+import com.zephir.lang.core.completion.ZephirCompletionScope
 
 object ZephirFileScopeKeywordsSuggestor : ZephirCompletionSuggestor {
     private val keywords = arrayOf(
@@ -23,17 +23,14 @@ object ZephirFileScopeKeywordsSuggestor : ZephirCompletionSuggestor {
         "as",
         "interface",
         "class",
-        "extends",
-        "implements",
         "final",
-        "abstract"
+        "abstract",
+        "trait",
+        "function"
     )
 
     override fun addCompletions(parameters: CompletionParameters, result: CompletionResultSet) {
-        val psiElement = parameters.originalPosition
-        val parent = psiElement?.parent ?: return
-
-        if (parent is ZephirFile) {
+        if (ZephirCompletionScope.of(parameters.originalPosition) == ZephirCompletionScope.FILE) {
             for (keyword in keywords) {
                 result.addElement(LookupElementBuilder.create(keyword))
             }

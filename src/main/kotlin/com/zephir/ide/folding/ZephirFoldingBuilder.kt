@@ -27,6 +27,7 @@ class ZephirFoldingBuilder : FoldingBuilderEx(), DumbAware {
                 when (element) {
                     is ZephirClassBody,
                     is ZephirInterfaceBody,
+                    is ZephirTraitBody,
                     is ZephirCodeBlock -> if (spansMultipleLines(element, document)) {
                         descriptors.add(FoldingDescriptor(element.node, element.textRange))
                     }

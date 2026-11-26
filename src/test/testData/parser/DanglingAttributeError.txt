@@ -1,0 +1,11 @@
+Zephir File
+  ZephirAttributeGroupImpl(ATTRIBUTE_GROUP)
+    PsiElement(#[)('#[')
+    ZephirAttributeImpl(ATTRIBUTE)
+      ZephirAttributeNameImpl(ATTRIBUTE_NAME)
+        ZephirComplexIdImpl(COMPLEX_ID)
+          ZephirIdImpl(ID)
+            PsiElement(IDENTIFIER)('A')
+    PsiElement(])(']')
+  PsiErrorElement:'#[', <class definition>, function, interface or trait expected
+    <empty list>

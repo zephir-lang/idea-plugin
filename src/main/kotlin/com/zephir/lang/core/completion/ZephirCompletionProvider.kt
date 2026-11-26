@@ -18,6 +18,7 @@ import com.zephir.lang.core.completion.suggestors.*
 class ZephirCompletionProvider : CompletionProvider<CompletionParameters>() {
     private val suggestors = listOf(
         ZephirFileScopeKeywordsSuggestor,
+        ZephirHeaderKeywordsSuggestor,
         ZephirClassScopeKeywordsSuggestor,
         ZephirMethodScopeCompletionSuggestor,
         ZephirVariablesSuggestor,

@@ -44,6 +44,8 @@ val ZEPHIR_KEYWORDS = tokenSetOf(
     NEW,
     RETURN,
     REQUIRE,
+    REQUIRE_ONCE,
+    YIELD,
     CLONE,
     EMPTY,
     TYPEOF,
@@ -63,6 +65,8 @@ val ZEPHIR_KEYWORDS = tokenSetOf(
     // OOP
     INTERNAL,
     INTERFACE,
+    TRAIT,
+    READONLY,
     CLASS,
     FUNCTION,
     EXTENDS,
@@ -138,5 +142,13 @@ val ZEPHIR_OPERATORS = tokenSetOf(
     INCR,
     DECR,
     COLON,
-    QUESTION
+    QUESTION,
+    DOUBLEARROW,
+    IRANGE,
+    BITWISE_NOT,
+    AND_ASSIGN,
+    OR_ASSIGN,
+    XOR_ASSIGN,
+    SHL_ASSIGN,
+    SHR_ASSIGN
 )

@@ -26,10 +26,8 @@ class ZephirColorSettingsPage : ColorSettingsPage {
     override fun getDisplayName() = "Zephir"
     override fun getDemoText() = demoCodeText
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> {
-        // TODO(serghei): Implement me
-        return mutableMapOf()
-    }
+    override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> =
+        mutableMapOf("attribute" to ZephirColor.ATTRIBUTE.textAttributesKey)
 }
 
 private const val demoCodeText = """
@@ -49,8 +47,17 @@ namespace Acme;
 // a single line comment
 use Acme\Some\Buz;
 
+trait Greets
+{
+    public greeting = "hello";
+}
+
 class Foo extends Bar implements Baz, Buz
 {
+    use Greets;
+
+    public readonly int|null limit;
+
     const FOO_BAR = 30 * 24 * 60;
 
     /**
@@ -79,6 +86,15 @@ class Foo extends Bar implements Baz, Buz
         }
     }
     
+    <attribute>#[Pure]</attribute>
+    public function describe(int|string value, flag = false) -> string
+    {
+        let doubled = n => n * 2;
+        let handler = function (a) use (value) -> int { return a; };
+        yield value;
+        return ~"Value {value}";
+    }
+
     private function calc(
         <Arithmetic> l,
         <Arithmetic> r,
