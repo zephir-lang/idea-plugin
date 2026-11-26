@@ -12,11 +12,11 @@ Functionality is exposed to the PHP language.
 
 ## Highlighted Features
 
-- Syntax highlighting
-- Syntax check support
+- Syntax highlighting, including attributes with their own colour
+- Syntax check support — Zephir 1.10 syntax (traits, generators, typed and readonly properties, union types, attributes, arrow closures, named arguments and more); parse errors are reported where they occur and stay local
 - **Autocompletion** — local variables, class/interface names from the project, PHP built-in functions, and member access (`->`) for Zephir-typed variables
-- **Structure View** — browse classes, interfaces, methods, properties, and constants via the IDE structure panel
-- **Code Folding** — fold class/interface bodies, method blocks, inline C blocks (`%{ }%`), and multi-line block comments
+- **Structure View** — browse classes, interfaces, traits, top-level functions, methods, properties, and constants via the IDE structure panel
+- **Code Folding** — fold class/interface/trait bodies, method blocks, inline C blocks (`%{ }%`), and multi-line block comments
 - **Live Templates** — expand common Zephir snippets with a short abbreviation:
 
   | Abbreviation | Expands to                             |
@@ -33,8 +33,8 @@ Functionality is exposed to the PHP language.
   | `tc`         | try-catch block                        |
 
 - **Rename Refactoring** — rename classes, interfaces, methods, properties, and constants across the file
-- **Implementations Gutter** — see subclass and implementation counts next to class and interface declarations in the editor gutter
-- **Go To Declaration** — Ctrl+click a class or interface name to jump to its declaration; qualified names resolve via namespace-to-directory mapping, and aliases navigate to their `use` statement
+- **Implementations Gutter** — see subclass and implementation counts next to class and interface declarations, and the classes using a trait, in the editor gutter
+- **Go To Declaration** — Ctrl+click a class, interface or trait name to jump to its declaration; qualified names resolve via namespace-to-directory mapping, and aliases navigate to their `use` statement
 
 ## Install
 

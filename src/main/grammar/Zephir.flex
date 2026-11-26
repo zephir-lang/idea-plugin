@@ -25,6 +25,7 @@ import static com.zephir.lang.core.psi.ZephirTypes.*;
 %public
 %implements FlexLexer
 %unicode
+%caseless
 %function advance
 %type IElementType
 %eof{  return;
@@ -64,6 +65,8 @@ STRING_LITERAL = {DOUBLE_QUOTE} ( [^\"\\] | \\[^] )* {DOUBLE_QUOTE}
 CHAR_LITERAL   = ( {SINGLE_QUOTE} ( [^'\\] | "\\" ( {SINGLE_QUOTE} | {COMMON_ESCAPE} | {CHAR_TYPES}) ) {SINGLE_QUOTE} )
                | ( {SINGLE_QUOTE} [^\x20-\x7E]{1,2} {SINGLE_QUOTE})
 
+ISTRING        = "~" {STRING_LITERAL}
+
 IDENTIFIER     = [_a-zA-Z][a-zA-Z0-9_]*
 CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
 
@@ -75,6 +78,8 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "use"                { yybegin(YYINITIAL); return USE; }
   "as"                 { yybegin(YYINITIAL); return AS; }
   "interface"          { yybegin(YYINITIAL); return INTERFACE; }
+  "trait"              { yybegin(YYINITIAL); return TRAIT; }
+  "readonly"           { yybegin(YYINITIAL); return READONLY; }
   "class"              { yybegin(YYINITIAL); return CLASS; }
   "function"           { yybegin(YYINITIAL); return FUNCTION; }
   "fn"                 { yybegin(YYINITIAL); return FUNCTION; }
@@ -131,6 +136,8 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "new"                { yybegin(YYINITIAL); return NEW; }
   "return"             { yybegin(YYINITIAL); return RETURN; }
   "require"            { yybegin(YYINITIAL); return REQUIRE; }
+  "require_once"       { yybegin(YYINITIAL); return REQUIRE_ONCE; }
+  "yield"              { yybegin(YYINITIAL); return YIELD; }
   "clone"              { yybegin(YYINITIAL); return CLONE; }
   "empty"              { yybegin(YYINITIAL); return EMPTY; }
   "typeof"             { yybegin(YYINITIAL); return TYPEOF; }
@@ -151,6 +158,8 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "]"                  { yybegin(YYINITIAL); return SBRACKET_CLOSE; }
   "@"                  { yybegin(YYINITIAL); return AT; }
   "!"                  { yybegin(YYINITIAL); return NOT; }
+  "#["                 { yybegin(YYINITIAL); return ATTRIBUTE_OPEN; }
+  "=>"                 { yybegin(YYINITIAL); return DOUBLEARROW; }
   "&&"                 { yybegin(YYINITIAL); return AND; }
   "||"                 { yybegin(YYINITIAL); return OR; }
   "&"                  { yybegin(YYINITIAL); return BITWISE_AND; }
@@ -158,6 +167,11 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "^"                  { yybegin(YYINITIAL); return BITWISE_XOR; }
   "<<"                 { yybegin(YYINITIAL); return BITWISE_SHIFTLEFT; }
   ">>"                 { yybegin(YYINITIAL); return BITWISE_SHIFTRIGHT; }
+  "&="                 { yybegin(YYINITIAL); return AND_ASSIGN; }
+  "|="                 { yybegin(YYINITIAL); return OR_ASSIGN; }
+  "^="                 { yybegin(YYINITIAL); return XOR_ASSIGN; }
+  "<<="                { yybegin(YYINITIAL); return SHL_ASSIGN; }
+  ">>="                { yybegin(YYINITIAL); return SHR_ASSIGN; }
   "="                  { yybegin(YYINITIAL); return ASSIGN; }
   "+="                 { yybegin(YYINITIAL); return ADDASSIGN; }
   "-="                 { yybegin(YYINITIAL); return SUBASSIGN; }
@@ -177,6 +191,9 @@ CBLOCK         = ("%{"([^}]+|[}]+[^%{])*"}%")
   "->"                 { yybegin(YYINITIAL); return ARROW; }
   "::"                 { yybegin(YYINITIAL); return DOUBLECOLON; }
   "..."                { yybegin(YYINITIAL); return ELLIPSIS; }
+  ".."                 { yybegin(YYINITIAL); return IRANGE; }
+  "~"                  { yybegin(YYINITIAL); return BITWISE_NOT; }
+  {ISTRING}            { yybegin(YYINITIAL); return ISTRING; }
   "."                  { yybegin(YYINITIAL); return DOT; }
   "+"                  { yybegin(YYINITIAL); return ADD; }
   "-"                  { yybegin(YYINITIAL); return SUB; }

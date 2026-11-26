@@ -13,14 +13,19 @@ import com.intellij.codeInsight.daemon.LineMarkerProvider
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.DumbService
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiManager
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.zephir.lang.core.ZephirFileType
 import com.zephir.lang.core.psi.*
 
-/** Adds gutter icons to class and interface declarations showing the number of subclasses or implementations. */
+/**
+ * Adds gutter icons to class, interface and trait declarations showing the number of subclasses, implementations
+ * or users.
+ */
 class ZephirLineMarkerProvider : LineMarkerProvider, DumbAware {
 
     override fun getLineMarkerInfo(element: PsiElement): LineMarkerInfo<*>? = null
@@ -33,8 +38,39 @@ class ZephirLineMarkerProvider : LineMarkerProvider, DumbAware {
             when (element) {
                 is ZephirClassDefinition -> collectSubtypes(element, result)
                 is ZephirInterfaceDefinition -> collectSubtypes(element, result)
+                is ZephirTraitDefinition -> collectTraitUsers(element, result)
             }
         }
+    }
+
+    private fun collectTraitUsers(element: ZephirTraitDefinition, result: MutableCollection<in LineMarkerInfo<*>>) {
+        val project = element.project
+        if (DumbService.isDumb(project)) return
+
+        val name = element.name ?: return
+        val anchor = element.id?.let { PsiTreeUtil.getDeepestFirst(it) } ?: return
+        val psiManager = PsiManager.getInstance(project)
+
+        val users = mutableListOf<PsiElement>()
+        for (vFile in FileTypeIndex.getFiles(ZephirFileType, GlobalSearchScope.projectScope(project))) {
+            val psiFile = psiManager.findFile(vFile) as? ZephirFile ?: continue
+            for (use in PsiTreeUtil.findChildrenOfType(psiFile, ZephirTraitUseStatement::class.java)) {
+                val names = use.complexIdList?.complexIdList.orEmpty().map { it.idList.lastOrNull()?.text }
+                if (name !in names) continue
+                val owner = PsiTreeUtil.getParentOfType(use, ZephirClassDefinition::class.java, ZephirTraitDefinition::class.java)
+                if (owner != null && owner != element && owner !in users) users.add(owner)
+            }
+        }
+
+        if (users.isEmpty()) return
+
+        result.add(
+            NavigationGutterIconBuilder.create(AllIcons.Gutter.ImplementedMethod)
+                .setTargets(users)
+                .setPopupTitle("Used By")
+                .setTooltipText("${users.size} class(es) or trait(s) using this trait")
+                .createLineMarkerInfo(anchor)
+        )
     }
 
     private fun collectSubtypes(element: PsiElement, result: MutableCollection<in LineMarkerInfo<*>>) {
@@ -45,7 +81,7 @@ class ZephirLineMarkerProvider : LineMarkerProvider, DumbAware {
         val subtypes = mutableListOf<PsiElement>()
 
         for (vFile in FileTypeIndex.getFiles(ZephirFileType, scope)) {
-            val psiFile = com.intellij.psi.PsiManager.getInstance(project).findFile(vFile) as? ZephirFile
+            val psiFile = PsiManager.getInstance(project).findFile(vFile) as? ZephirFile
                 ?: continue
 
             for (cls in PsiTreeUtil.findChildrenOfType(psiFile, ZephirClassDefinition::class.java)) {
@@ -81,7 +117,7 @@ class ZephirLineMarkerProvider : LineMarkerProvider, DumbAware {
             is ZephirClassDefinition -> element.id
             is ZephirInterfaceDefinition -> element.id
             else -> return
-        }
+        }?.let { PsiTreeUtil.getDeepestFirst(it) } ?: return
 
         val icon = if (element is ZephirInterfaceDefinition)
             AllIcons.Gutter.ImplementedMethod

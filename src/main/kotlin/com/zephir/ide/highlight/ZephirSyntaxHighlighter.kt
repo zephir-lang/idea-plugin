@@ -36,7 +36,8 @@ class ZephirSyntaxHighlighter : SyntaxHighlighterBase() {
                 COMMA -> ZephirColor.COMMA
                 DOUBLECOLON -> ZephirColor.COLON
                 INTEGER, DOUBLE -> ZephirColor.NUMBER
-                STRING, SCHAR -> ZephirColor.STRING
+                STRING, SCHAR, ISTRING -> ZephirColor.STRING
+                ATTRIBUTE_OPEN -> ZephirColor.ATTRIBUTE
                 COMMENT -> ZephirColor.LINE_COMMENT
                 COMMENT_BLOCK -> ZephirColor.BLOCK_COMMENT
                 CBLOCK -> ZephirColor.C_BLOCK

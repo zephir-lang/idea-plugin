@@ -31,24 +31,25 @@ class ZephirStructureViewElement(private val element: PsiElement) : StructureVie
     override fun getPresentation(): ItemPresentation = object : ItemPresentation {
         override fun getPresentableText(): String? = when (element) {
             is ZephirFile -> element.name
-            is ZephirClassDefinition -> element.id.text
-            is ZephirInterfaceDefinition -> element.id.text
+            is ZephirClassDefinition -> element.id?.text
+            is ZephirInterfaceDefinition -> element.id?.text
+            is ZephirTraitDefinition -> element.id?.text
+            is ZephirFunctionDefinition -> buildMethodText(
+                element.id?.text.orEmpty(),
+                element.argumentsList,
+                element.returnType
+            )
             is ZephirMethodDefinition -> buildMethodText(
                 element.id.text,
                 element.argumentsList,
                 element.returnType
-            )
-            is ZephirAbstractMethodDefinition -> buildMethodText(
-                element.interfaceMethodDefinition.id.text,
-                element.interfaceMethodDefinition.argumentsList,
-                element.interfaceMethodDefinition.returnType
             )
             is ZephirInterfaceMethodDefinition -> buildMethodText(
                 element.id.text,
                 element.argumentsList,
                 element.returnType
             )
-            is ZephirPropertyDefinition -> element.id.text
+            is ZephirPropertyDefinition -> element.id?.text
             is ZephirConstantDefinition -> element.id.text
             else -> element.text
         }
@@ -57,9 +58,9 @@ class ZephirStructureViewElement(private val element: PsiElement) : StructureVie
             is ZephirFile -> ZephirIcons.FILE
             is ZephirClassDefinition -> AllIcons.Nodes.Class
             is ZephirInterfaceDefinition -> AllIcons.Nodes.Interface
-            is ZephirMethodDefinition -> if (element.methodModifiersList.any { it.text == "abstract" })
-                AllIcons.Nodes.AbstractMethod else AllIcons.Nodes.Method
-            is ZephirAbstractMethodDefinition -> AllIcons.Nodes.AbstractMethod
+            is ZephirTraitDefinition -> AllIcons.Nodes.AbstractClass
+            is ZephirFunctionDefinition -> AllIcons.Nodes.Function
+            is ZephirMethodDefinition -> if (element.hasBody()) AllIcons.Nodes.Method else AllIcons.Nodes.AbstractMethod
             is ZephirInterfaceMethodDefinition -> AllIcons.Nodes.Method
             is ZephirPropertyDefinition -> AllIcons.Nodes.Field
             is ZephirConstantDefinition -> AllIcons.Nodes.Constant
@@ -71,14 +72,22 @@ class ZephirStructureViewElement(private val element: PsiElement) : StructureVie
         is ZephirFile -> {
             val classes = PsiTreeUtil.getChildrenOfTypeAsList(element, ZephirClassDefinition::class.java)
             val ifaces = PsiTreeUtil.getChildrenOfTypeAsList(element, ZephirInterfaceDefinition::class.java)
-            (classes + ifaces)
+            val traits = PsiTreeUtil.getChildrenOfTypeAsList(element, ZephirTraitDefinition::class.java)
+            val functions = PsiTreeUtil.getChildrenOfTypeAsList(element, ZephirFunctionDefinition::class.java)
+            (classes + ifaces + traits + functions)
                 .map { ZephirStructureViewElement(it) }
                 .toTypedArray()
         }
         is ZephirClassDefinition -> element.classBody?.let { body ->
             (body.constantDefinitionList +
              body.propertyDefinitionList +
-             body.abstractMethodDefinitionList +
+             body.methodDefinitionList)
+                .map { ZephirStructureViewElement(it) }
+                .toTypedArray()
+        } ?: emptyArray()
+        is ZephirTraitDefinition -> element.traitBody?.let { body ->
+            (body.constantDefinitionList +
+             body.propertyDefinitionList +
              body.methodDefinitionList)
                 .map { ZephirStructureViewElement(it) }
                 .toTypedArray()

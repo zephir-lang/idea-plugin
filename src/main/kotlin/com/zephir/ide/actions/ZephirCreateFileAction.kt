@@ -41,6 +41,7 @@ class ZephirCreateFileAction : CreateFileFromTemplateAction(
             .addKind("File", ZephirFileType.icon, "Zephir File")
             .addKind("Class", AllIcons.Nodes.Class, "Zephir Class")
             .addKind("Interface", AllIcons.Nodes.Interface, "Zephir Interface")
+            .addKind("Trait", AllIcons.Nodes.AbstractClass, "Zephir Trait")
     }
 
     override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String =

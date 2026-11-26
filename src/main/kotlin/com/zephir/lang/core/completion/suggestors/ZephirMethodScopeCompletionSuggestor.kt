@@ -25,7 +25,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
         "let", "echo", "const", "if", "else", "elseif", "switch", "case", "default",
         "do", "while", "for", "loop", "reverse", "break", "continue", "in", "new", "return",
         "require", "clone", "empty", "typeof", "instanceof", "likely", "unlikely", "fetch",
-        "isset", "unset", "throw", "try", "catch"
+        "isset", "unset", "throw", "try", "catch", "yield", "require_once"
     )
 
     private val typeHints = arrayOf(
@@ -37,13 +37,19 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
         val psiElement = parameters.originalPosition ?: return
 
         val methodDefinition = (getPsiByCurrentPos(psiElement, "method") ?: return) as ZephirMethodDefinition
-        val classBody = (getPsiByCurrentPos(psiElement, "class") ?: return) as ZephirClassBody
+        val members = (getPsiByCurrentPos(psiElement, "class") ?: return).let {
+            when (it) {
+                is ZephirClassBody -> ZephirBodyMembers(it.constantDefinitionList, it.propertyDefinitionList, it.methodDefinitionList)
+                is ZephirTraitBody -> ZephirBodyMembers(it.constantDefinitionList, it.propertyDefinitionList, it.methodDefinitionList)
+                else -> return
+            }
+        }
         getPsiByCurrentPos(psiElement, "method_body") ?: return
 
         processMethodArguments(methodDefinition, result)
-        processClassMembers(classBody, result)
-        processClassConstants(classBody, result)
-        processClassMethods(classBody, result)
+        processClassMembers(members.properties, result)
+        processClassConstants(members.constants, result)
+        processClassMethods(members.methods, result)
 
         // process keywords
         for (keyword in keywords) {
@@ -81,12 +87,13 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
         }
     }
 
-    private fun processClassMembers(classBody: ZephirClassBody, result: CompletionResultSet) {
-        for (propDef in classBody.propertyDefinitionList) {
+    private fun processClassMembers(properties: List<ZephirPropertyDefinition>, result: CompletionResultSet) {
+        for (propDef in properties) {
+            val name = propDef.id?.text ?: continue
             val completionElement = LookupElementBuilder
-                .create(propDef.id.text, "this->" + propDef.id.text)
-                .withTypeText(propDef.visibility.text, true)
-                .withLookupString(propDef.id.text)
+                .create(name, "this->$name")
+                .withTypeText(propDef.visibilityText(), true)
+                .withLookupString(name)
                 .withTailText(
                     if (propDef.defaultValue != null) " " + propDef.defaultValue!!.text else "",
                     true
@@ -101,8 +108,8 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
         }
     }
 
-    private fun processClassConstants(classBody: ZephirClassBody, result: CompletionResultSet) {
-        for (constDef in classBody.constantDefinitionList) {
+    private fun processClassConstants(constants: List<ZephirConstantDefinition>, result: CompletionResultSet) {
+        for (constDef in constants) {
             val completionElement = LookupElementBuilder
                 .create(constDef.id.text, "self::" + constDef.id.text)
                 .withTypeText(constDef.defaultValue!!.text)
@@ -114,20 +121,11 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
         }
     }
 
-    private fun processClassMethods(classBody: ZephirClassBody, result: CompletionResultSet) {
-        for (methodDef in classBody.methodDefinitionList) {
+    private fun processClassMethods(methods: List<ZephirMethodDefinition>, result: CompletionResultSet) {
+        for (methodDef in methods) {
             result.addElement(
                 PrioritizedLookupElement.withPriority(
                     methodLookup(methodDef.id.text, methodDef.returnType?.text ?: ""),
-                    ZephirCompletionPriority.CLASS_METHOD_PRIORITY
-                )
-            )
-        }
-        for (abstractDef in classBody.abstractMethodDefinitionList) {
-            val interDef = abstractDef.interfaceMethodDefinition
-            result.addElement(
-                PrioritizedLookupElement.withPriority(
-                    methodLookup(interDef.id.text, interDef.returnType?.text ?: ""),
                     ZephirCompletionPriority.CLASS_METHOD_PRIORITY
                 )
             )
@@ -159,7 +157,7 @@ object ZephirMethodScopeCompletionSuggestor : ZephirCompletionSuggestor {
                 return null
             } else if (objectType == "method" && parent is ZephirMethodDefinition) {
                 return parent
-            } else if (objectType == "class" && parent is ZephirClassBody) {
+            } else if (objectType == "class" && (parent is ZephirClassBody || parent is ZephirTraitBody)) {
                 return parent
             } else if (objectType == "method_body" && parent is ZephirMethodBody) {
                 return parent

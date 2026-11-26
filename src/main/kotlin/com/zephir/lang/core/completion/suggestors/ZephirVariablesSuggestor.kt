@@ -17,6 +17,7 @@ import com.zephir.lang.core.completion.ZephirCompletionPriority
 import com.zephir.lang.core.completion.ZephirCompletionSuggestor
 import com.zephir.lang.core.psi.ZephirAssignmentExpr
 import com.zephir.lang.core.psi.ZephirDeclarationStatement
+import com.zephir.lang.core.psi.ZephirDestructureExpr
 import com.zephir.lang.core.psi.ZephirForeachLoopStatement
 import com.zephir.lang.core.psi.ZephirMethodBody
 
@@ -33,6 +34,14 @@ object ZephirVariablesSuggestor : ZephirCompletionSuggestor {
             val idList = assignExpr.variable?.complexId?.idList ?: continue
             if (idList.size == 1) {
                 val name = idList.first().text
+                if (seen.add(name)) addVariable(name, result)
+            }
+        }
+
+        // let [a, , c] = expr — the named slots of a destructuring
+        for (destructure in PsiTreeUtil.findChildrenOfType(methodBody, ZephirDestructureExpr::class.java)) {
+            for (id in destructure.idList) {
+                val name = id.text
                 if (seen.add(name)) addVariable(name, result)
             }
         }

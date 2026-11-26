@@ -28,7 +28,8 @@ enum class ZephirColor(humanName: String, default: TextAttributesKey) {
     NUMBER("Numbers", Default.NUMBER),
     C_BLOCK("C Block", Default.DOC_COMMENT),
     BLOCK_COMMENT("PHPDoc//Text", Default.BLOCK_COMMENT),
-    STRING("Strings//Characters", Default.STRING);
+    STRING("Strings//Characters", Default.STRING),
+    ATTRIBUTE("Attributes//Attribute", Default.METADATA);
 
     // TODO(serghei): Do we need this? Also see com.zephir.ide.highlight.ZephirSyntaxHighlighter
     // BAD_CHAR("Unknown Character", HighlighterColors.BAD_CHARACTER),

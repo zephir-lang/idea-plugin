@@ -14,20 +14,23 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
-import com.zephir.lang.core.psi.ZephirAbstractMethodDefinition
 import com.zephir.lang.core.psi.ZephirArguments
+import com.zephir.lang.core.psi.ZephirAttributeGroup
+import com.zephir.lang.core.psi.ZephirFunctionDefinition
+import com.zephir.lang.core.psi.ZephirTraitDefinition
 import com.zephir.lang.core.psi.ZephirClassDefinition
 import com.zephir.lang.core.psi.ZephirConstantDefinition
 import com.zephir.lang.core.psi.ZephirInterfaceDefinition
 import com.zephir.lang.core.psi.ZephirInterfaceMethodDefinition
 import com.zephir.lang.core.psi.ZephirMethodDefinition
+import com.zephir.lang.core.psi.hasBody
 import com.zephir.lang.core.psi.ZephirPropertyDefinition
 import com.zephir.lang.core.psi.ZephirReturnType
 
 /**
  * Provides Quick Documentation (Ctrl+Q / hover) for Zephir PSI elements by reading
- * the preceding docblock (`/** ... */`) for classes, interfaces, methods, properties,
- * and constants.
+ * the preceding docblock (`/** ... */`) for classes, interfaces, traits, functions,
+ * methods, properties, and constants. Attribute groups between the docblock and the declaration are skipped.
  */
 class ZephirDocumentationProvider : AbstractDocumentationProvider() {
 
@@ -49,16 +52,23 @@ class ZephirDocumentationProvider : AbstractDocumentationProvider() {
     private fun isDocumentable(e: PsiElement) =
         e is ZephirClassDefinition ||
         e is ZephirInterfaceDefinition ||
+        e is ZephirTraitDefinition ||
+        e is ZephirFunctionDefinition ||
         e is ZephirMethodDefinition ||
-        e is ZephirAbstractMethodDefinition ||
         e is ZephirInterfaceMethodDefinition ||
         e is ZephirPropertyDefinition ||
         e is ZephirConstantDefinition
 
     private fun findPrecedingDocComment(element: PsiElement): PsiComment? {
         var prev = element.prevSibling
-        while (prev is PsiWhiteSpace) prev = prev.prevSibling
-        return (prev as? PsiComment)?.takeIf { it.text.startsWith("/**") }
+        while (prev != null) {
+            when {
+                prev is PsiComment && prev.text.startsWith("/**") -> return prev
+                prev is PsiWhiteSpace || prev is PsiComment || prev is ZephirAttributeGroup -> prev = prev.prevSibling
+                else -> return null
+            }
+        }
+        return null
     }
 
     private fun renderDoc(commentText: String, element: PsiElement): String {
@@ -101,19 +111,22 @@ class ZephirDocumentationProvider : AbstractDocumentationProvider() {
     private fun StringBuilder.appendSignature(element: PsiElement) {
         when (element) {
             is ZephirClassDefinition ->
-                append("<b>class</b> ${element.id.text}")
+                append("<b>class</b> ${element.name.orEmpty()}")
             is ZephirInterfaceDefinition ->
-                append("<b>interface</b> ${element.id.text}")
+                append("<b>interface</b> ${element.name.orEmpty()}")
+            is ZephirTraitDefinition ->
+                append("<b>trait</b> ${element.name.orEmpty()}")
+            is ZephirFunctionDefinition ->
+                append("<b>fun</b> ${methodSignature(element.name.orEmpty(), element.argumentsList, element.returnType)}")
             is ZephirMethodDefinition ->
-                append("<b>fun</b> ${methodSignature(element.id.text, element.argumentsList, element.returnType)}")
-            is ZephirAbstractMethodDefinition -> {
-                val inner = element.interfaceMethodDefinition
-                append("<b>abstract fun</b> ${methodSignature(inner.id.text, inner.argumentsList, inner.returnType)}")
-            }
+                append(
+                    "<b>${if (element.hasBody()) "fun" else "abstract fun"}</b> " +
+                        methodSignature(element.id.text, element.argumentsList, element.returnType)
+                )
             is ZephirInterfaceMethodDefinition ->
                 append("<b>fun</b> ${methodSignature(element.id.text, element.argumentsList, element.returnType)}")
             is ZephirPropertyDefinition ->
-                append("<b>var</b> ${element.id.text}")
+                append("<b>var</b> ${element.name.orEmpty()}")
             is ZephirConstantDefinition ->
                 append("<b>const</b> ${element.id.text}")
         }
